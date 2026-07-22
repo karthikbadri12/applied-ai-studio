@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "aidlc-studio"
+version = "0.1.0"
+description = "Applied AI Studio (AIDLC) — install a 23-agent Applied-AI delivery lifecycle pack into any project, for any AI IDE (Claude Code, Cursor, VS Code Copilot, Antigravity, Windsurf)."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Karthik Venkataramana" }]
+requires-python = ">=3.9"
+dependencies = []
+keywords = ["ai", "agents", "adlc", "aidlc", "spec-kit", "bmad", "superpowers", "claude-code", "cursor"]
+
+[project.scripts]
+aidlc = "aidlc_studio.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/aidlc_studio"]
+
+# Bundle the agent pack itself inside the wheel so `uvx aidlc init` can scaffold it
+# into any target project without needing the git repo present.
+[tool.hatch.build.targets.wheel.force-include]
+".claude" = "aidlc_studio/pack/.claude"
+".cursor" = "aidlc_studio/pack/.cursor"
+"AGENTS.md" = "aidlc_studio/pack/AGENTS.md"
+"CONSTITUTION.md" = "aidlc_studio/pack/CONSTITUTION.md"
+"ARCHITECTURE.md" = "aidlc_studio/pack/ARCHITECTURE.md"
+"SKILLS.md" = "aidlc_studio/pack/SKILLS.md"
+"registry" = "aidlc_studio/pack/registry"
+"artifacts" = "aidlc_studio/pack/artifacts"
+"connectors" = "aidlc_studio/pack/connectors"
+"domains" = "aidlc_studio/pack/domains"
+"pipelines" = "aidlc_studio/pack/pipelines"
+"docs" = "aidlc_studio/pack/docs"

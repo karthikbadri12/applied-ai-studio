@@ -21,3 +21,10 @@ artifacts/*/
 !artifacts/README.md
 !artifacts/templates/
 !artifacts/templates/**
+# Python build artifacts
+dist/
+build/
+*.egg-info/
+__pycache__/
+*.pyc
+.venv/

@@ -1,7 +1,41 @@
 # Install — load Applied AI Studio as custom agents in your IDE
 
 One source of truth (`.claude/agents/` + `AGENTS.md` + `registry/`), installable in
-every major AI IDE. Pick your tool.
+every major AI IDE.
+
+---
+
+## ⚡ The fast path — install with uv (recommended, Spec Kit-style)
+
+Prereq (one-time): install [uv](https://docs.astral.sh/uv/):
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+Scaffold the agent pack into **any project**, for **any IDE**, straight from GitHub:
+```bash
+# everything (all IDE flavors)
+uvx --from git+https://github.com/<your-username>/applied-ai-studio.git aidlc init
+
+# or per-IDE
+uvx --from git+https://github.com/<your-username>/applied-ai-studio.git aidlc init --ide claude
+uvx --from git+https://github.com/<your-username>/applied-ai-studio.git aidlc init --ide cursor
+uvx --from git+https://github.com/<your-username>/applied-ai-studio.git aidlc init --ide copilot      # generates .github/chatmodes/
+uvx --from git+https://github.com/<your-username>/applied-ai-studio.git aidlc init --ide antigravity  # AGENTS.md standard
+```
+
+Or install the CLI once and reuse it everywhere:
+```bash
+uv tool install git+https://github.com/<your-username>/applied-ai-studio.git
+aidlc init ~/code/my-project --ide all
+aidlc list     # show the 23-agent roster with BMAD persona + Spec Kit phase
+aidlc check    # verify an install (core files + at least one IDE flavor)
+```
+
+`init` is non-destructive (skips existing files; `--force` overwrites). After
+publishing to PyPI, this shortens to `uvx aidlc-studio aidlc init`.
+
+The sections below are the manual (no-uv) paths per IDE — and what `init` sets up.
 
 ---
 

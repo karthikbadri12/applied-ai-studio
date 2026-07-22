@@ -63,6 +63,14 @@ Milvus) for "must stay on-prem" mandates.
 
 ## Install
 
+**With uv (recommended — works for every IDE):**
+```bash
+uvx --from git+https://github.com/<your-username>/applied-ai-studio.git aidlc init --ide all
+# per-IDE: --ide claude | cursor | copilot | antigravity
+# then:    aidlc list · aidlc check
+```
+Full per-IDE guide: [docs/INSTALL.md](docs/INSTALL.md).
+
 **Claude Code** (VS Code, JetBrains, terminal)
 ```bash
 git clone <this-repo> && cd applied-ai-studio
