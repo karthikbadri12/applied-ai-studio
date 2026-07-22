@@ -37,3 +37,9 @@ initiative is funded (the orchestrator confirms). Until then, the plan sits read
 - Read the code before you plan against it (this repo may not match your priors).
 - Every story traces to the AI Spec. No story that isn't in the spec — scope creep
   goes back to `dev-spec`, not into the backlog.
+
+## Skills & methodology (Spec Kit · BMAD · Superpowers)
+- **BMAD persona:** Scrum Master / Architect
+- **Spec Kit phase:** Tasks
+- **Required skills — load before acting:** [`planning-before-coding`](../skills/planning-before-coding/SKILL.md) · [`breaking-down-work`](../skills/breaking-down-work/SKILL.md)
+- Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.

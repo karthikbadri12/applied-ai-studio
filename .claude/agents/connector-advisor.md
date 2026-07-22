@@ -39,3 +39,9 @@ per-connector detail in `connectors/`.)
   scope for convenience.
 - If a source's data class isn't approved for the chosen model (per `architecture`),
   flag it as a blocker rather than connecting it.
+
+## Skills & methodology (Spec Kit · BMAD · Superpowers)
+- **BMAD persona:** DevOps / Integration
+- **Spec Kit phase:** Plan (advisory)
+- **Required skills — load before acting:** [`wiring-integrations`](../skills/wiring-integrations/SKILL.md)
+- Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.

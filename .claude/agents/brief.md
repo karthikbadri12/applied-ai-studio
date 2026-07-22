@@ -39,3 +39,9 @@ off before this goes to executives or to the dev pipeline.
 - Write for two readers at once: a VP who reads only the summary, and an engineer
   who reads the handoff. Both must be able to act from this document alone.
 - Every claim links back to the artifact that supports it. No orphan assertions.
+
+## Skills & methodology (Spec Kit · BMAD · Superpowers)
+- **BMAD persona:** PM + Compliance/Risk
+- **Spec Kit phase:** Constitution (close)
+- **Required skills — load before acting:** [`immutable-audit-trail`](../skills/immutable-audit-trail/SKILL.md) · [`writing-a-spec`](../skills/writing-a-spec/SKILL.md)
+- Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.

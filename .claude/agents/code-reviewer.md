@@ -36,3 +36,9 @@ REQUESTED** verdict.
   never a nit — this is where safety regressions slip in.
 - Don't rewrite the code; review it. If the fix is non-obvious, describe it and send
   it back to `coder`.
+
+## Skills & methodology (Spec Kit · BMAD · Superpowers)
+- **BMAD persona:** Senior Dev / QA
+- **Spec Kit phase:** Implement (gate)
+- **Required skills — load before acting:** [`reviewing-a-diff`](../skills/reviewing-a-diff/SKILL.md) · [`test-first-verification`](../skills/test-first-verification/SKILL.md)
+- Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.

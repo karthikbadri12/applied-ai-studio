@@ -40,6 +40,16 @@ Defined in `registry/agents.json`; each agent's full brief is in `.claude/agents
   `cloud-onprem`, `connector-advisor`, `domain-advisor`
 - **Dev pipeline (3):** `discovery`, `coder`, `code-reviewer`
 
+## Skills & methodology (Spec Kit · BMAD · Superpowers)
+Every agent carries **required skills** combining Spec Kit's phase gates, BMAD's
+personas, and Superpowers' composable skills — see `SKILLS.md` and
+`registry/skills.json`. Before acting as any agent, load the skills listed in that
+agent's *Skills & methodology* section (`.claude/skills/<name>/SKILL.md`).
+
+## Install (per IDE)
+Full instructions in `docs/INSTALL.md` — Claude Code (native custom agents), Cursor,
+VS Code Copilot, Antigravity, Windsurf. Includes a 2-minute smoke test.
+
 ## Connectors
 `connectors/` holds the catalog + an MCP config (`mcp.example.json`) that works across
 Claude Code, Cursor, and Antigravity. Secrets never live in the repo.

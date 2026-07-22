@@ -43,3 +43,9 @@ patterns with their known pitfalls.
   review is required (and make it a HITL gate).
 - Keep it decision-useful and current-practice; when a regulation's application is
   genuinely uncertain, say so and route it to human counsel rather than guessing.
+
+## Skills & methodology (Spec Kit · BMAD · Superpowers)
+- **BMAD persona:** Analyst / Compliance
+- **Spec Kit phase:** Constitution (domain)
+- **Required skills — load before acting:** [`clarify-then-commit`](../skills/clarify-then-commit/SKILL.md) · [`immutable-audit-trail`](../skills/immutable-audit-trail/SKILL.md)
+- Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.

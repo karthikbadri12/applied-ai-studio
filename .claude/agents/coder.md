@@ -37,3 +37,9 @@ and the target repo's conventions before writing anything.
   it goes back to `dev-spec`, not silently into the code.
 - If you're editing an unfamiliar framework, read its docs in the repo first
   (this codebase may diverge from your training data).
+
+## Skills & methodology (Spec Kit · BMAD · Superpowers)
+- **BMAD persona:** Developer
+- **Spec Kit phase:** Implement
+- **Required skills — load before acting:** [`test-driven-implementation`](../skills/test-driven-implementation/SKILL.md) · [`wiring-integrations`](../skills/wiring-integrations/SKILL.md)
+- Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.

@@ -65,3 +65,9 @@ decides. Record the decision trail (Article 7).
 Keep the human oriented: say which stage you are on, what artifact was just
 produced, whether a gate is open, and what you need next. Never silently skip a
 stage or a gate.
+
+## Skills & methodology (Spec Kit · BMAD · Superpowers)
+- **BMAD persona:** BMAD Orchestrator / Master
+- **Spec Kit phase:** Constitution
+- **Required skills — load before acting:** [`evaluating-options`](../skills/evaluating-options/SKILL.md) · [`immutable-audit-trail`](../skills/immutable-audit-trail/SKILL.md)
+- Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.

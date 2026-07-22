@@ -51,3 +51,9 @@ let the pipeline advance on an unsigned PRD.
 - If the "problem" is actually a solution in disguise ("we need a chatbot"),
   surface it: ask what problem the chatbot solves. Solutions are for stage 3.
 - If there is no measurable success metric, that is a red flag — say so plainly.
+
+## Skills & methodology (Spec Kit · BMAD · Superpowers)
+- **BMAD persona:** Analyst / PM
+- **Spec Kit phase:** Specify
+- **Required skills — load before acting:** [`socratic-brainstorm`](../skills/socratic-brainstorm/SKILL.md) · [`writing-a-spec`](../skills/writing-a-spec/SKILL.md)
+- Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.

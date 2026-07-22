@@ -43,3 +43,9 @@ skills, lock-in. Respect any "must stay on-prem" non-negotiable from the PRD.
 - Prefer managed over bespoke unless a non-negotiable forces otherwise.
 - Every regulated-data flow must show its control. An uncontrolled PHI path is a
   launch blocker, flagged here and enforced at `production`.
+
+## Skills & methodology (Spec Kit · BMAD · Superpowers)
+- **BMAD persona:** Architect
+- **Spec Kit phase:** Plan
+- **Required skills — load before acting:** [`planning-before-coding`](../skills/planning-before-coding/SKILL.md) · [`evaluating-options`](../skills/evaluating-options/SKILL.md)
+- Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.

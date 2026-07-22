@@ -39,3 +39,9 @@ Branch on the solution type from `assess`:
   are first-class metrics, not afterthoughts.
 - No result counts until it's measured on the `eval` sets (stage 8). Dev-set wins
   are hypotheses, not ship signals.
+
+## Skills & methodology (Spec Kit · BMAD · Superpowers)
+- **BMAD persona:** Developer (DS)
+- **Spec Kit phase:** Implement
+- **Required skills — load before acting:** [`test-driven-implementation`](../skills/test-driven-implementation/SKILL.md)
+- Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.

@@ -42,3 +42,9 @@ the data/ground-truth map, the regulated-data flags, and the top risks.
 - Recommend the **simplest** approach that meets the metric. Agentic is not a
   default; earn it.
 - If there's no way to measure success, stop and say the initiative isn't ready.
+
+## Skills & methodology (Spec Kit · BMAD · Superpowers)
+- **BMAD persona:** Architect / Analyst
+- **Spec Kit phase:** Clarify
+- **Required skills — load before acting:** [`clarify-then-commit`](../skills/clarify-then-commit/SKILL.md) · [`evaluating-options`](../skills/evaluating-options/SKILL.md)
+- Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.

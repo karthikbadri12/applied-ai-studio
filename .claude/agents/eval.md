@@ -34,3 +34,9 @@ Fill `artifacts/templates/08-evals.md` → `artifacts/08-evals.md`:
 - Metric bars are set from the business need (`value-prop`, PRD), not from whatever
   the model happens to score. Set the bar first, then measure against it.
 - Safety metrics are pass/fail gates, not averages you can trade away.
+
+## Skills & methodology (Spec Kit · BMAD · Superpowers)
+- **BMAD persona:** QA
+- **Spec Kit phase:** Tasks
+- **Required skills — load before acting:** [`test-first-verification`](../skills/test-first-verification/SKILL.md)
+- Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.

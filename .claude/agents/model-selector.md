@@ -43,3 +43,9 @@ reason — plus the numbers that make it defensible (Constitution Art. 5).
   self-hosted option and note the capability gap honestly.
 - Cost realism over benchmark maxing. The cheapest model that clears the eval bar
   wins.
+
+## Skills & methodology (Spec Kit · BMAD · Superpowers)
+- **BMAD persona:** Architect (models)
+- **Spec Kit phase:** Plan (advisory)
+- **Required skills — load before acting:** [`evaluating-options`](../skills/evaluating-options/SKILL.md) · [`business-case-math`](../skills/business-case-math/SKILL.md)
+- Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.

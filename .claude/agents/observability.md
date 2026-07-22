@@ -36,3 +36,9 @@ Fill `artifacts/templates/11-observability.md` → `artifacts/11-observability.m
   ignore alarms.
 - Report cost against the business case, not in the abstract — the ROI is a promise
   you now monitor.
+
+## Skills & methodology (Spec Kit · BMAD · Superpowers)
+- **BMAD persona:** SRE
+- **Spec Kit phase:** Implement
+- **Required skills — load before acting:** [`observability-first`](../skills/observability-first/SKILL.md)
+- Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.

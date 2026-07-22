@@ -40,3 +40,9 @@ sign-off` with the open blockers listed, and stop. No launch on an open blocker.
 - A control that was "designed" but not verified is an **open blocker**, not done.
 - Any regulated-data path without a verified control is an automatic launch blocker
   (Constitution Art. 4).
+
+## Skills & methodology (Spec Kit · BMAD · Superpowers)
+- **BMAD persona:** Release / DevOps
+- **Spec Kit phase:** Implement
+- **Required skills — load before acting:** [`safe-rollout`](../skills/safe-rollout/SKILL.md) · [`immutable-audit-trail`](../skills/immutable-audit-trail/SKILL.md)
+- Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Applied AI Studio — Architecture</title>
+<style>
+  :root{
+    --bg:#0b1020; --bg2:#0f1630; --panel:#141c38; --panel2:#1a2547;
+    --ink:#eaf0ff; --muted:#9fb0d6; --line:#2a3765;
+    --navy:#1e2b57; --amber:#f5b544; --amber-ink:#3a2a05;
+    --pipe:#5b8cff; --advise:#8b7bf0; --dev:#3fbf9c; --gate:#ff6b6b;
+    --chip:#20305f; --radius:14px;
+    --shadow:0 6px 24px rgba(0,0,0,.35);
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#eef2fb; --bg2:#e6ecf9; --panel:#ffffff; --panel2:#f4f7ff;
+      --ink:#141c34; --muted:#4a597e; --line:#d3ddf3;
+      --navy:#1e2b57; --chip:#e7edfd; --shadow:0 6px 22px rgba(20,30,60,.10);
+    }
+  }
+  :root[data-theme="dark"]{ --bg:#0b1020; --panel:#141c38; --ink:#eaf0ff; --muted:#9fb0d6; --line:#2a3765; --chip:#20305f; --panel2:#1a2547; --bg2:#0f1630; }
+  :root[data-theme="light"]{ --bg:#eef2fb; --panel:#fff; --ink:#141c34; --muted:#4a597e; --line:#d3ddf3; --chip:#e7edfd; --panel2:#f4f7ff; --bg2:#e6ecf9; }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--ink);
+    font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;padding:0 0 64px}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+  header{padding:44px 20px 10px;text-align:center}
+  .badge{display:inline-block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--amber);border:1px solid var(--line);border-radius:999px;padding:5px 14px;margin-bottom:16px;background:var(--panel)}
+  h1{margin:0 0 8px;font-size:34px;letter-spacing:-.02em}
+  .sub{color:var(--muted);max-width:680px;margin:0 auto;font-size:16px}
+
+  .legend{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin:22px 0 6px}
+  .legend span{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--muted)}
+  .dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+
+  .layer{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px;margin:16px 0;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .layer::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px}
+  .layer.l1::before{background:var(--amber)}
+  .layer.l2::before{background:var(--advise)}
+  .layer.l3::before{background:var(--pipe)}
+  .layer-head{display:flex;align-items:baseline;gap:12px;margin-bottom:4px;flex-wrap:wrap}
+  .layer-tag{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+    background:var(--chip);border-radius:6px;padding:3px 9px}
+  .layer-head h2{margin:0;font-size:19px}
+  .layer-head p{margin:0;color:var(--muted);font-size:13.5px;flex:1;min-width:220px}
+
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}
+  @media(max-width:680px){.cards{grid-template-columns:1fr}}
+  .card{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:13px 15px}
+  .card h3{margin:0 0 4px;font-size:14.5px;display:flex;align-items:center;gap:8px}
+  .card code{font:12px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink);
+    background:var(--chip);padding:1px 6px;border-radius:5px}
+  .card p{margin:0;color:var(--muted);font-size:13px}
+
+  .admin{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;
+    background:var(--navy);color:#eaf0ff;border-radius:11px;padding:12px 16px;margin-top:14px;font-size:14px;border:1px solid var(--line)}
+  .admin b{color:var(--amber)}
+
+  /* pipeline flow */
+  .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;margin-top:6px}
+  .step{position:relative;background:var(--panel2);border:1px solid var(--line);border-radius:10px;
+    padding:9px 11px;min-width:120px;flex:1 1 120px}
+  .step .n{font:11px ui-monospace,monospace;color:var(--pipe);font-weight:700}
+  .step .nm{font-size:13.5px;font-weight:600;margin:2px 0}
+  .step .art{font-size:11.5px;color:var(--muted)}
+  .step.gate{border-color:var(--gate)}
+  .step .flag{position:absolute;top:-9px;right:8px;background:var(--gate);color:#fff;
+    font-size:9.5px;font-weight:700;letter-spacing:.04em;padding:2px 7px;border-radius:999px}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .chip{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 12px;font-size:13px;flex:1 1 150px;min-width:150px}
+  .chip .t{font-weight:600;font-size:13.5px}
+  .chip .d{color:var(--muted);font-size:12px}
+  .chip.adv{border-left:3px solid var(--advise)}
+  .chip.cloud{border-left:3px solid var(--amber)}
+  .chip.dev{border-left:3px solid var(--dev)}
+
+  .arrowrow{text-align:center;color:var(--muted);font-size:22px;margin:2px 0}
+  .note{color:var(--muted);font-size:12.5px;margin-top:10px}
+  .kicker{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:26px 0 2px}
+  footer{text-align:center;color:var(--muted);font-size:12.5px;margin-top:30px}
+  .pill{display:inline-block;background:var(--chip);border-radius:6px;padding:2px 8px;font:12px ui-monospace,monospace;margin:2px}
+</style>
+</head>
+<body>
+<header>
+  <div class="badge">Applied AI Studio</div>
+  <h1>The Agent Architecture</h1>
+  <p class="sub">A domain-agnostic Applied-AI system: an executive problem statement goes in, a funded, governed, production-ready delivery plan comes out — driven by an org chart of specialist agents under one constitution.</p>
+  <div class="legend">
+    <span><i class="dot" style="background:var(--amber)"></i>Settings / Registry</span>
+    <span><i class="dot" style="background:var(--advise)"></i>Governance &amp; Orchestration</span>
+    <span><i class="dot" style="background:var(--pipe)"></i>Pipeline (execution)</span>
+    <span><i class="dot" style="background:var(--dev)"></i>Dev pipeline</span>
+    <span><i class="dot" style="background:var(--gate)"></i>Human-in-the-loop gate</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- LAYER 1 -->
+  <section class="layer l1">
+    <div class="layer-head">
+      <span class="layer-tag">Layer 1</span>
+      <h2>Settings &amp; Registry</h2>
+      <p>The catalog an IDE reads to install the agents — the top “settings” layer.</p>
+    </div>
+    <div class="cards">
+      <div class="card"><h3>🗂️ Agent registry <code>registry/agents.json</code></h3><p>All 23 agents, typed <code>orchestrator</code> / <code>pipeline</code> / <code>advisor</code> / <code>dev-pipeline</code>, each mapped to its layer, stage and artifact.</p></div>
+      <div class="card"><h3>🧭 Stage registry <code>registry/stages.json</code></h3><p>The ADLC pipeline: every stage’s input contract, output artifact, consulted advisors, and whether it ends at a human gate.</p></div>
+    </div>
+  </section>
+
+  <div class="arrowrow">↓</div>
+
+  <!-- LAYER 2 -->
+  <section class="layer l2">
+    <div class="layer-head">
+      <span class="layer-tag">Layer 2</span>
+      <h2>Governance &amp; Orchestration</h2>
+      <p>Rules everyone obeys, one router, and advisors who advise — but never decide.</p>
+    </div>
+    <div class="cards">
+      <div class="card"><h3>📜 Constitution <code>CONSTITUTION.md</code></h3><p>Human-final, evidence over assertion, ask before you build, safety for regulated data, one recommended path, artifacts are the interface, full traceability. Overrides every agent.</p></div>
+      <div class="card"><h3>🧠 Orchestrator <code>orchestrator</code></h3><p>Classifies the domain, sequences the stages, consults advisors, enforces the gates. It directs — it never does the specialist work itself.</p></div>
+    </div>
+    <div class="admin">🏛️ <b>The Administrator</b> = Orchestrator&nbsp;+&nbsp;Human owner &nbsp;·&nbsp; advisors recommend → the administrator decides → reserved decisions stop at a <b>human gate</b></div>
+
+    <div class="kicker">Advisors — consulted on demand, advise the administrator</div>
+    <div class="chips">
+      <div class="chip adv"><div class="t">model-selector</div><div class="d">Task→tier→model + routing/fallback + cost math</div></div>
+      <div class="chip cloud"><div class="t">cloud-gcp</div><div class="d">Vertex AI · Gemini · BigQuery ML · Agent Builder</div></div>
+      <div class="chip cloud"><div class="t">cloud-aws</div><div class="d">Bedrock · SageMaker · Kendra · Step Functions</div></div>
+      <div class="chip cloud"><div class="t">cloud-azure</div><div class="d">AI Foundry · Azure OpenAI · AI Search · ML Studio</div></div>
+      <div class="chip cloud"><div class="t">cloud-onprem</div><div class="d">vLLM · Llama/Mistral/Qwen · Airflow · Milvus</div></div>
+      <div class="chip adv"><div class="t">connector-advisor</div><div class="d">How to connect Snowflake, Databricks, Bedrock…</div></div>
+      <div class="chip adv"><div class="t">domain-advisor</div><div class="d">15 industries: regs, data classes, required HITL</div></div>
+    </div>
+    <p class="note">The four cloud agents are asked the <b>same</b> question so the administrator compares GCP vs AWS vs Azure vs on-prem like-for-like — then gets one recommended path with the reason the other three lost.</p>
+  </section>
+
+  <div class="arrowrow">↓</div>
+
+  <!-- LAYER 3 -->
+  <section class="layer l3">
+    <div class="layer-head">
+      <span class="layer-tag">Layer 3</span>
+      <h2>Execution — the ADLC pipeline</h2>
+      <p>Each agent knows one job: its input, its output artifact, its gate. Stage N’s artifact is stage N+1’s input.</p>
+    </div>
+    <div class="flow">
+      <div class="step gate"><span class="flag">GATE</span><div class="n">01</div><div class="nm">intake</div><div class="art">Signed PRD</div></div>
+      <div class="step"><div class="n">02</div><div class="nm">process-map</div><div class="art">Human/Machine steps</div></div>
+      <div class="step"><div class="n">03</div><div class="nm">assess</div><div class="art">Solution verdict + model shortlist</div></div>
+      <div class="step gate"><span class="flag">GATE</span><div class="n">04</div><div class="nm">value-prop</div><div class="art">Business case / ROI</div></div>
+      <div class="step"><div class="n">05</div><div class="nm">architecture</div><div class="art">Ref. arch + model strategy</div></div>
+      <div class="step"><div class="n">06</div><div class="nm">dev-spec</div><div class="art">AI Spec + eval gate</div></div>
+      <div class="step"><div class="n">07</div><div class="nm">data-science</div><div class="art">Prompts/features + log</div></div>
+      <div class="step"><div class="n">08</div><div class="nm">eval</div><div class="art">Golden/adversarial sets</div></div>
+      <div class="step gate"><span class="flag">GATE</span><div class="n">09</div><div class="nm">poc-gate</div><div class="art">GO / NO-GO</div></div>
+      <div class="step gate"><span class="flag">GATE</span><div class="n">10</div><div class="nm">production</div><div class="art">Launch-blocker checklist</div></div>
+      <div class="step"><div class="n">11</div><div class="nm">observability</div><div class="art">Signals · alerts · cost</div></div>
+      <div class="step gate"><span class="flag">GATE</span><div class="n">12</div><div class="nm">brief</div><div class="art">Delivery brief + spec handoff</div></div>
+    </div>
+  </section>
+
+  <div class="arrowrow">↓ &nbsp;<span style="font-size:13px;color:var(--muted)">AI Spec handoff — only when approved &amp; funded</span></div>
+
+  <!-- DEV PIPELINE -->
+  <section class="layer" style="--pipe:var(--dev)">
+    <div class="layer-head">
+      <span class="layer-tag" style="color:var(--dev)">Decoupled</span>
+      <h2>The Dev Pipeline</h2>
+      <p>A separate pipeline that consumes the AI Spec. Runs only when the initiative is funded — you can plan without ever writing code.</p>
+    </div>
+    <div class="chips">
+      <div class="chip dev"><div class="t">discovery</div><div class="d">Maps the target repo · builds the story backlog from the AI Spec</div></div>
+      <div class="chip dev"><div class="t">coder</div><div class="d">Implements each story · wires model calls, RAG, tools, eval gate</div></div>
+      <div class="chip dev"><div class="t">code-reviewer</div><div class="d">The merge gate: spec + guardrails + green eval before merge</div></div>
+    </div>
+  </section>
+
+  <!-- FOUNDATIONS -->
+  <p class="kicker">Cross-cutting foundations</p>
+  <div class="cards">
+    <div class="card"><h3>🔌 Connectors (MCP)</h3><p>Portable across Claude Code, Cursor &amp; Antigravity. <span class="pill">Snowflake</span><span class="pill">Databricks</span><span class="pill">BigQuery</span><span class="pill">Bedrock</span><span class="pill">Salesforce</span><span class="pill">Datadog</span> — read-only &amp; least-privilege by default; secrets never in the repo.</p></div>
+    <div class="card"><h3>🏭 Domains (15, pluggable)</h3><p>Core agents stay domain-agnostic; the domain-advisor plugs in the frame. <span class="pill">Healthcare</span><span class="pill">Financial svcs</span><span class="pill">Insurance</span><span class="pill">Manufacturing</span><span class="pill">+11</span></p></div>
+    <div class="card"><h3>📄 Artifacts</h3><p>Every stage writes a real file (PRD → assessment → business case → AI Spec → evals → POC verdict → brief). The demo shows its work.</p></div>
+    <div class="card"><h3>🧩 One source, four IDEs</h3><p><code>.claude/agents/</code> is native to Claude Code; <code>AGENTS.md</code> + <code>.cursor/rules/</code> carry it to Cursor, VS Code &amp; Antigravity.</p></div>
+  </div>
+
+  <footer>Applied AI Studio · 23 agents · 3 layers · 12 ADLC stages + decoupled dev pipeline · governed by one constitution</footer>
+</div>
+</body>
+</html>

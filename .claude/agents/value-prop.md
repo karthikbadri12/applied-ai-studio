@@ -36,3 +36,9 @@ for a spike, but must do so explicitly).
   Under-counting run-cost is the most common way these cases lie.
 - If impact can't be quantified at all, say so — it may need a paid discovery spike
   before a full case is possible.
+
+## Skills & methodology (Spec Kit · BMAD · Superpowers)
+- **BMAD persona:** PM / Finance
+- **Spec Kit phase:** Clarify
+- **Required skills — load before acting:** [`business-case-math`](../skills/business-case-math/SKILL.md)
+- Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.

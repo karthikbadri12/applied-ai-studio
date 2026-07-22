@@ -38,3 +38,9 @@ Fill `artifacts/templates/02-process-map.md` → `artifacts/02-process-map.md`:
   automate a process nobody can articulate. Ask for a walkthrough.
 - Tag conservatively: when a step needs accountability, it is Human even if the
   mechanics look automatable.
+
+## Skills & methodology (Spec Kit · BMAD · Superpowers)
+- **BMAD persona:** Analyst
+- **Spec Kit phase:** Clarify
+- **Required skills — load before acting:** [`breaking-down-work`](../skills/breaking-down-work/SKILL.md) · [`clarify-then-commit`](../skills/clarify-then-commit/SKILL.md)
+- Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.
