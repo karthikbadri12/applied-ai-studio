@@ -1,0 +1,138 @@
+{
+  "$schema": "./stages.schema.json",
+  "version": "1.0.0",
+  "description": "The ADLC pipeline. Each stage names its owning agent, the input contract it consumes, the artifact it produces, and whether it ends at a human-in-the-loop gate.",
+  "stages": [
+    {
+      "id": "intake",
+      "order": 1,
+      "agent": "intake",
+      "owners": ["Business sponsor", "Product Manager"],
+      "consumes": "VP problem statement (a ticket, an email, a hallway ask)",
+      "produces": "artifacts/01-prd.md",
+      "artifact": "Signed PRD — problem, success metric, scope, non-negotiables",
+      "hitl": { "gate": true, "name": "Sponsor signs PRD", "approver": "Business sponsor" }
+    },
+    {
+      "id": "process-map",
+      "order": 2,
+      "agent": "process-map",
+      "owners": ["Product Manager", "Data Scientist"],
+      "consumes": "artifacts/01-prd.md + current SOP / workflow",
+      "produces": "artifacts/02-process-map.md",
+      "artifact": "As-is to to-be step table with every step tagged Human or Machine",
+      "hitl": { "gate": false }
+    },
+    {
+      "id": "assess",
+      "order": 3,
+      "agent": "assess",
+      "owners": ["Product Manager", "Data Scientist"],
+      "consumes": "artifacts/02-process-map.md (machine steps) + discovery answers",
+      "produces": "artifacts/03-assessment.md",
+      "artifact": "Solution-type verdict (ML / GenAI / Hybrid / Agentic) + model shortlist + data & ground-truth location + regulated-data flags",
+      "consults": ["model-selector", "domain-advisor", "cloud-gcp", "cloud-aws", "cloud-azure", "cloud-onprem"],
+      "hitl": { "gate": false }
+    },
+    {
+      "id": "value-prop",
+      "order": 4,
+      "agent": "value-prop",
+      "owners": ["Sponsor", "Finance", "FDE lead"],
+      "consumes": "artifacts/03-assessment.md + VP's stated numbers",
+      "produces": "artifacts/04-business-case.md",
+      "artifact": "Quantified business case — baseline cost, payback months, 3-yr ROI",
+      "hitl": { "gate": true, "name": "Finance approves the case", "approver": "Finance" }
+    },
+    {
+      "id": "architecture",
+      "order": 5,
+      "agent": "architecture",
+      "owners": ["Cloud", "Data", "MLOps", "LLMOps"],
+      "consumes": "artifacts/03-assessment.md + artifacts/04-business-case.md",
+      "produces": "artifacts/05-architecture.md",
+      "artifact": "Reference architecture + model strategy with decision trail and PII/PHI controls",
+      "consults": ["cloud-gcp", "cloud-aws", "cloud-azure", "cloud-onprem", "model-selector", "connector-advisor"],
+      "hitl": { "gate": false }
+    },
+    {
+      "id": "dev-spec",
+      "order": 6,
+      "agent": "dev-spec",
+      "owners": ["Engineering", "AI/ML Engineering"],
+      "consumes": "artifacts/03-assessment.md + artifacts/05-architecture.md",
+      "produces": "artifacts/06-ai-spec.md",
+      "artifact": "AI Spec (5 fields) + RAG blueprint + agent toolchain + CI eval gate + delivery mode",
+      "hitl": { "gate": false }
+    },
+    {
+      "id": "data-science",
+      "order": 7,
+      "agent": "data-science",
+      "owners": ["Data Scientist", "ML Engineer", "Prompt Engineer"],
+      "consumes": "artifacts/06-ai-spec.md",
+      "produces": "artifacts/07-data-science.md",
+      "artifact": "Prompts/features + experiment log + retraining/refresh pipeline",
+      "hitl": { "gate": false }
+    },
+    {
+      "id": "eval",
+      "order": 8,
+      "agent": "eval",
+      "owners": ["Data Scientist", "QA", "AI Engineer"],
+      "consumes": "artifacts/06-ai-spec.md (eval threshold)",
+      "produces": "artifacts/08-evals.md",
+      "artifact": "Golden + adversarial + regression sets + metric bars + CI gate",
+      "hitl": { "gate": false }
+    },
+    {
+      "id": "poc-gate",
+      "order": 9,
+      "agent": "poc-gate",
+      "owners": ["FDE", "Product", "Sponsor"],
+      "consumes": "artifacts/08-evals.md (metric bars) + artifacts/01-prd.md (success metric)",
+      "produces": "artifacts/09-poc-gate.md",
+      "artifact": "GO / CONDITIONAL / NO-GO verdict with the evidence",
+      "hitl": { "gate": true, "name": "Sponsor approves the gate", "approver": "Sponsor" }
+    },
+    {
+      "id": "production",
+      "order": 10,
+      "agent": "production",
+      "owners": ["SRE", "Security", "Compliance"],
+      "consumes": "artifacts/09-poc-gate.md (passing) + artifacts/06-ai-spec.md (guardrails)",
+      "produces": "artifacts/10-production.md",
+      "artifact": "Production readiness + responsible-AI governance checklists (launch-blocker list)",
+      "hitl": { "gate": true, "name": "Security & Compliance sign-off", "approver": "Security / Compliance" }
+    },
+    {
+      "id": "observability",
+      "order": 11,
+      "agent": "observability",
+      "owners": ["SRE", "MLOps", "Platform", "DevOps"],
+      "consumes": "artifacts/10-production.md (SLOs + controls)",
+      "produces": "artifacts/11-observability.md",
+      "artifact": "Golden signals, dashboards, alerts, CI/CD with eval gate, cost attribution",
+      "hitl": { "gate": false }
+    },
+    {
+      "id": "brief",
+      "order": 12,
+      "agent": "brief",
+      "owners": ["FDE delivery lead"],
+      "consumes": "all prior artifacts",
+      "produces": "artifacts/12-delivery-brief.md",
+      "artifact": "End-to-end delivery / initiative brief (capstone) + AI Spec handoff to dev pipeline",
+      "hitl": { "gate": true, "name": "Owner approves the brief", "approver": "Delivery owner" }
+    }
+  ],
+  "devPipeline": {
+    "description": "Decoupled downstream pipeline. Consumes the AI Spec from stage 6/12; does not run automatically.",
+    "trigger": "artifacts/06-ai-spec.md is approved and the initiative is funded",
+    "stages": [
+      { "id": "discovery", "agent": "discovery", "produces": "artifacts/dev/backlog.md", "artifact": "Codebase map + build backlog derived from the AI Spec" },
+      { "id": "code", "agent": "coder", "produces": "code + PRs", "artifact": "Implementation against the AI Spec" },
+      { "id": "review", "agent": "code-reviewer", "produces": "review report", "artifact": "Spec/guardrail/eval-gate conformance review before merge" }
+    ]
+  }
+}

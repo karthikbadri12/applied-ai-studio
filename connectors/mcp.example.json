@@ -1,0 +1,50 @@
+{
+  "_comment": "Example Model Context Protocol (MCP) server config. MCP is portable across Claude Code, Cursor, and Antigravity, so enabling a connector here lights it up in every IDE. NEVER commit real secrets — use ${ENV_VAR} references resolved from your secret manager / .env (which is gitignored). The connector-advisor agent generates the exact block per source; uncomment only what an initiative actually needs, scoped read-only and least-privilege.",
+
+  "mcpServers": {
+    "snowflake": {
+      "command": "npx",
+      "args": ["-y", "@snowflake/mcp-server"],
+      "env": {
+        "SNOWFLAKE_ACCOUNT": "${SNOWFLAKE_ACCOUNT}",
+        "SNOWFLAKE_USER": "${SNOWFLAKE_USER}",
+        "SNOWFLAKE_PRIVATE_KEY": "${SNOWFLAKE_PRIVATE_KEY}",
+        "SNOWFLAKE_ROLE": "APPLIED_AI_READONLY",
+        "SNOWFLAKE_WAREHOUSE": "ANALYTICS_XS",
+        "SNOWFLAKE_ALLOWED_SCHEMAS": "CLAIMS.PUBLIC"
+      }
+    },
+
+    "databricks": {
+      "command": "npx",
+      "args": ["-y", "@databricks/mcp-server"],
+      "env": {
+        "DATABRICKS_HOST": "${DATABRICKS_HOST}",
+        "DATABRICKS_TOKEN": "${DATABRICKS_TOKEN}",
+        "DATABRICKS_WAREHOUSE_ID": "${DATABRICKS_WAREHOUSE_ID}"
+      }
+    },
+
+    "bigquery": {
+      "command": "npx",
+      "args": ["-y", "@google/mcp-bigquery"],
+      "env": {
+        "GOOGLE_APPLICATION_CREDENTIALS": "${GOOGLE_APPLICATION_CREDENTIALS}",
+        "BIGQUERY_PROJECT": "${BIGQUERY_PROJECT}",
+        "BIGQUERY_ALLOWED_DATASETS": "claims_ro"
+      }
+    },
+
+    "slack": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-slack"],
+      "env": { "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}", "SLACK_TEAM_ID": "${SLACK_TEAM_ID}" }
+    },
+
+    "datadog": {
+      "command": "npx",
+      "args": ["-y", "@datadog/mcp-server"],
+      "env": { "DD_API_KEY": "${DD_API_KEY}", "DD_APP_KEY": "${DD_APP_KEY}", "DD_SITE": "datadoghq.com" }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "./catalog.schema.json",
+  "version": "1.0.0",
+  "description": "The connector catalog the connector-advisor agent reads. `method: mcp` connectors are portable across Claude Code, Cursor, and Antigravity via connectors/mcp.example.json. Auth secrets always live in a secret manager, never in this repo.",
+  "categories": ["warehouse", "lake", "vector", "model", "saas", "observability", "custom"],
+  "connectors": [
+    { "id": "snowflake",   "category": "warehouse",     "method": "mcp",  "auth": "key-pair / OAuth", "readWrite": "read-only default", "dataClasses": ["PII", "PCI", "MNPI"], "guide": "snowflake.md" },
+    { "id": "databricks",  "category": "lake",          "method": "mcp",  "auth": "PAT / OAuth (SP)", "readWrite": "read-only default", "dataClasses": ["PII", "PHI"], "guide": "databricks.md" },
+    { "id": "bigquery",    "category": "warehouse",     "method": "mcp",  "auth": "service account", "readWrite": "read-only default", "dataClasses": ["PII"], "guide": "bigquery.md" },
+    { "id": "redshift",    "category": "warehouse",     "method": "jdbc", "auth": "IAM / secret", "readWrite": "read-only default", "dataClasses": ["PII"], "guide": null },
+    { "id": "s3",          "category": "lake",          "method": "sdk",  "auth": "IAM role", "readWrite": "read-only default", "dataClasses": ["any"], "guide": null },
+    { "id": "azure-blob",  "category": "lake",          "method": "sdk",  "auth": "Entra / SAS", "readWrite": "read-only default", "dataClasses": ["any"], "guide": null },
+    { "id": "gcs",         "category": "lake",          "method": "sdk",  "auth": "service account", "readWrite": "read-only default", "dataClasses": ["any"], "guide": null },
+    { "id": "pinecone",    "category": "vector",        "method": "sdk",  "auth": "api-key", "readWrite": "read-write", "dataClasses": ["embeddings"], "guide": null },
+    { "id": "opensearch",  "category": "vector",        "method": "sdk",  "auth": "IAM / basic", "readWrite": "read-write", "dataClasses": ["embeddings"], "guide": null },
+    { "id": "milvus",      "category": "vector",        "method": "sdk",  "auth": "token", "readWrite": "read-write", "dataClasses": ["embeddings"], "guide": null },
+    { "id": "pgvector",    "category": "vector",        "method": "jdbc", "auth": "secret", "readWrite": "read-write", "dataClasses": ["embeddings"], "guide": null },
+    { "id": "bedrock",     "category": "model",         "method": "sdk",  "auth": "IAM role", "readWrite": "invoke", "dataClasses": ["prompt-context"], "guide": "bedrock.md" },
+    { "id": "vertex",      "category": "model",         "method": "sdk",  "auth": "service account", "readWrite": "invoke", "dataClasses": ["prompt-context"], "guide": null },
+    { "id": "azure-openai","category": "model",         "method": "sdk",  "auth": "Entra / key", "readWrite": "invoke", "dataClasses": ["prompt-context"], "guide": null },
+    { "id": "salesforce",  "category": "saas",          "method": "mcp",  "auth": "OAuth", "readWrite": "read-only default", "dataClasses": ["PII"], "guide": null },
+    { "id": "servicenow",  "category": "saas",          "method": "mcp",  "auth": "OAuth", "readWrite": "read-only default", "dataClasses": ["PII"], "guide": null },
+    { "id": "jira",        "category": "saas",          "method": "mcp",  "auth": "OAuth / PAT", "readWrite": "read-write", "dataClasses": ["internal"], "guide": null },
+    { "id": "slack",       "category": "saas",          "method": "mcp",  "auth": "OAuth", "readWrite": "read-write", "dataClasses": ["internal"], "guide": null },
+    { "id": "datadog",     "category": "observability", "method": "mcp",  "auth": "api+app key", "readWrite": "read-only", "dataClasses": ["telemetry"], "guide": null },
+    { "id": "pagerduty",   "category": "observability", "method": "mcp",  "auth": "api-key", "readWrite": "read-write", "dataClasses": ["telemetry"], "guide": null },
+    { "id": "grafana",     "category": "observability", "method": "mcp",  "auth": "api-key", "readWrite": "read-only", "dataClasses": ["telemetry"], "guide": null },
+    { "id": "custom-rest", "category": "custom",        "method": "rest", "auth": "varies", "readWrite": "varies", "dataClasses": ["varies"], "guide": null },
+    { "id": "custom-mcp",  "category": "custom",        "method": "mcp",  "auth": "varies", "readWrite": "varies", "dataClasses": ["varies"], "guide": null }
+  ]
+}

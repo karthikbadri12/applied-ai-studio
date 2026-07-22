@@ -1,0 +1,54 @@
+{
+  "$schema": "./index.schema.json",
+  "version": "1.0.0",
+  "description": "The domain registry the domain-advisor agent reads. Each entry is a compact frame; domains with a `pack` have a deeper .md. The 12 pipeline agents stay domain-agnostic — this registry is how they become industry-sharp. Frames are practitioner guidance, not legal advice; anything uncertain routes to human counsel as a HITL gate.",
+  "domains": [
+    {
+      "id": "healthcare", "name": "Healthcare & Life Sciences", "pack": "healthcare.md",
+      "regulations": ["HIPAA/HITECH", "FDA (SaMD)", "21 CFR Part 11", "state privacy"],
+      "dataClasses": ["PHI", "PII"],
+      "systems": ["EHR (Epic/Cerner)", "PACS", "HL7/FHIR", "claims"],
+      "hitl": ["clinical sign-off on any diagnosis/treatment output", "physician-in-the-loop for care decisions"],
+      "patterns": ["prior-auth triage", "clinical documentation", "medical coding", "prior-auth RAG"],
+      "failureCost": "patient harm; OCR fines; loss of license"
+    },
+    {
+      "id": "financial-services", "name": "Financial Services & Banking", "pack": "financial-services.md",
+      "regulations": ["GLBA", "SOX", "FCRA", "ECOA (adverse action)", "SR 11-7 model risk", "AML/KYC", "Reg-Z"],
+      "dataClasses": ["PII", "MNPI", "PCI"],
+      "systems": ["core banking", "card networks", "market data", "CRM"],
+      "hitl": ["adverse-action notice on any credit decline", "human review of AML alerts", "trader sign-off"],
+      "patterns": ["fraud scoring", "AML alert triage", "loan underwriting assist", "research summarization"],
+      "failureCost": "regulatory fines; discriminatory-lending liability; market loss"
+    },
+    {
+      "id": "insurance", "name": "Insurance", "pack": "insurance.md",
+      "regulations": ["state insurance codes", "NAIC AI bulletin", "unfair-claims-practices acts", "GLBA"],
+      "dataClasses": ["PII", "PHI (health lines)"],
+      "systems": ["policy admin", "claims (Guidewire)", "FNOL", "actuarial"],
+      "hitl": ["adjuster decision on claim approval/denial", "underwriter sign-off"],
+      "patterns": ["FNOL intake", "claims triage", "fraud detection", "underwriting assist"],
+      "failureCost": "bad-faith claims liability; regulatory action; reserve error"
+    },
+    {
+      "id": "manufacturing", "name": "Manufacturing & Industrial", "pack": "manufacturing.md",
+      "regulations": ["OSHA", "ISO 9001", "product-safety", "export controls"],
+      "dataClasses": ["proprietary/IP", "operational"],
+      "systems": ["MES", "SCADA/PLC", "historian (PI)", "ERP", "CMMS"],
+      "hitl": ["operator confirm before any actuation", "safety interlock never bypassed by AI"],
+      "patterns": ["predictive maintenance", "visual QC/defect detection", "yield optimization", "root-cause analysis"],
+      "failureCost": "safety incident; line-down cost; scrap; recall"
+    },
+    { "id": "energy", "name": "Energy & Utilities", "pack": null, "regulations": ["NERC-CIP", "FERC", "environmental"], "dataClasses": ["operational", "critical-infrastructure"], "systems": ["SCADA", "GIS", "AMI/smart-meter", "EMS"], "hitl": ["grid-control action requires operator authorization"], "patterns": ["load forecasting", "grid anomaly detection", "asset inspection (vision)"], "failureCost": "outage; safety; regulatory (critical infrastructure)" },
+    { "id": "government", "name": "Government & Public Sector", "pack": null, "regulations": ["FedRAMP", "FISMA", "Privacy Act", "Section 508", "EU AI Act (public use)"], "dataClasses": ["PII", "controlled-unclassified"], "systems": ["case management", "benefits", "identity"], "hitl": ["human decision on any benefit denial / rights-affecting action", "appeal path mandatory"], "patterns": ["citizen-service RAG", "case triage", "document processing"], "failureCost": "due-process violation; public trust; audit findings" },
+    { "id": "legal", "name": "Legal & Professional Services", "pack": null, "regulations": ["privilege", "bar ethics rules", "data-residency", "conflicts"], "dataClasses": ["privileged", "PII"], "systems": ["DMS (iManage)", "e-discovery", "contract repos"], "hitl": ["attorney review of any legal work product before use"], "patterns": ["contract review", "e-discovery triage", "legal research RAG"], "failureCost": "malpractice; privilege waiver; sanctions" },
+    { "id": "hr", "name": "Human Resources", "pack": null, "regulations": ["EEOC", "Title VII", "GDPR", "NYC Local Law 144 (AEDT bias audit)", "ADA"], "dataClasses": ["PII", "sensitive-personal"], "systems": ["HRIS (Workday)", "ATS", "payroll"], "hitl": ["human decision on hire/fire/promotion", "bias audit required for hiring tools"], "patterns": ["resume screening (audited)", "HR helpdesk RAG", "attrition prediction"], "failureCost": "discrimination liability; mandated bias-audit failure" },
+    { "id": "education", "name": "Education & EdTech", "pack": null, "regulations": ["FERPA", "COPPA (minors)", "state student-privacy"], "dataClasses": ["student-PII", "minors"], "systems": ["LMS", "SIS"], "hitl": ["educator review of grading/assessment outputs"], "patterns": ["tutoring assistant", "grading assist", "content generation"], "failureCost": "student-privacy breach; equity/access harm" },
+    { "id": "telecom", "name": "Telecommunications", "pack": null, "regulations": ["CPNI", "FCC", "GDPR"], "dataClasses": ["PII", "CPNI", "location"], "systems": ["OSS/BSS", "network telemetry", "billing"], "hitl": ["human confirm on network-config changes"], "patterns": ["network anomaly/RCA", "customer-care copilot", "churn prediction"], "failureCost": "outage; CPNI breach; regulatory" },
+    { "id": "retail", "name": "Retail & E-commerce", "pack": null, "regulations": ["PCI-DSS", "CCPA/GDPR", "consumer-protection"], "dataClasses": ["PII", "PCI"], "systems": ["OMS", "PIM", "POS", "CRM"], "hitl": ["human review of pricing/promo automation"], "patterns": ["product-catalog enrichment", "search/recommendation", "support copilot", "demand forecasting"], "failureCost": "PCI breach; margin loss; brand" },
+    { "id": "logistics", "name": "Logistics & Supply Chain", "pack": null, "regulations": ["customs/trade", "DOT/hazmat", "trade-compliance"], "dataClasses": ["operational", "PII (drivers)"], "systems": ["TMS", "WMS", "telematics", "EDI"], "hitl": ["dispatcher confirm on route/allocation changes"], "patterns": ["route optimization", "ETA prediction", "exception management", "demand/inventory forecasting"], "failureCost": "SLA penalty; spoilage; safety" },
+    { "id": "real-estate", "name": "Real Estate & PropTech", "pack": null, "regulations": ["Fair Housing Act", "RESPA", "state licensing"], "dataClasses": ["PII", "financial"], "systems": ["MLS", "CRM", "property-management"], "hitl": ["human review of tenant/valuation decisions (fair-housing)"], "patterns": ["valuation (AVM) assist", "listing generation", "lease abstraction"], "failureCost": "fair-housing liability; valuation error" },
+    { "id": "media", "name": "Media & Entertainment", "pack": null, "regulations": ["copyright/IP", "rights-management", "content-standards"], "dataClasses": ["IP", "PII (subscribers)"], "systems": ["MAM/DAM", "CMS", "rights DB"], "hitl": ["editorial review of published content", "rights clearance"], "patterns": ["content tagging/metadata", "moderation", "personalization", "localization"], "failureCost": "copyright liability; brand/editorial trust" },
+    { "id": "agriculture", "name": "Agriculture & AgTech", "pack": null, "regulations": ["EPA/pesticide", "food-safety", "environmental"], "dataClasses": ["operational", "geospatial"], "systems": ["farm-management", "IoT sensors", "satellite/drone imagery"], "hitl": ["agronomist review before field action"], "patterns": ["yield prediction", "crop-disease vision", "irrigation optimization"], "failureCost": "crop loss; environmental/compliance" }
+  ]
+}
