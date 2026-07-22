@@ -15,18 +15,18 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 Scaffold the agent pack into **any project**, for **any IDE**, straight from GitHub:
 ```bash
 # everything (all IDE flavors)
-uvx --from git+https://github.com/<your-username>/applied-ai-studio.git aidlc init
+uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init
 
 # or per-IDE
-uvx --from git+https://github.com/<your-username>/applied-ai-studio.git aidlc init --ide claude
-uvx --from git+https://github.com/<your-username>/applied-ai-studio.git aidlc init --ide cursor
-uvx --from git+https://github.com/<your-username>/applied-ai-studio.git aidlc init --ide copilot      # generates .github/chatmodes/
-uvx --from git+https://github.com/<your-username>/applied-ai-studio.git aidlc init --ide antigravity  # AGENTS.md standard
+uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide claude
+uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide cursor
+uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide copilot      # generates .github/chatmodes/
+uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide antigravity  # AGENTS.md standard
 ```
 
 Or install the CLI once and reuse it everywhere:
 ```bash
-uv tool install git+https://github.com/<your-username>/applied-ai-studio.git
+uv tool install git+https://github.com/karthikbadri12/applied-ai-studio.git
 aidlc init ~/code/my-project --ide all
 aidlc list     # show the 23-agent roster with BMAD persona + Spec Kit phase
 aidlc check    # verify an install (core files + at least one IDE flavor)
