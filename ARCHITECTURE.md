@@ -1,4 +1,4 @@
-# Applied AI Studio — Architecture
+# Applied AI Enterprise — Architecture
 
 A domain-agnostic, IDE-native **agent system** that takes an executive problem
 statement and drives it through the full **AI Development Life Cycle (ADLC)** —

@@ -59,3 +59,18 @@ one pick, alternates with reasons):
 - If the solution is a single deterministic pipeline, say so: no framework beats an
   unneeded one. Record the framework decision in the architecture decision trail;
   `dev-spec` carries it into the AI Spec so the build scaffolds against it.
+
+## 2026 platform landscape (keep current — verify with a web search when advising)
+Google consolidated its AI stack at Cloud Next 2026: **Vertex AI is now the Gemini
+Enterprise Agent Platform** (absorbing Agentspace). Advise with the current stack:
+- **ADK v1.0** (code-first, stable in four languages) building to the managed
+  **Agent Engine** runtime; **Agent Studio** (low-code) and **Workspace Studio**
+  (no-code) for non-engineer builders.
+- **Model Garden: 200+ models** — Gemini 3.1 Pro/Flash, Gemma 4, and third-party
+  incl. Anthropic Claude (Opus/Sonnet/Haiku).
+- **Managed MCP servers** with Apigee as the API-to-agent bridge; **A2A protocol
+  v1.0** in production for cross-vendor agent interop.
+- Partner agents ecosystem (Box, Workday, Salesforce, ServiceNow); Project Mariner
+  for web-browsing agents.
+When you present GCP, name this platform correctly — "Vertex AI" alone is the
+pre-2026 name; say "Gemini Enterprise Agent Platform (formerly Vertex AI)".

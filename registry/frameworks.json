@@ -8,38 +8,41 @@
   },
   "byCloud": {
     "gcp": {
+      "platform": "Gemini Enterprise Agent Platform (announced Cloud Next, April 2026 — the evolution/rename of Vertex AI, absorbing Agentspace). Bundles ADK (code-first), Agent Studio (low-code), Workspace Studio (no-code), Agent Engine (managed runtime), Model Garden (200+ models incl. Gemini 3.1 and Anthropic Claude), managed MCP servers with Apigee API-to-agent bridge, and A2A v1.0.",
       "recommended": {
-        "name": "Google ADK (Agent Development Kit)",
-        "why": "First-party Google framework — Gemini-native, code-first Python/Java, built-in tool ecosystem, evaluation support, and a managed deploy path to Vertex AI Agent Engine; A2A for multi-agent interop.",
-        "deploy": "Vertex AI Agent Engine (managed) or Cloud Run / GKE (self-managed)"
+        "name": "Google ADK v1.0 on Gemini Enterprise Agent Platform",
+        "why": "First-party, code-first (stable in four languages), Gemini-native with Model Garden access to 200+ models incl. Claude, built-in evaluation, persistent memory, enterprise governance, managed MCP; deploys to the managed Agent Engine runtime; A2A v1.0 for interop.",
+        "deploy": "Agent Engine (managed runtime) or Cloud Run / GKE (self-managed)"
       },
       "alternates": [
-        { "name": "LangGraph on GKE/Cloud Run", "when": "team already standardized on LangGraph, or needs portable graph semantics off-GCP" },
-        { "name": "Vertex AI Agent Builder / conversational agents", "when": "low-code path or contact-center style assistants" },
+        { "name": "Agent Studio / Workspace Studio", "when": "low-code or no-code builders for business-user agents" },
+        { "name": "LangGraph on GKE/Cloud Run", "when": "portable graph semantics needed off-GCP" },
         { "name": "CrewAI", "when": "lightweight role-based crews without deep GCP coupling" }
       ]
     },
     "aws": {
+      "platform": "Amazon Bedrock AgentCore — GA (AWS Summit NY 2026). Managed agent harness (CreateHarness/InvokeHarness — no orchestration code or containers), built-in memory, AWS-curated skills catalog, AgentCore Evaluations + Policy (GA), AgentCore CLI, unified observability, Bedrock Mantle for third-party models (incl. OpenAI GPT-5.5) and LiteLLM providers, export-to-Strands.",
       "recommended": {
-        "name": "Strands Agents SDK + Amazon Bedrock AgentCore",
-        "why": "Strands is AWS's open-source, model-driven agent SDK (used internally by AWS teams); AgentCore provides the managed runtime, memory, identity, and observability on Bedrock.",
-        "deploy": "Bedrock AgentCore (managed) or ECS/EKS/Lambda (self-managed)"
+        "name": "Strands Agents SDK + Bedrock AgentCore (GA)",
+        "why": "Strands is AWS's open-source, model-driven agent SDK (AgentCore's managed harness runs a Strands supervisor under the hood and exports to Strands code); AgentCore GA adds default memory, Evaluations, Policy, versioned endpoints, and the skills catalog — production plumbing you don't build.",
+        "deploy": "Bedrock AgentCore (managed harness or runtime) or ECS/EKS/Lambda (self-managed)"
       },
       "alternates": [
-        { "name": "Bedrock Agents (fully managed)", "when": "configuration-over-code preference, tight Bedrock coupling acceptable" },
-        { "name": "LangGraph on ECS/EKS", "when": "portable graph orchestration or existing LangChain estate" },
-        { "name": "CrewAI", "when": "simple role-based multi-agent with minimal infra" }
+        { "name": "AgentCore managed harness only (no SDK)", "when": "two-API-call setup — define with CreateHarness, run with InvokeHarness; configuration over code" },
+        { "name": "LangGraph or Claude Agent SDK on AgentCore", "when": "AgentCore ships first-class patterns for both; existing estate in either" },
+        { "name": "CrewAI on ECS/EKS", "when": "simple role-based multi-agent with minimal infra" }
       ]
     },
     "azure": {
+      "platform": "Microsoft Foundry (2026 rename of Azure AI Foundry). Foundry Agent Service hosted agents GA (~July 2026): sandboxed sessions, state, filesystem, bring-any-framework (Agent Framework, LangGraph, OpenAI Agents SDK, Anthropic Agent SDK, GitHub Copilot SDK, or custom containers); Responses API as single entry point; memory (procedural/user/session) in preview; publish to Teams + M365 Copilot; Foundry Toolkit for VS Code GA.",
       "recommended": {
-        "name": "Microsoft Agent Framework + Azure AI Foundry Agent Service",
-        "why": "Microsoft's converged successor to Semantic Kernel + AutoGen — open-source SDK with graph-based workflows, plus a managed agent runtime (threads, tools, observability, entra ID) in Azure AI Foundry.",
-        "deploy": "Azure AI Foundry Agent Service (managed) or AKS/Container Apps (self-managed)"
+        "name": "Microsoft Agent Framework + Foundry Agent Service (hosted agents)",
+        "why": "Agent Framework is Microsoft's converged open-source successor to Semantic Kernel + AutoGen with stable orchestration building blocks; hosted agents give a managed production runtime with sessions, state, Entra ID governance, and direct publishing into Teams/M365 Copilot where enterprise users already live.",
+        "deploy": "Foundry Agent Service hosted agents (managed) or AKS/Container Apps (self-managed)"
       },
       "alternates": [
-        { "name": "Semantic Kernel", "when": "existing SK estate; enterprise .NET shops" },
-        { "name": "AutoGen", "when": "research-grade multi-agent conversation patterns" },
+        { "name": "OpenAI Agents SDK / Anthropic Agent SDK on hosted agents", "when": "Foundry hosts both natively; teams standardized on either SDK" },
+        { "name": "Semantic Kernel / AutoGen (legacy)", "when": "existing estates — migrate toward Agent Framework" },
         { "name": "LangGraph on AKS", "when": "portability across clouds is a hard requirement" }
       ]
     },

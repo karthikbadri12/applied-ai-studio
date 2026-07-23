@@ -1,4 +1,4 @@
-# Install — load Applied AI Studio as custom agents in your IDE
+# Install — load Applied AI Enterprise as custom agents in your IDE
 
 One source of truth (`.claude/agents/` + `AGENTS.md` + `registry/`), installable in
 every major AI IDE. Every path below is: **① install prerequisites → ② scaffold the
@@ -187,7 +187,7 @@ aidlc check   # verify an install (core files + at least one IDE flavor, exit co
 ```
 `init` never overwrites existing files unless you pass `--force`. Installing from
 the bleeding-edge repo instead of the PyPI release:
-`uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init …`
+`uvx --from git+https://github.com/karthikbadri12/applied-ai-enterprise.git aidlc init …`
 
 ---
 

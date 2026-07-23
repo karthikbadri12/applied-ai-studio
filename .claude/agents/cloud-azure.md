@@ -62,3 +62,15 @@ one pick, alternates with reasons):
 - If the solution is a single deterministic pipeline, say so: no framework beats an
   unneeded one. Record the framework decision in the architecture decision trail;
   `dev-spec` carries it into the AI Spec so the build scaffolds against it.
+
+## 2026 platform landscape (keep current — verify with a web search when advising)
+**Azure AI Foundry is now Microsoft Foundry**; advise with the current stack:
+- **Foundry Agent Service hosted agents (GA ~July 2026)** — managed production
+  runtime: sandboxed sessions, state, filesystem, bring-any-framework (Agent
+  Framework, LangGraph, OpenAI Agents SDK, Anthropic Agent SDK, GitHub Copilot
+  SDK, or custom containers). **Responses API** as the single entry point.
+- **Microsoft Agent Framework** — the converged open-source successor to Semantic
+  Kernel + AutoGen, with stable orchestration building blocks.
+- **Memory** (procedural / user / session) in public preview; publish agents
+  directly to **Teams and Microsoft 365 Copilot**; Foundry Toolkit for VS Code GA.
+When you present Azure, say "Microsoft Foundry (formerly Azure AI Foundry)".

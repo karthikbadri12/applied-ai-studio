@@ -1,38 +1,202 @@
 {
   "$schema": "./agents.schema.json",
   "version": "1.0.0",
-  "name": "Applied AI Studio",
+  "name": "Applied AI Enterprise",
   "description": "Domain-agnostic Applied-AI agent pack. The top settings layer: the catalog an IDE reads to install the agents. Types = pipeline | orchestrator | advisor | dev-pipeline. Layer = execution | governance.",
   "constitution": "CONSTITUTION.md",
   "agents": [
-    { "id": "orchestrator",      "type": "orchestrator",  "layer": "governance", "file": ".claude/agents/orchestrator.md",      "role": "Routes the problem, sequences stages, enforces HITL gates, consults advisors on behalf of the administrator." },
-
-    { "id": "intake",            "type": "pipeline", "stage": 1,  "layer": "execution", "file": ".claude/agents/intake.md",           "artifact": "Signed PRD" },
-    { "id": "process-map",       "type": "pipeline", "stage": 2,  "layer": "execution", "file": ".claude/agents/process-map.md",      "artifact": "Human/Machine step table" },
-    { "id": "assess",            "type": "pipeline", "stage": 3,  "layer": "execution", "file": ".claude/agents/assess.md",           "artifact": "Solution-type verdict + model shortlist" },
-    { "id": "value-prop",        "type": "pipeline", "stage": 4,  "layer": "execution", "file": ".claude/agents/value-prop.md",       "artifact": "Quantified business case" },
-    { "id": "architecture",      "type": "pipeline", "stage": 5,  "layer": "execution", "file": ".claude/agents/architecture.md",     "artifact": "Reference architecture + model strategy" },
-    { "id": "dev-spec",          "type": "pipeline", "stage": 6,  "layer": "execution", "file": ".claude/agents/dev-spec.md",         "artifact": "AI Spec + RAG blueprint + toolchain + eval gate" },
-    { "id": "data-science",      "type": "pipeline", "stage": 7,  "layer": "execution", "file": ".claude/agents/data-science.md",     "artifact": "Prompts/features + experiment log" },
-    { "id": "eval",              "type": "pipeline", "stage": 8,  "layer": "execution", "file": ".claude/agents/eval.md",             "artifact": "Golden/adversarial/regression sets + CI gate" },
-    { "id": "poc-gate",          "type": "pipeline", "stage": 9,  "layer": "execution", "file": ".claude/agents/poc-gate.md",         "artifact": "GO / CONDITIONAL / NO-GO verdict" },
-    { "id": "production",        "type": "pipeline", "stage": 10, "layer": "execution", "file": ".claude/agents/production.md",       "artifact": "Production + responsible-AI checklists" },
-    { "id": "observability",     "type": "pipeline", "stage": 11, "layer": "execution", "file": ".claude/agents/observability.md",    "artifact": "Golden signals, dashboards, alerts, cost attribution" },
-    { "id": "brief",             "type": "pipeline", "stage": 12, "layer": "execution", "file": ".claude/agents/brief.md",            "artifact": "End-to-end delivery brief" },
-
-    { "id": "model-selector",    "type": "advisor", "layer": "governance", "file": ".claude/agents/model-selector.md",    "advises": "administrator", "on": "Task → tier → managed vs open model pick + routing/fallback" },
-    { "id": "cloud-gcp",         "type": "advisor", "layer": "governance", "file": ".claude/agents/cloud-gcp.md",         "advises": "administrator", "on": "Google Cloud: Vertex AI, Gemini, BigQuery ML, Agent Builder" },
-    { "id": "cloud-aws",         "type": "advisor", "layer": "governance", "file": ".claude/agents/cloud-aws.md",         "advises": "administrator", "on": "AWS: Bedrock, SageMaker, Kendra, Step Functions" },
-    { "id": "cloud-azure",       "type": "advisor", "layer": "governance", "file": ".claude/agents/cloud-azure.md",       "advises": "administrator", "on": "Azure: AI Foundry, Azure OpenAI, AI Search, ML Studio" },
-    { "id": "cloud-onprem",      "type": "advisor", "layer": "governance", "file": ".claude/agents/cloud-onprem.md",      "advises": "administrator", "on": "On-prem / open-source: vLLM, Ollama, Airflow, Milvus, Ray" },
-    { "id": "connector-advisor", "type": "advisor", "layer": "governance", "file": ".claude/agents/connector-advisor.md","advises": "administrator", "on": "How to connect Snowflake, Databricks, BigQuery, Bedrock, etc." },
-    { "id": "domain-advisor",    "type": "advisor", "layer": "governance", "file": ".claude/agents/domain-advisor.md",    "advises": "administrator", "on": "Industry regulations, data sources, sensitivities (15 domains)" },
-
-    { "id": "discovery",         "type": "dev-pipeline", "layer": "execution", "file": ".claude/agents/discovery.md",      "artifact": "Codebase map + build backlog", "consumes": "AI Spec" },
-    { "id": "coder",             "type": "dev-pipeline", "layer": "execution", "file": ".claude/agents/coder.md",          "artifact": "Implementation against the AI Spec" },
-    { "id": "code-reviewer",     "type": "dev-pipeline", "layer": "execution", "file": ".claude/agents/code-reviewer.md",  "artifact": "Spec + guardrail + eval-gate conformance review" }
+    {
+      "id": "orchestrator",
+      "type": "orchestrator",
+      "layer": "governance",
+      "file": ".claude/agents/orchestrator.md",
+      "role": "Routes the problem, sequences stages, enforces HITL gates, consults advisors on behalf of the administrator."
+    },
+    {
+      "id": "intake",
+      "type": "pipeline",
+      "stage": 1,
+      "layer": "execution",
+      "file": ".claude/agents/intake.md",
+      "artifact": "Signed PRD"
+    },
+    {
+      "id": "process-map",
+      "type": "pipeline",
+      "stage": 2,
+      "layer": "execution",
+      "file": ".claude/agents/process-map.md",
+      "artifact": "Human/Machine step table"
+    },
+    {
+      "id": "assess",
+      "type": "pipeline",
+      "stage": 3,
+      "layer": "execution",
+      "file": ".claude/agents/assess.md",
+      "artifact": "Solution-type verdict + model shortlist"
+    },
+    {
+      "id": "value-prop",
+      "type": "pipeline",
+      "stage": 4,
+      "layer": "execution",
+      "file": ".claude/agents/value-prop.md",
+      "artifact": "Quantified business case"
+    },
+    {
+      "id": "architecture",
+      "type": "pipeline",
+      "stage": 5,
+      "layer": "execution",
+      "file": ".claude/agents/architecture.md",
+      "artifact": "Reference architecture + model strategy"
+    },
+    {
+      "id": "dev-spec",
+      "type": "pipeline",
+      "stage": 6,
+      "layer": "execution",
+      "file": ".claude/agents/dev-spec.md",
+      "artifact": "AI Spec + RAG blueprint + toolchain + eval gate"
+    },
+    {
+      "id": "data-science",
+      "type": "pipeline",
+      "stage": 7,
+      "layer": "execution",
+      "file": ".claude/agents/data-science.md",
+      "artifact": "Prompts/features + experiment log"
+    },
+    {
+      "id": "eval",
+      "type": "pipeline",
+      "stage": 8,
+      "layer": "execution",
+      "file": ".claude/agents/eval.md",
+      "artifact": "Golden/adversarial/regression sets + CI gate"
+    },
+    {
+      "id": "poc-gate",
+      "type": "pipeline",
+      "stage": 9,
+      "layer": "execution",
+      "file": ".claude/agents/poc-gate.md",
+      "artifact": "GO / CONDITIONAL / NO-GO verdict"
+    },
+    {
+      "id": "production",
+      "type": "pipeline",
+      "stage": 10,
+      "layer": "execution",
+      "file": ".claude/agents/production.md",
+      "artifact": "Production + responsible-AI checklists"
+    },
+    {
+      "id": "observability",
+      "type": "pipeline",
+      "stage": 11,
+      "layer": "execution",
+      "file": ".claude/agents/observability.md",
+      "artifact": "Golden signals, dashboards, alerts, cost attribution"
+    },
+    {
+      "id": "brief",
+      "type": "pipeline",
+      "stage": 12,
+      "layer": "execution",
+      "file": ".claude/agents/brief.md",
+      "artifact": "End-to-end delivery brief"
+    },
+    {
+      "id": "model-selector",
+      "type": "advisor",
+      "layer": "governance",
+      "file": ".claude/agents/model-selector.md",
+      "advises": "administrator",
+      "on": "Task → tier → managed vs open model pick + routing/fallback"
+    },
+    {
+      "id": "cloud-gcp",
+      "type": "advisor",
+      "layer": "governance",
+      "file": ".claude/agents/cloud-gcp.md",
+      "advises": "administrator",
+      "on": "Google Cloud: Gemini Enterprise Agent Platform (formerly Vertex AI), ADK v1.0, Agent Engine, Model Garden, BigQuery"
+    },
+    {
+      "id": "cloud-aws",
+      "type": "advisor",
+      "layer": "governance",
+      "file": ".claude/agents/cloud-aws.md",
+      "advises": "administrator",
+      "on": "AWS: Bedrock AgentCore (GA), Strands, Mantle, SageMaker, Kendra"
+    },
+    {
+      "id": "cloud-azure",
+      "type": "advisor",
+      "layer": "governance",
+      "file": ".claude/agents/cloud-azure.md",
+      "advises": "administrator",
+      "on": "Microsoft Foundry (formerly Azure AI Foundry): Agent Service hosted agents, Agent Framework, Azure OpenAI, AI Search"
+    },
+    {
+      "id": "cloud-onprem",
+      "type": "advisor",
+      "layer": "governance",
+      "file": ".claude/agents/cloud-onprem.md",
+      "advises": "administrator",
+      "on": "On-prem / open-source: vLLM, Ollama, Airflow, Milvus, Ray"
+    },
+    {
+      "id": "connector-advisor",
+      "type": "advisor",
+      "layer": "governance",
+      "file": ".claude/agents/connector-advisor.md",
+      "advises": "administrator",
+      "on": "How to connect Snowflake, Databricks, BigQuery, Bedrock, etc."
+    },
+    {
+      "id": "domain-advisor",
+      "type": "advisor",
+      "layer": "governance",
+      "file": ".claude/agents/domain-advisor.md",
+      "advises": "administrator",
+      "on": "Industry regulations, data sources, sensitivities (15 domains)"
+    },
+    {
+      "id": "stack-review",
+      "type": "advisor",
+      "layer": "governance",
+      "file": ".claude/agents/stack-review.md",
+      "advises": "administrator",
+      "on": "Existing-estate review: dependency & readiness matrix, reuse map, connector plan (aidlc.config.json), bigger-picture opportunity portfolio"
+    },
+    {
+      "id": "discovery",
+      "type": "dev-pipeline",
+      "layer": "execution",
+      "file": ".claude/agents/discovery.md",
+      "artifact": "Codebase map + build backlog",
+      "consumes": "AI Spec"
+    },
+    {
+      "id": "coder",
+      "type": "dev-pipeline",
+      "layer": "execution",
+      "file": ".claude/agents/coder.md",
+      "artifact": "Implementation against the AI Spec"
+    },
+    {
+      "id": "code-reviewer",
+      "type": "dev-pipeline",
+      "layer": "execution",
+      "file": ".claude/agents/code-reviewer.md",
+      "artifact": "Spec + guardrail + eval-gate conformance review"
+    }
   ],
   "connectors": "connectors/catalog.json",
   "domains": "domains/index.json",
-  "mcp": "connectors/mcp.example.json"
+  "mcp": "connectors/mcp.example.json",
+  "config": "aidlc.config.example.json"
 }

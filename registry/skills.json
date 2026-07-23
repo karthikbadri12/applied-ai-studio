@@ -3,37 +3,211 @@
   "version": "1.0.0",
   "description": "Per-agent methodology mapping — the combined Spec Kit + BMAD + Superpowers layer. Each agent declares its BMAD persona, its Spec Kit phase, and the composable skills (.claude/skills/) it must load before acting. The orchestrator injects these on delegation.",
   "frameworks": {
-    "speckit": { "methodology": "Constitution → Specify → Clarify → Plan → Tasks → Implement", "principle": "Specs are the primary artifact, not code; rigid phase gates before implementation." },
-    "bmad": { "methodology": "Analyst → PM → Architect → Scrum Master → Dev → QA", "principle": "Specialized agent personas hand artifacts down a pipeline." },
-    "superpowers": { "methodology": "Brainstorm → Spec → Approval → Plan → Test-driven execution", "principle": "Composable skills that activate automatically; Socratic brainstorming before any code." },
-    "openspec": { "methodology": "Propose → Design → Tasks → Implement", "principle": "Fluid, iterative spec alignment between human and AI (used for lightweight single-stage runs)." }
+    "speckit": {
+      "methodology": "Constitution → Specify → Clarify → Plan → Tasks → Implement",
+      "principle": "Specs are the primary artifact, not code; rigid phase gates before implementation."
+    },
+    "bmad": {
+      "methodology": "Analyst → PM → Architect → Scrum Master → Dev → QA",
+      "principle": "Specialized agent personas hand artifacts down a pipeline."
+    },
+    "superpowers": {
+      "methodology": "Brainstorm → Spec → Approval → Plan → Test-driven execution",
+      "principle": "Composable skills that activate automatically; Socratic brainstorming before any code."
+    },
+    "openspec": {
+      "methodology": "Propose → Design → Tasks → Implement",
+      "principle": "Fluid, iterative spec alignment between human and AI (used for lightweight single-stage runs)."
+    }
   },
   "agents": {
-    "orchestrator":      { "bmadPersona": "BMAD Orchestrator / Master", "speckitPhase": "Constitution", "skills": ["evaluating-options", "immutable-audit-trail"] },
-
-    "intake":            { "bmadPersona": "Analyst / PM",              "speckitPhase": "Specify",      "skills": ["socratic-brainstorm", "writing-a-spec"] },
-    "process-map":       { "bmadPersona": "Analyst",                   "speckitPhase": "Clarify",      "skills": ["breaking-down-work", "clarify-then-commit"] },
-    "assess":            { "bmadPersona": "Architect / Analyst",       "speckitPhase": "Clarify",      "skills": ["clarify-then-commit", "evaluating-options"] },
-    "value-prop":        { "bmadPersona": "PM / Finance",              "speckitPhase": "Clarify",      "skills": ["business-case-math"] },
-    "architecture":      { "bmadPersona": "Architect",                 "speckitPhase": "Plan",         "skills": ["planning-before-coding", "evaluating-options"] },
-    "dev-spec":          { "bmadPersona": "PM / Spec Writer",          "speckitPhase": "Specify + Tasks", "skills": ["writing-a-spec", "breaking-down-work"] },
-    "data-science":      { "bmadPersona": "Developer (DS)",            "speckitPhase": "Implement",    "skills": ["test-driven-implementation"] },
-    "eval":              { "bmadPersona": "QA",                        "speckitPhase": "Tasks",        "skills": ["test-first-verification"] },
-    "poc-gate":          { "bmadPersona": "Product Owner (gate)",      "speckitPhase": "Phase gate",   "skills": ["test-first-verification", "reviewing-a-diff"] },
-    "production":        { "bmadPersona": "Release / DevOps",          "speckitPhase": "Implement",    "skills": ["safe-rollout", "immutable-audit-trail"] },
-    "observability":     { "bmadPersona": "SRE",                       "speckitPhase": "Implement",    "skills": ["observability-first"] },
-    "brief":             { "bmadPersona": "PM + Compliance/Risk",      "speckitPhase": "Constitution (close)", "skills": ["immutable-audit-trail", "writing-a-spec"] },
-
-    "model-selector":    { "bmadPersona": "Architect (models)",        "speckitPhase": "Plan (advisory)", "skills": ["evaluating-options", "business-case-math"] },
-    "cloud-gcp":         { "bmadPersona": "Cloud Architect",           "speckitPhase": "Plan (advisory)", "skills": ["evaluating-options", "planning-before-coding"] },
-    "cloud-aws":         { "bmadPersona": "Cloud Architect",           "speckitPhase": "Plan (advisory)", "skills": ["evaluating-options", "planning-before-coding"] },
-    "cloud-azure":       { "bmadPersona": "Cloud Architect",           "speckitPhase": "Plan (advisory)", "skills": ["evaluating-options", "planning-before-coding"] },
-    "cloud-onprem":      { "bmadPersona": "Platform Architect",        "speckitPhase": "Plan (advisory)", "skills": ["evaluating-options", "planning-before-coding"] },
-    "connector-advisor": { "bmadPersona": "DevOps / Integration",      "speckitPhase": "Plan (advisory)", "skills": ["wiring-integrations"] },
-    "domain-advisor":    { "bmadPersona": "Analyst / Compliance",      "speckitPhase": "Constitution (domain)", "skills": ["clarify-then-commit", "immutable-audit-trail"] },
-
-    "discovery":         { "bmadPersona": "Scrum Master / Architect",  "speckitPhase": "Tasks",        "skills": ["planning-before-coding", "breaking-down-work"] },
-    "coder":             { "bmadPersona": "Developer",                 "speckitPhase": "Implement",    "skills": ["test-driven-implementation", "wiring-integrations"] },
-    "code-reviewer":     { "bmadPersona": "Senior Dev / QA",           "speckitPhase": "Implement (gate)", "skills": ["reviewing-a-diff", "test-first-verification"] }
+    "orchestrator": {
+      "bmadPersona": "BMAD Orchestrator / Master",
+      "speckitPhase": "Constitution",
+      "skills": [
+        "evaluating-options",
+        "immutable-audit-trail"
+      ]
+    },
+    "intake": {
+      "bmadPersona": "Analyst / PM",
+      "speckitPhase": "Specify",
+      "skills": [
+        "socratic-brainstorm",
+        "writing-a-spec"
+      ]
+    },
+    "process-map": {
+      "bmadPersona": "Analyst",
+      "speckitPhase": "Clarify",
+      "skills": [
+        "breaking-down-work",
+        "clarify-then-commit"
+      ]
+    },
+    "assess": {
+      "bmadPersona": "Architect / Analyst",
+      "speckitPhase": "Clarify",
+      "skills": [
+        "clarify-then-commit",
+        "evaluating-options"
+      ]
+    },
+    "value-prop": {
+      "bmadPersona": "PM / Finance",
+      "speckitPhase": "Clarify",
+      "skills": [
+        "business-case-math"
+      ]
+    },
+    "architecture": {
+      "bmadPersona": "Architect",
+      "speckitPhase": "Plan",
+      "skills": [
+        "planning-before-coding",
+        "evaluating-options"
+      ]
+    },
+    "dev-spec": {
+      "bmadPersona": "PM / Spec Writer",
+      "speckitPhase": "Specify + Tasks",
+      "skills": [
+        "writing-a-spec",
+        "breaking-down-work"
+      ]
+    },
+    "data-science": {
+      "bmadPersona": "Developer (DS)",
+      "speckitPhase": "Implement",
+      "skills": [
+        "test-driven-implementation"
+      ]
+    },
+    "eval": {
+      "bmadPersona": "QA",
+      "speckitPhase": "Tasks",
+      "skills": [
+        "test-first-verification"
+      ]
+    },
+    "poc-gate": {
+      "bmadPersona": "Product Owner (gate)",
+      "speckitPhase": "Phase gate",
+      "skills": [
+        "test-first-verification",
+        "reviewing-a-diff"
+      ]
+    },
+    "production": {
+      "bmadPersona": "Release / DevOps",
+      "speckitPhase": "Implement",
+      "skills": [
+        "safe-rollout",
+        "immutable-audit-trail"
+      ]
+    },
+    "observability": {
+      "bmadPersona": "SRE",
+      "speckitPhase": "Implement",
+      "skills": [
+        "observability-first"
+      ]
+    },
+    "brief": {
+      "bmadPersona": "PM + Compliance/Risk",
+      "speckitPhase": "Constitution (close)",
+      "skills": [
+        "immutable-audit-trail",
+        "writing-a-spec"
+      ]
+    },
+    "model-selector": {
+      "bmadPersona": "Architect (models)",
+      "speckitPhase": "Plan (advisory)",
+      "skills": [
+        "evaluating-options",
+        "business-case-math"
+      ]
+    },
+    "cloud-gcp": {
+      "bmadPersona": "Cloud Architect",
+      "speckitPhase": "Plan (advisory)",
+      "skills": [
+        "evaluating-options",
+        "planning-before-coding"
+      ]
+    },
+    "cloud-aws": {
+      "bmadPersona": "Cloud Architect",
+      "speckitPhase": "Plan (advisory)",
+      "skills": [
+        "evaluating-options",
+        "planning-before-coding"
+      ]
+    },
+    "cloud-azure": {
+      "bmadPersona": "Cloud Architect",
+      "speckitPhase": "Plan (advisory)",
+      "skills": [
+        "evaluating-options",
+        "planning-before-coding"
+      ]
+    },
+    "cloud-onprem": {
+      "bmadPersona": "Platform Architect",
+      "speckitPhase": "Plan (advisory)",
+      "skills": [
+        "evaluating-options",
+        "planning-before-coding"
+      ]
+    },
+    "connector-advisor": {
+      "bmadPersona": "DevOps / Integration",
+      "speckitPhase": "Plan (advisory)",
+      "skills": [
+        "wiring-integrations"
+      ]
+    },
+    "domain-advisor": {
+      "bmadPersona": "Analyst / Compliance",
+      "speckitPhase": "Constitution (domain)",
+      "skills": [
+        "clarify-then-commit",
+        "immutable-audit-trail"
+      ]
+    },
+    "discovery": {
+      "bmadPersona": "Scrum Master / Architect",
+      "speckitPhase": "Tasks",
+      "skills": [
+        "planning-before-coding",
+        "breaking-down-work"
+      ]
+    },
+    "coder": {
+      "bmadPersona": "Developer",
+      "speckitPhase": "Implement",
+      "skills": [
+        "test-driven-implementation",
+        "wiring-integrations"
+      ]
+    },
+    "code-reviewer": {
+      "bmadPersona": "Senior Dev / QA",
+      "speckitPhase": "Implement (gate)",
+      "skills": [
+        "reviewing-a-diff",
+        "test-first-verification"
+      ]
+    },
+    "stack-review": {
+      "bmadPersona": "Analyst / Architect (estate)",
+      "speckitPhase": "Clarify (advisory)",
+      "skills": [
+        "clarify-then-commit",
+        "evaluating-options",
+        "planning-before-coding"
+      ]
+    }
   }
 }

@@ -1,43 +1,110 @@
 {
   "version": "1.0.0",
   "description": "The four phase groups of the AIDLC. Machine-readable companion to HARNESS.md §6 and docs/diagrams.md. The orchestrator is cross-cutting (owns the harness, belongs to no phase).",
-  "crossCutting": ["orchestrator"],
+  "crossCutting": [
+    "orchestrator"
+  ],
   "phases": [
     {
       "id": "P1",
       "name": "Intent & Discovery",
       "question": "What is the real problem, and is it worth solving?",
-      "agents": ["intake", "process-map"],
-      "consults": ["domain-advisor"],
-      "gates": ["Sponsor signs PRD"],
-      "artifacts": ["01-prd.md", "02-process-map.md"]
+      "agents": [
+        "intake",
+        "process-map"
+      ],
+      "consults": [
+        "domain-advisor",
+        "stack-review"
+      ],
+      "gates": [
+        "Sponsor signs PRD"
+      ],
+      "artifacts": [
+        "01-prd.md",
+        "02-process-map.md"
+      ]
     },
     {
       "id": "P2",
       "name": "Assess & Architecture",
       "question": "What should we build, on what, and does the math work?",
-      "agents": ["assess", "value-prop", "architecture", "dev-spec"],
-      "consults": ["model-selector", "cloud-gcp", "cloud-aws", "cloud-azure", "cloud-onprem", "connector-advisor", "domain-advisor"],
-      "gates": ["Finance approves the business case"],
-      "artifacts": ["03-assessment.md", "04-business-case.md", "05-architecture.md", "06-ai-spec.md"]
+      "agents": [
+        "assess",
+        "value-prop",
+        "architecture",
+        "dev-spec"
+      ],
+      "consults": [
+        "model-selector",
+        "cloud-gcp",
+        "cloud-aws",
+        "cloud-azure",
+        "cloud-onprem",
+        "connector-advisor",
+        "domain-advisor",
+        "stack-review"
+      ],
+      "gates": [
+        "Finance approves the business case"
+      ],
+      "artifacts": [
+        "03-assessment.md",
+        "04-business-case.md",
+        "05-architecture.md",
+        "06-ai-spec.md"
+      ]
     },
     {
       "id": "P3",
       "name": "Build, Test & Execute",
       "question": "Does it work — provably, against the bars?",
-      "agents": ["data-science", "discovery", "coder", "eval", "poc-gate"],
-      "consults": ["connector-advisor", "model-selector"],
-      "gates": ["Sponsor GO / CONDITIONAL / NO-GO"],
-      "artifacts": ["07-data-science.md", "08-evals.md", "09-poc-gate.md", "dev/backlog.md", "dev/tasks.json", "the working build/ repo"]
+      "agents": [
+        "data-science",
+        "discovery",
+        "coder",
+        "eval",
+        "poc-gate"
+      ],
+      "consults": [
+        "connector-advisor",
+        "model-selector"
+      ],
+      "gates": [
+        "Sponsor GO / CONDITIONAL / NO-GO"
+      ],
+      "artifacts": [
+        "07-data-science.md",
+        "08-evals.md",
+        "09-poc-gate.md",
+        "dev/backlog.md",
+        "dev/tasks.json",
+        "the working build/ repo"
+      ]
     },
     {
       "id": "P4",
       "name": "Review & Observability",
       "question": "Is it safe to ship, and will we know when it degrades?",
-      "agents": ["code-reviewer", "production", "observability", "brief"],
-      "consults": ["domain-advisor"],
-      "gates": ["Security & Compliance sign-off", "Owner approves the brief"],
-      "artifacts": ["10-production.md", "11-observability.md", "12-delivery-brief.md", "audit.jsonl + metrics.json reconciliation"]
+      "agents": [
+        "code-reviewer",
+        "production",
+        "observability",
+        "brief"
+      ],
+      "consults": [
+        "domain-advisor"
+      ],
+      "gates": [
+        "Security & Compliance sign-off",
+        "Owner approves the brief"
+      ],
+      "artifacts": [
+        "10-production.md",
+        "11-observability.md",
+        "12-delivery-brief.md",
+        "audit.jsonl + metrics.json reconciliation"
+      ]
     }
   ]
 }

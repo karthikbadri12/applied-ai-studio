@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "aidlc-studio"
-version = "0.1.0"
-description = "Applied AI Studio (AIDLC) — install a 23-agent Applied-AI delivery lifecycle pack into any project, for any AI IDE (Claude Code, Cursor, VS Code Copilot, Antigravity, Windsurf)."
+version = "0.2.0"
+description = "Applied AI Enterprise (AIDLC) — install a 24-agent Applied-AI delivery lifecycle pack into any project, for any AI IDE (Claude Code, Cursor, VS Code Copilot, Antigravity, Windsurf)."
 readme = "README.md"
 license = { text = "MIT" }
 authors = [{ name = "Karthik Venkataramana" }]
@@ -29,6 +29,8 @@ packages = ["src/aidlc_studio"]
 "ARCHITECTURE.md" = "aidlc_studio/pack/ARCHITECTURE.md"
 "SKILLS.md" = "aidlc_studio/pack/SKILLS.md"
 "QUALITY_BAR.md" = "aidlc_studio/pack/QUALITY_BAR.md"
+"HARNESS.md" = "aidlc_studio/pack/HARNESS.md"
+"aidlc.config.example.json" = "aidlc_studio/pack/aidlc.config.example.json"
 "exemplar" = "aidlc_studio/pack/exemplar"
 "registry" = "aidlc_studio/pack/registry"
 "artifacts" = "aidlc_studio/pack/artifacts"

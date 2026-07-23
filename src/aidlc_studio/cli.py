@@ -1,4 +1,4 @@
-"""aidlc — install the Applied AI Studio agent pack into any project, for any IDE.
+"""aidlc — install the Applied AI Enterprise agent pack into any project, for any IDE.
 
 Usage:
   uvx aidlc init [PATH] --ide all          # scaffold everything
@@ -28,6 +28,8 @@ CORE = [
     "ARCHITECTURE.md",
     "SKILLS.md",
     "QUALITY_BAR.md",
+    "HARNESS.md",
+    "aidlc.config.example.json",
     "exemplar",
     "registry",
     "artifacts",
@@ -171,7 +173,7 @@ def cmd_global(pack: Path, force: bool, roster: str = "solo") -> None:
         if src.exists():
             total += copy_item(src, support / item, force)
 
-    print(f"✔ Applied AI Studio installed GLOBALLY (files written: {total})")
+    print(f"✔ Applied AI Enterprise installed GLOBALLY (files written: {total})")
     if roster == "solo":
         print(f"  • picker  → {agents_out}  (orchestrator ONLY — clean agent picker)")
         print(f"  • roster  → {roster_out}  (22 worker agents, delegated to by the orchestrator)")
@@ -207,7 +209,7 @@ def cmd_init(args: argparse.Namespace) -> None:
     if "copilot" in ides:
         total += generate_chatmodes(pack, target, args.force)
 
-    print(f"✔ Applied AI Studio installed into {target}")
+    print(f"✔ Applied AI Enterprise installed into {target}")
     print(f"  IDE flavor(s): {', '.join(ides)}  ·  files written: {total}"
           + ("" if args.force else "  (existing files skipped; use --force to overwrite)"))
     print("\nNext steps:")

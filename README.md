@@ -1,4 +1,4 @@
-# Applied AI Studio
+# Applied AI Enterprise
 
 **A domain-agnostic Applied-AI agent system you install into your IDE.** Drop in an
 executive problem statement — *"our claims team is drowning in 40k calls a month"* —

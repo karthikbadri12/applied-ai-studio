@@ -1,4 +1,4 @@
-# AGENTS.md — Applied AI Studio
+# AGENTS.md — Applied AI Enterprise
 
 This is the cross-tool entry point. **Claude Code** reads the native agent files in
 `.claude/agents/`; **Cursor, VS Code agents, Antigravity, and Codex** read *this*

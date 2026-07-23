@@ -1,6 +1,6 @@
 ---
 name: aidlc
-description: Start AIDLC — the one-command entry point. Takes a problem statement and runs the FULL Applied AI Studio pipeline in autopilot via the orchestrator, through planning AND build, pausing only for HITL gate decisions, the cloud/stack choice, and connector credentials. Use whenever the user says "start AIDLC", "/aidlc", or drops a problem statement they want taken end-to-end.
+description: Start AIDLC — the one-command entry point. Takes a problem statement and runs the FULL Applied AI Enterprise pipeline in autopilot via the orchestrator, through planning AND build, pausing only for HITL gate decisions, the cloud/stack choice, and connector credentials. Use whenever the user says "start AIDLC", "/aidlc", or drops a problem statement they want taken end-to-end.
 ---
 
 # /aidlc — Start AIDLC (autopilot)
@@ -12,6 +12,16 @@ Do NOT list agents or ask the user to pick one. YOU run everything. The user mak
 decisions, not workflow choices.
 
 ## Kickoff — ONE batched question set, then silence until a gate
+
+**First, look for `aidlc.config.json` in the project root.** If present, treat its
+answers (cloud, stack, connectors, model providers, mode) as given — only ask what
+it doesn't cover, and keep it updated as decisions land (connector `status` flips
+`pending → configured` only when the human confirms the env vars are set). If
+absent, create it from the pack's `aidlc.config.example.json` once the kickoff
+answers arrive. If an existing technology estate is mentioned or visible in the
+project, run `stack-review` early — its dependency & readiness matrix
+(`artifacts/00-stack-review.md`) feeds architecture and dev-spec, and its
+opportunity portfolio is presented to the human alongside the asked-for use case.
 
 If the problem statement wasn't given with the command, ask for it. Then ask ONCE,
 numbered, all together (skip anything already answered):

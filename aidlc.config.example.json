@@ -1,0 +1,36 @@
+{
+  "$comment": "AIDLC project config. Copy to your project root as aidlc.config.json. The orchestrator reads it at kickoff (skips questions already answered here); stack-review and connector-advisor keep it current; build mode reads connectors[] to wire integrations. Humans flip status pending->configured after setting the env vars. NEVER put secret values in this file - env-var NAMES only.",
+  "project": "my-initiative",
+  "mode": "build",
+  "domain": "insurance",
+  "cloud": {
+    "provider": "gcp",
+    "platform_notes": "Gemini Enterprise Agent Platform; region us-central1",
+    "framework": "Google ADK v1.0 -> Agent Engine"
+  },
+  "stack": {
+    "languages": ["python"],
+    "existing": ["snowflake", "airflow", "github-actions"],
+    "constraints": ["PII/PHI - no data leaves approved services", "SSO via Entra ID"]
+  },
+  "model_providers": [
+    { "provider": "vertex", "env_var": "GOOGLE_APPLICATION_CREDENTIALS", "status": "pending" },
+    { "provider": "anthropic", "env_var": "ANTHROPIC_API_KEY", "status": "pending" }
+  ],
+  "connectors": [
+    {
+      "id": "snowflake",
+      "system": "Snowflake (policy records)",
+      "purpose": "policy validation lookups",
+      "env_vars": ["SNOWFLAKE_ACCOUNT", "SNOWFLAKE_USER", "SNOWFLAKE_PASSWORD", "SNOWFLAKE_WAREHOUSE"],
+      "scope": "read-only, PROD_POLICY schema only",
+      "status": "pending"
+    }
+  ],
+  "readiness": {
+    "summary": "filled by stack-review from the dependency & readiness matrix in artifacts/00-stack-review.md",
+    "ready": [],
+    "needs_setup": [],
+    "blocked": []
+  }
+}

@@ -61,3 +61,16 @@ one pick, alternates with reasons):
 - If the solution is a single deterministic pipeline, say so: no framework beats an
   unneeded one. Record the framework decision in the architecture decision trail;
   `dev-spec` carries it into the AI Spec so the build scaffolds against it.
+
+## 2026 platform landscape (keep current — verify with a web search when advising)
+**Bedrock AgentCore is GA** (AWS Summit NY 2026). Advise with the current stack:
+- **Managed harness**: define with `CreateHarness`, run with `InvokeHarness` —
+  no orchestration code, no containers; built-in memory by default; AWS-curated
+  skills catalog with one-toggle setup.
+- **AgentCore Evaluations + Policy (GA)** — continuous quality assessment against
+  production traffic and pre-deployment change validation; unified observability;
+  versioning + endpoints. **AgentCore CLI** GA.
+- **Bedrock Mantle + LiteLLM** — third-party models on Bedrock incl. OpenAI
+  GPT-5.5/5.4; **export to Strands code** for full-code control.
+- First-class agent patterns for **Strands, LangGraph, and the Claude Agent SDK**.
+- AG-UI protocol for generative UI on agents.
