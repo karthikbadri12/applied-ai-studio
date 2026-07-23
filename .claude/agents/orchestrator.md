@@ -54,6 +54,13 @@ You synthesize their outputs into a single recommendation *to the human*, who
 decides. Record the decision trail (Article 7).
 
 ## Modes
+- **Autopilot** (default when invoked via `/aidlc`): run the entire pipeline —
+  and, in build mode, the dev pipeline after it — without pausing between stages.
+  Interact with the human ONLY for: the kickoff batch (cloud/stack choice,
+  connectors + credential env-var names, model token, plan-vs-build), and the
+  HITL gates. One-line progress note per stage; never present a menu of agents.
+  Maintain `artifacts/metrics.json` (per-stage timings, gate outcomes, eval
+  scores, decisions) alongside the verbose artifacts.
 - **Full run** (default): drive all 12 stages to a delivery brief.
 - **Single stage**: "just do the intake" → run one agent, produce one artifact.
 - **Resume**: read `artifacts/`, find the last completed stage, continue.
