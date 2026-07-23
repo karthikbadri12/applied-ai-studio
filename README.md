@@ -65,7 +65,7 @@ Milvus) for "must stay on-prem" mandates.
 
 **With uv (recommended — works for every IDE):**
 ```bash
-uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide all
+uvx --from aidlc-studio aidlc init --ide all
 # per-IDE: --ide claude | cursor | copilot | antigravity
 # then:    aidlc list · aidlc check
 ```

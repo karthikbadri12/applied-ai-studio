@@ -37,7 +37,7 @@ Close and reopen your terminal, then check: `uvx --version`.
 
 **Global — agents in every folder you ever open (recommended for individuals):**
 ```bash
-uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --global
+uvx --from aidlc-studio aidlc init --global
 ```
 This installs a **clean picker**: only `orchestrator` appears as a custom agent;
 the other 22 workers live in `~/.claude/aidlc/agents/` and are delegated to
@@ -54,7 +54,7 @@ automatically. The `/aidlc` slash command is installed too.
 **Project-scoped — ship the agents WITH a team repo:**
 ```bash
 cd ~/code/your-project
-uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide claude
+uvx --from aidlc-studio aidlc init --ide claude
 claude
 ```
 Verify with `/agents` (all 23 appear — project installs don't hide the roster).
@@ -64,7 +64,7 @@ Commit the files; every teammate gets them on clone.
 the project's `.mcp.json` (or `claude mcp add`). Secrets go in env vars, never files.
 
 **If it misbehaves:** agents missing from `/agents` → reload the window; still
-missing → `uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc check`
+missing → `uvx --from aidlc-studio aidlc check`
 in the project (or check `~/.claude/agents/` exists for global).
 
 ---
@@ -73,7 +73,7 @@ in the project (or check `~/.claude/agents/` exists for global).
 
 1. **Scaffold** (in Cursor's built-in terminal, at your project root):
    ```bash
-   uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide cursor
+   uvx --from aidlc-studio aidlc init --ide cursor
    ```
    This writes: `AGENTS.md` (the roster + rules), `.cursor/rules/applied-ai-studio.mdc`
    (an always-on rule that tells Cursor to act as the orchestrator and honor the
@@ -109,7 +109,7 @@ Requires: VS Code **1.101+**, GitHub Copilot + Copilot Chat extensions signed in
 
 1. **Scaffold** (VS Code terminal, project root):
    ```bash
-   uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide copilot
+   uvx --from aidlc-studio aidlc init --ide copilot
    ```
    This writes `AGENTS.md` **and generates `.github/chatmodes/` — all 23 agents as
    ready-made custom chat modes** (orchestrator.chatmode.md, intake.chatmode.md, …).
@@ -138,7 +138,7 @@ Requires: VS Code **1.101+**, GitHub Copilot + Copilot Chat extensions signed in
 
 1. **Scaffold** (terminal, project root):
    ```bash
-   uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide antigravity
+   uvx --from aidlc-studio aidlc init --ide antigravity
    ```
 2. **Open the folder as a workspace** in Antigravity. It reads `AGENTS.md` from the
    repo root automatically as workspace guidance.
@@ -161,7 +161,7 @@ Requires: VS Code **1.101+**, GitHub Copilot + Copilot Chat extensions signed in
 
 1. Scaffold with the generic flavor:
    ```bash
-   uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide windsurf
+   uvx --from aidlc-studio aidlc init --ide windsurf
    ```
 2. Open the folder. Any tool honoring the `AGENTS.md` standard loads the roster and
    rules automatically.
@@ -175,7 +175,7 @@ Requires: VS Code **1.101+**, GitHub Copilot + Copilot Chat extensions signed in
 ## One project, every IDE at once
 
 ```bash
-uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide all
+uvx --from aidlc-studio aidlc init --ide all
 ```
 Writes every flavor side by side — your teammate on Cursor, another on Copilot, and
 you on Claude Code all get the same pipeline from the same repo.
@@ -185,8 +185,9 @@ Useful CLI extras:
 aidlc list    # the 23-agent roster with BMAD persona + Spec Kit phase
 aidlc check   # verify an install (core files + at least one IDE flavor, exit code)
 ```
-`init` never overwrites existing files unless you pass `--force`. After the PyPI
-release, all commands shorten to `uvx aidlc-studio aidlc init …`.
+`init` never overwrites existing files unless you pass `--force`. Installing from
+the bleeding-edge repo instead of the PyPI release:
+`uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init …`
 
 ---
 
