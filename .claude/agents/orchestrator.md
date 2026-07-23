@@ -69,7 +69,7 @@ You synthesize their outputs into a single recommendation *to the human*, who
 decides. Record the decision trail (Article 7).
 
 ## Modes
-- **Autopilot** (default when invoked via `/aidlc`): run the entire pipeline —
+- **Autopilot** (default when invoked via `/appliedai`): run the entire pipeline —
   and, in build mode, the dev pipeline after it — without pausing between stages.
   Interact with the human ONLY for: the kickoff batch (cloud/stack choice,
   connectors + credential env-var names, model token, plan-vs-build), and the

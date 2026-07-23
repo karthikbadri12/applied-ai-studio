@@ -48,7 +48,7 @@ match its depth.
 
 ## The build contract (what "pipeline ready" means)
 
-When `/aidlc` runs in build mode, "done" is a **working repository**, not a plan:
+When `/appliedai` runs in build mode, "done" is a **working repository**, not a plan:
 
 ```
 <project>/

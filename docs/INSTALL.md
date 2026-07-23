@@ -41,13 +41,13 @@ uvx --from aidlc-studio aidlc init --global
 ```
 This installs a **clean picker**: only `orchestrator` appears as a custom agent;
 the other 22 workers live in `~/.claude/aidlc/agents/` and are delegated to
-automatically. The `/aidlc` slash command is installed too.
+automatically. The `/appliedai` slash command is installed too.
 
 1. Open **any** folder in VS Code → open Claude Code (or run `claude` in a terminal).
 2. Restart/reload once after installing (the picker caches).
-3. Verify: type `/agents` → you should see `orchestrator`. Type `/aidlc` → the
+3. Verify: type `/agents` → you should see `orchestrator`. Type `/appliedai` → the
    skill should be recognized.
-4. Run: `/aidlc <your problem statement>`.
+4. Run: `/appliedai <your problem statement>`.
 5. Update later: re-run the install command with `--force`.
    Prefer all 23 in the picker? Add `--roster full`.
 
@@ -128,7 +128,7 @@ Requires: VS Code **1.101+**, GitHub Copilot + Copilot Chat extensions signed in
    `⛔ HUMAN GATE` message in chat *is* the gate; reply `approved` in chat.
    Copilot's own confirmation dialogs (run this command? apply this edit?) still
    appear for terminal/file actions — approve those as normal.
-7. **Know the limits:** no `/aidlc` slash command, no true sub-agent spawning —
+7. **Know the limits:** no `/appliedai` slash command, no true sub-agent spawning —
    the selected mode role-plays the pipeline from the same files. Quality tracks
    the model you pick in Copilot's model selector.
 

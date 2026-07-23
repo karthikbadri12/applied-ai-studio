@@ -163,8 +163,13 @@ def cmd_global(pack: Path, force: bool, roster: str = "solo") -> None:
             # user's own agent — identified by the global-install note we appended).
             picker.unlink()
 
-    # Skills — verbatim.
+    # Skills — verbatim. Clean up the legacy /aidlc skill (renamed to /appliedai)
+    # only when this pack no longer ships it.
     total += copy_item(pack / ".claude" / "skills", home / "skills", force)
+    legacy = home / "skills" / "aidlc"
+    if legacy.is_dir() and not (pack / ".claude" / "skills" / "aidlc").exists() \
+            and (pack / ".claude" / "skills" / "appliedai").exists():
+        shutil.rmtree(legacy)
 
     # Support pack — constitution, registries, templates, domains, connectors, pipelines, docs.
     support = home / "aidlc"
@@ -179,9 +184,9 @@ def cmd_global(pack: Path, force: bool, roster: str = "solo") -> None:
         print(f"  • roster  → {roster_out}  (22 worker agents, delegated to by the orchestrator)")
     else:
         print(f"  • agents  → {agents_out}  (all 23 in the picker)")
-    print(f"  • skills  → {home / 'skills'}  (14 skills, incl. /aidlc)")
+    print(f"  • skills  → {home / 'skills'}  (14 skills, incl. /appliedai)")
     print(f"  • support → {support}  (constitution · registries · templates · domains)")
-    print("\nOpen ANY folder → type /aidlc <problem statement>. Artifacts land in ./artifacts/.")
+    print("\nOpen ANY folder → type /appliedai <problem statement>. Artifacts land in ./artifacts/.")
     print("Update: re-run with --force. Full picker instead: --roster full. Uninstall: delete the paths above.")
 
 
