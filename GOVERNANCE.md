@@ -1,8 +1,8 @@
-# GOVERNANCE.md — the AI governance framework
+# GOVERNANCE.md: the AI governance framework
 
 `CONSTITUTION.md` states the rules. `HARNESS.md` enforces them at runtime.
 **This document maps both onto the external frameworks your risk, compliance, and
-audit functions already use** — so an AIDLC initiative arrives at a governance
+audit functions already use**, so an AIDLC initiative arrives at a governance
 review with the evidence already assembled, not scrambling to reconstruct it.
 
 Nothing here is new process. It is a crosswalk: every control below is already
@@ -64,14 +64,14 @@ validation:
 data class the solution touches: which model/service may process it, under which
 control (masking, tokenisation, redaction-at-source, CMEK, VPC boundary), in which
 region, retained how long, and **verified by whom**. Constitution Art. 4 makes an
-uncontrolled regulated-data path an automatic launch blocker — the harness treats
+uncontrolled regulated-data path an automatic launch blocker, the harness treats
 an unapproved data-class → model pairing as a *hard* guardrail violation and blocks.
 
 **Residency & retention.** Named per class in the controls matrix. Cross-border
 transfer requires an explicit entry, not silence.
 
 **Data-subject rights.** Where GDPR/CCPA apply, `10-production.md` must record how
-access, deletion, and objection requests are honoured — including in vector stores
+access, deletion, and objection requests are honoured, including in vector stores
 and cached model outputs, the two places teams routinely forget.
 
 ## 5. Roles and the gate RACI
@@ -86,7 +86,7 @@ and cached model outputs, the two places teams routinely forget.
 
 *A = accountable (owns the decision) · R = responsible (does the work) · C = consulted · I = informed.*
 The **administrator** is the orchestrator plus the human owner; advisors are
-consulted throughout and are accountable for nothing — they recommend only
+consulted throughout and are accountable for nothing; they recommend only
 (Constitution Art. 1.2).
 
 ## 6. The evidence pack
@@ -96,7 +96,7 @@ a directory, not a slide deck:
 
 ```
 artifacts/
-  00–12 *.md        the decision trail — each with metrics, risks, rejected
+  00–12 *.md        the decision trail, each with metrics, risks, rejected
                     alternatives, assumptions, and the approver of record
   metrics.json      machine-readable rollup: stage timings, gate outcomes +
                     approvers, eval scores, model/cloud decisions
@@ -107,7 +107,7 @@ build/evals/        the sets, the bars, the measured results, the CI gate
 ```
 
 Three properties make this defensible: it is **contemporaneous** (written as the
-work happened, not reconstructed), **append-only** (Art. 7 — a BLOCKED event may
+work happened, not reconstructed), **append-only** (Art. 7, a BLOCKED event may
 never be omitted; omission is itself a violation), and **reconciled** (the `brief`
 agent cross-checks `audit.jsonl` against `metrics.json` and reports mismatches as
 findings).
@@ -116,19 +116,19 @@ findings).
 
 Verified at `10-production.md`; scope varies by tier (§1) and domain (`domains/`).
 
-- **Fairness** — for high-risk tiers, disaggregated eval performance across the
+- **Fairness**: for high-risk tiers, disaggregated eval performance across the
   protected groups the domain defines; a single aggregate score is insufficient.
-- **Explainability** — proportional to tier: high-risk decisions need a
+- **Explainability**: proportional to tier: high-risk decisions need a
   human-readable reason, source citations for retrieval, and confidence surfaced
   to the reviewer.
-- **Human oversight** — every consequential decision routes to a named human role;
+- **Human oversight**: every consequential decision routes to a named human role;
   the reviewer must have the information and authority to actually overturn it
   (oversight that can't say no isn't oversight).
-- **Robustness** — adversarial eval set, prompt-injection quarantine (a universal
+- **Robustness**: adversarial eval set, prompt-injection quarantine (a universal
   hard guardrail), graceful degradation and fallback paths.
-- **Transparency** — AI disclosure where required; model, version, and prompt
+- **Transparency**: AI disclosure where required; model, version, and prompt
   version recorded per decision in the audit trail.
-- **Accountability** — a named owner per launch blocker and per open risk.
+- **Accountability**: a named owner per launch blocker and per open risk.
 
 ---
 

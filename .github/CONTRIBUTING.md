@@ -1,7 +1,7 @@
 # Contributing to Applied AI Enterprise
 
 The unusual thing about this repo: **most of the "code" is Markdown.** Agents are
-versioned specifications, not library code — which means a PR that changes agent
+versioned specifications, not library code, which means a PR that changes agent
 behaviour is reviewable by a product manager, a risk officer, or a delivery lead,
 not just an engineer. Please keep it that way.
 
@@ -24,16 +24,16 @@ src/aidlc_studio/    the `aidlc` CLI (stdlib-only Python)
 
 ## Adding an agent
 
-1. Write `.claude/agents/<id>.md` — YAML frontmatter (`name`, `description`, and
+1. Write `.claude/agents/<id>.md`. YAML frontmatter (`name`, `description`, and
    `model` only if it genuinely needs a specific tier), then: role intro, what you
    do, outputs, guardrails, and the **Skills & methodology** footer.
 2. Register it in **all three**:
-   - `registry/agents.json` — id, type, layer, file, artifact/advises
-   - `registry/skills.json` — BMAD persona, Spec Kit phase, required skills
-   - `registry/phases.json` — which phase it acts or is consulted in
+   - `registry/agents.json`: id, type, layer, file, artifact/advises
+   - `registry/skills.json`: BMAD persona, Spec Kit phase, required skills
+   - `registry/phases.json`: which phase it acts or is consulted in
 3. If it produces an artifact, add the template to `artifacts/templates/` and a
    stage-specific floor row to `QUALITY_BAR.md`.
-4. Run `python3 -m src.aidlc_studio.cli list` (or `aidlc list`) — your agent should
+4. Run `python3 -m src.aidlc_studio.cli list` (or `aidlc list`), your agent should
    appear with its persona and phase.
 
 **Agent-writing conventions:** one job per agent. Say what it is *not* responsible
@@ -48,7 +48,7 @@ aspirational ("should be helpful"). Advisors recommend and never act.
 - **Domain** → a pack under `domains/` plus an entry in `domains/index.json`:
   regulations, data classes, typical sources, mandatory HITL points.
 - **Connector** → `connectors/catalog.json` + a config block in
-  `connectors/mcp.example.json`. **Env-var names only — never a credential value,
+  `connectors/mcp.example.json`. **Env-var names only; never a credential value,
   not even a fake-looking one.**
 
 ## Before you open a PR
@@ -63,7 +63,7 @@ python3 -m unittest discover -s tests     # 34 tests
 python3 evals/run_evals.py                # 7 bars, all PASS, exit 0
 ```
 
-Both must pass. The exemplar is the repo's proof — a red exemplar means the pitch
+Both must pass. The exemplar is the repo's proof, a red exemplar means the pitch
 doesn't work.
 
 ## Standards
@@ -73,10 +73,10 @@ doesn't work.
 - **Cloud/platform facts must be current and verified.** Product names in this
   space change often (Vertex AI → Gemini Enterprise Agent Platform, Azure AI
   Foundry → Microsoft Foundry). Check before you write, and cite where practical.
-- **Conventional commits** — `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`.
-- **Versioning** — bump `pyproject.toml` when the CLI or the packaged pack changes;
+- **Conventional commits**: `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`.
+- **Versioning**: bump `pyproject.toml` when the CLI or the packaged pack changes;
   PyPI never accepts the same version twice.
-- **No secrets, ever** — not in code, artifacts, examples, tests, or fixtures.
+- **No secrets, ever**: not in code, artifacts, examples, tests, or fixtures.
 
 ## What gets rejected
 

@@ -4,7 +4,7 @@
 
 ### From an executive problem statement → to eval-gated working code
 
-**AIDLC — the Applied AI Delivery Lifecycle.** A 25-agent, constitution-governed
+**AIDLC, the Applied AI Delivery Lifecycle.** A 25-agent, constitution-governed
 system you install into your IDE. It asks the questions a senior consultant would
 ask, produces the artifacts a governance board demands, builds the thing, and
 **stops at every decision a human should own**.
@@ -19,15 +19,15 @@ ask, produces the artifacts a governance board demands, builds the thing, and
 
 ```bash
 uvx --from aidlc-studio aidlc init --global      # install once, every project
-/appliedai Our claims team is drowning — 40k packets a month.
+/appliedai Our claims team is drowning. 40k packets a month.
 ```
 
 📄 **[Full documentation site](docs/index.html)** · 🧭 **[Architecture](ARCHITECTURE.md)** · 🚀 **[Install guide](docs/INSTALL.md)** · 🎬 **[Demo script](demo/RECORDING_SCRIPT.md)**
 
 </div>
 
-> Not a chatbot. An **org chart of specialist agents** governed by a shared
-> constitution and a single orchestrator — the way a Forward Deployed team
+> It isn't a chatbot. It's an **org chart of specialist agents** governed by a shared
+> constitution and a single orchestrator, the way a Forward Deployed team
 > actually delivers.
 
 ---
@@ -40,12 +40,12 @@ uvx --from aidlc-studio aidlc init --global      # install once, every project
 
 ## Why this exists
 
-Most AI initiatives die the same three deaths. Not from bad models — from missing
-discipline. And the discipline is always the same, which means it can be encoded.
+Most AI initiatives die the same three deaths. The cause is rarely the model. It's
+missing discipline, and that discipline is the same every time, so it can be encoded.
 
 | 🎯 Nobody defined the problem | 📊 Nobody could prove it worked | 🚨 Nobody thought about production |
 |---|---|---|
-| The brief describes a symptom in vendor vocabulary. You automate the *response* to a problem instead of touching the problem. | "The demo looked great" is not evidence. Without golden sets and bars set *before* measuring, quality is a feeling. | Guardrails, PII controls and rollback get discovered in the security review — six weeks after the launch date was announced. |
+| The brief describes a symptom in vendor vocabulary. You automate the *response* to a problem instead of touching the problem. | "The demo looked great" is not evidence. Without golden sets and bars set *before* measuring, quality is a feeling. | Guardrails, PII controls and rollback get discovered in the security review, six weeks after the launch date was announced. |
 
 - **Executives** get a decision-grade brief, not a science project.
 - **PMs / BAs** get clarifying-question rigor and an artifact at every stage.
@@ -128,7 +128,7 @@ flowchart TB
     style L3 fill:#5b8cff22,stroke:#5b8cff
 ```
 
-### The harness — wraps every single agent invocation
+### The harness: wraps every single agent invocation
 
 ```mermaid
 flowchart LR
@@ -143,7 +143,7 @@ flowchart LR
     style STOP fill:#ff6b6b,color:#fff
 ```
 
-### Build mode — ≤2-minute micro-tasks, checkpointed
+### Build mode: ≤2-minute micro-tasks, checkpointed
 
 ```mermaid
 flowchart LR
@@ -161,10 +161,10 @@ flowchart LR
 
 | Group | Agents | Role |
 |---|---|---|
-| 🧠 **Orchestrator** | `orchestrator` | Owns the harness. Routes, sequences, enforces gates. Directs — never does the specialist work. |
+| 🧠 **Orchestrator** | `orchestrator` | Owns the harness. Routes, sequences, enforces gates. Directs, never does the specialist work itself. |
 | ⚙️ **Pipeline (12)** | `intake` → `process-map` → `assess` → `value-prop` → `architecture` → `dev-spec` → `data-science` → `eval` → `poc-gate` → `production` → `observability` → `brief` | The ADLC spine. One stage, one artifact, one input contract each. |
 | 🎓 **Advisors (8)** | `model-selector` · `cloud-gcp` · `cloud-aws` · `cloud-azure` · `cloud-onprem` · `connector-advisor` · `domain-advisor` · `stack-review` | Recommend to the administrator. Never act, never provision. Consulted in parallel. |
-| 💻 **Dev pipeline (3)** | `discovery` → `coder` → `code-reviewer` | Decoupled — consumes the approved AI Spec, runs only when funded. |
+| 💻 **Dev pipeline (3)** | `discovery` → `coder` → `code-reviewer` | Decoupled: consumes the approved AI Spec, runs only when funded. |
 | 🚨 **Ops (1)** | `incident-commander` | Post-launch. Severity classification, runbooks, containment recommendations, blameless PIR. |
 
 Each stage produces a real artifact ([templates](artifacts/templates/)) that must
@@ -177,8 +177,8 @@ alternatives, risk registers, eval linkage.
 ## ☁️ Four clouds, one question
 
 `cloud-gcp`, `cloud-aws`, `cloud-azure` and `cloud-onprem` answer the **same**
-architecture question, so the comparison is like-for-like — then one path wins and
-the other three's losing reasons go on the record.
+architecture question, so the comparison is like-for-like. One path wins, and the
+other three's losing reasons go on the record.
 
 ```mermaid
 flowchart LR
@@ -195,9 +195,9 @@ flowchart LR
 | **Azure** | **Microsoft Foundry** *(formerly Azure AI Foundry)* | **Microsoft Agent Framework** | Foundry Agent Service |
 | **On-prem** | Self-hosted open stack | **LangGraph** over vLLM/Ollama | Kubernetes / OpenShift |
 
-> 📚 The GCP advisor is backed by a **[full-stack service map](knowledge/gcp/SERVICE_MAP.md)** —
-> 12 architecture layers from ingestion to FinOps, so the architecture artifact names a
-> real service at *every* layer (Document AI, BigQuery-native vector, Agent Engine,
+> 📚 The GCP advisor is backed by a **[full-stack service map](knowledge/gcp/SERVICE_MAP.md)**
+> covering 12 architecture layers from ingestion to FinOps, so the architecture artifact
+> names a real service at *every* layer (Document AI, BigQuery-native vector, Agent Engine,
 > Apigee-fronted MCP, Model Armor + Sensitive Data Protection + VPC-SC), not just "use Gemini."
 
 ---
@@ -218,8 +218,8 @@ flowchart LR
 
 ## ✅ Proof, in the box
 
-A regional P&C insurer's claims-intake initiative — 2,400 packets/week, $1.91M/yr
-baseline labour — carried end to end in [`exemplar/claims-idp/`](exemplar/claims-idp/):
+A regional P&C insurer's claims-intake initiative (2,400 packets/week, $1.91M/yr
+baseline labour), carried end to end in [`exemplar/claims-idp/`](exemplar/claims-idp/):
 **12 decision-grade artifacts** *and* a codebase that runs.
 
 ```bash
@@ -239,7 +239,7 @@ make demo && make test && make eval     # zero credentials required
 
 *34 unit tests · 48 eval cases (32 golden · 10 adversarial · 6 regression) · CI eval
 gate · Terraform · hash-chained audit trail.* The scores are **deliberately not
-100%** — engineered fixture defects keep them honest. Mock mode still exercises the
+100%**. Engineered fixture defects keep them honest. Mock mode still exercises the
 real paths: low-confidence fallback to the stronger model, prompt-injection
 quarantine, intact audit chain.
 
@@ -251,10 +251,10 @@ quarantine, intact audit chain.
 troubleshoot steps: **[docs/INSTALL.md](docs/INSTALL.md)**.
 
 ```bash
-# Global — the agents in every folder you open (recommended for individuals)
+# Global: the agents in every folder you open (recommended for individuals)
 uvx --from aidlc-studio aidlc init --global
 
-# Project — ship the agents WITH a team repo, every IDE flavor at once
+# Project: ship the agents WITH a team repo, every IDE flavor at once
 uvx --from aidlc-studio aidlc init --ide all
 
 aidlc list     # the roster with BMAD persona + Spec Kit phase
@@ -269,7 +269,7 @@ aidlc check    # verify an install
 | **Antigravity · Windsurf** | `--ide antigravity` | The `AGENTS.md` standard, loaded on open. |
 
 > In Claude Code the gates can appear as interactive prompts; in the others the
-> `⛔ HUMAN GATE` **chat message is** the gate — reply `approved` to continue.
+> `⛔ HUMAN GATE` **chat message is** the gate. Reply `approved` to continue.
 
 **Connectors:** copy what you need from
 [connectors/mcp.example.json](connectors/mcp.example.json) into your IDE's MCP
@@ -279,20 +279,20 @@ config. Credentials are **env-var names only**, tracked in `aidlc.config.json`.
 
 ## 🧩 What AIDLC itself is built with
 
-Deliberately, **no agent framework** — it's a *framework-agnostic* agent system.
+Deliberately, **no agent framework**: it's a *framework-agnostic* agent system.
 
-- **Agents-as-instructions** — every agent is a versioned Markdown spec in
+- **Agents-as-instructions**: every agent is a versioned Markdown spec in
   `.claude/agents/`. The execution engine is whatever agentic runtime your IDE
   already has. Nothing to install, version or secure, and the whole org chart is
   reviewable in a pull request by someone who doesn't write code.
-- **Methodology layer** — Spec Kit (phase gates) + BMAD (persona pipeline) +
+- **Methodology layer**: Spec Kit (phase gates) + BMAD (persona pipeline) +
   Superpowers (composable skills) → 14 skills, see [SKILLS.md](SKILLS.md).
-- **Governance layer** — constitution + runtime harness + append-only audit ledger.
-- **Connectors** — MCP, the one standard every major IDE speaks.
-- **Packaging** — a stdlib-only Python CLI via uv, the same pattern as GitHub's Spec Kit.
+- **Governance layer**: constitution + runtime harness + append-only audit ledger.
+- **Connectors**: MCP, the one standard every major IDE speaks.
+- **Packaging**: a stdlib-only Python CLI via uv, the same pattern as GitHub's Spec Kit.
 
-The framework decision belongs to the **solution**, not the tooling — which is why
-the winning cloud advisor recommends ADK, Strands, Agent Framework or LangGraph
+The framework decision belongs to the **solution**, not the tooling. That's why the
+winning cloud advisor recommends ADK, Strands, Agent Framework or LangGraph
 from [registry/frameworks.json](registry/frameworks.json), and says *"no framework"*
 when a plain pipeline is simpler.
 
@@ -326,11 +326,11 @@ docs/                    index.html · architecture.html · INSTALL.md · diagra
 
 ## 🎯 Design principles
 
-1. **Ask before you build** — no PRD from a one-liner; the intake loop is mandatory.
-2. **Evidence over assertion** — every number labelled; nothing fabricated.
-3. **Human-final** — reserved decisions stop the pipeline until a person approves.
-4. **One recommended path** — with the alternatives and why they lost.
-5. **Artifacts are the interface** — the whole initiative is legible from the files.
+1. **Ask before you build**: no PRD from a one-liner; the intake loop is mandatory.
+2. **Evidence over assertion**: every number labelled; nothing fabricated.
+3. **Human-final**: reserved decisions stop the pipeline until a person approves.
+4. **One recommended path**: with the alternatives and why they lost.
+5. **Artifacts are the interface**: the whole initiative is legible from the files.
 
 <div align="center">
 

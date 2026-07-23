@@ -1,15 +1,15 @@
-# QUALITY_BAR.md — the artifact quality floor
+# QUALITY_BAR.md: the artifact quality floor
 
 An artifact that merely fills the template's headings is **incomplete**. The bar is:
 *a Google Cloud delivery lead could walk into a C-suite review with this file alone
 and survive hostile questions.* Every agent is bound to this bar by Constitution
-Art. 6.4. The reference implementation is `exemplar/claims-idp/` — when in doubt,
+Art. 6.4. The reference implementation is `exemplar/claims-idp/`, when in doubt,
 match its depth.
 
 ## Universal requirements (every artifact, every stage)
 
 1. **Quantify everything.** Every claim carries a number, and every number carries a
-   label (`[stated]` / `[estimated]` / `[measured]` / `[assumption — confirm]`) and
+   label (`[stated]` / `[estimated]` / `[measured]` / `[assumption, confirm]`) and
    its arithmetic. "High labor cost" is banned; "$1.9M/yr = 2,400 packets/wk × 27min
    avg × $34/hr loaded [estimated]" is the floor.
 2. **Metrics block.** Baseline → target → measured (when available), with the
@@ -53,12 +53,12 @@ When `/appliedai` runs in build mode, "done" is a **working repository**, not a 
 ```
 <project>/
   src/<pkg>/            the pipeline stages as code (typed, docstringed)
-  src/<pkg>/llm.py      provider-agnostic client — env-selected (Vertex/Bedrock/Azure/
+  src/<pkg>/llm.py      provider-agnostic client, env-selected (Vertex/Bedrock/Azure/
                         Anthropic/OpenAI) + LLM_MODE=mock so everything runs keyless
   evals/golden.jsonl    real cases, ≥25 rows to start
   evals/adversarial.jsonl  designed-to-break cases
   evals/run_evals.py    measures every metric bar from the AI Spec; nonzero exit on miss
-  evals/bars.yaml       the thresholds, machine-readable — single source of truth
+  evals/bars.yaml       the thresholds, machine-readable; single source of truth
   tests/                unit tests, runnable offline
   .github/workflows/eval-gate.yml   CI: tests + evals on every PR; red = no merge
   infra/                IaC skeleton for the chosen cloud (Terraform), plan-safe
@@ -67,6 +67,6 @@ When `/appliedai` runs in build mode, "done" is a **working repository**, not a 
   README.md             quickstart in ≤ 10 lines, incl. mock mode
 ```
 
-The eval harness MUST run green in mock mode out of the box — a demo that needs
-credentials before it proves anything is not a demo. The code-reviewer verdict
+The eval harness MUST run green in mock mode out of the box, a demo that needs
+credentials before it proves anything has proved nothing. The code-reviewer verdict
 gates completion, per the dev pipeline.

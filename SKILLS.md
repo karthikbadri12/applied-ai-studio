@@ -1,4 +1,4 @@
-# SKILLS.md — The Combined Methodology Layer
+# SKILLS.md: The Combined Methodology Layer
 
 Every agent in this pack carries **required skills** drawn from three agentic-SDLC
 frameworks, combined into one discipline. The mapping is machine-readable in
@@ -14,7 +14,7 @@ each agent's file ends with its own **Skills & methodology** section.
 | **Superpowers** | Brainstorm → Spec → Approval → Plan → Test-driven execution | The **composable skills**. Socratic brainstorming before any artifact, written plans before any build, test-first everything — packaged as skills that agents load before acting. |
 
 *(OpenSpec's fluid propose→design→tasks loop is the sanctioned lightweight mode for
-single-stage runs — see `registry/skills.json → frameworks.openspec`.)*
+single-stage runs, see `registry/skills.json → frameworks.openspec`.)*
 
 ## The 14 skills
 
@@ -42,7 +42,7 @@ single-stage runs — see `registry/skills.json → frameworks.openspec`.)*
   delegation, Superpowers-style.
 - **In Cursor / Antigravity / VS Code:** the assistant acting as an agent reads that
   agent's *Skills & methodology* section and loads each linked SKILL.md before acting.
-- **Standalone:** running any single agent, read its skill files first — they carry the
+- **Standalone:** running any single agent, read its skill files first, they carry the
   discipline (ask-first, spec-first, test-first, audit-always) that the Constitution
   enforces globally.
 

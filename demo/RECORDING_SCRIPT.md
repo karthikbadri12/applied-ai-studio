@@ -1,4 +1,4 @@
-# Demo Recording Script — 7 minutes
+# Demo Recording Script: 7 minutes
 
 Audience: a hiring manager or enterprise buyer who has seen a hundred AI demos and
 is bored of all of them. The differentiator is not that it generates something —
@@ -12,13 +12,13 @@ and it stops for a human at every decision that matters."*
 ## Scene 0 · Pre-flight (do this before recording)
 
 - [ ] `uvx --from aidlc-studio aidlc init --global` already run; VS Code reloaded
-- [ ] A **fresh empty folder** open (`~/demo-fnol`) — no prior artifacts
+- [ ] A **fresh empty folder** open (`~/demo-fnol`), no prior artifacts
 - [ ] Terminal font ≥ 16pt; editor zoom up one step; hide bookmarks bar
 - [ ] Browser tabs pre-opened: PyPI page · GitHub repo · `docs/index.html`
 - [ ] The exemplar pre-verified in a second terminal tab:
       `cd ~/Downloads/applied-ai-studio/exemplar/claims-idp/build && make test && make eval`
 - [ ] Notifications off (macOS Focus). Close Slack/Mail.
-- [ ] **Fallback ready:** the exemplar artifacts already exist — if anything live
+- [ ] **Fallback ready:** the exemplar artifacts already exist, if anything live
       stalls, cut to Scene 4 and narrate from the finished artifacts. Never wait
       on screen for a slow generation; talk over it or cut.
 
@@ -31,7 +31,7 @@ and it stops for a human at every decision that matters."*
 > "Most AI initiatives die one of three deaths: nobody defined the problem, nobody
 > could prove it worked, or nobody thought about production until it broke.
 >
-> I encoded the discipline that prevents all three. It's called AIDLC — twenty-five
+> I encoded the discipline that prevents all three. It's called AIDLC, twenty-five
 > agents, four phases, five human gates. It's open source, it's on PyPI, and it
 > installs into any IDE with one command."
 
@@ -57,12 +57,12 @@ toggle between six systems. Can AI help?
 
 > "Watch what it does *not* do. It doesn't start writing code."
 
-**When the batched questions appear — pause, and point at them:**
+**When the batched questions appear; pause, and point at them:**
 
 > "It's asking me eleven numbered questions before it will produce anything. What's
 > the success metric. Where does ground truth live. What can the agent never do
 > autonomously. Which cloud. Which connectors, and the credential environment
-> variable names — never the secrets themselves.
+> variable names, never the secrets themselves.
 >
 > This is the single biggest reason AI projects fail, and it's the part every demo
 > skips."
@@ -76,15 +76,15 @@ toggle between six systems. Can AI help?
 
 ## Scene 3 · The human gate (2:15 – 3:30)
 
-**Screen:** `artifacts/01-prd.md` appears in the file tree — open it.
+**Screen:** `artifacts/01-prd.md` appears in the file tree, open it.
 
 > "A PRD, written to disk. Success metric with a baseline and a target. A stakeholder
-> map. A cost model with the arithmetic shown — because 'high labour cost' isn't a
+> map. A cost model with the arithmetic shown, because 'high labour cost' isn't a
 > number a CFO can act on."
 
 **Scroll to the gate message in chat.**
 
-> "And then it stops. ⛔ Human gate — the sponsor signs the PRD. It will not advance
+> "And then it stops. ⛔ Human gate; the sponsor signs the PRD. It will not advance
 > on an unsigned PRD. There are five of these: PRD, funding, go/no-go, security
 > launch, and the final brief.
 >
@@ -92,7 +92,7 @@ toggle between six systems. Can AI help?
 
 **Type in chat:** `approved`
 
-> "Now it continues — and every cloud advisor runs in parallel."
+> "Now it continues, and every cloud advisor runs in parallel."
 
 ---
 
@@ -100,25 +100,25 @@ toggle between six systems. Can AI help?
 
 **Screen:** switch to `~/Downloads/applied-ai-studio/exemplar/claims-idp/artifacts/`
 
-> "Rather than watch a full run, here's one already finished — a P&C insurer's
+> "Rather than watch a full run, here's one already finished, a P&C insurer's
 > claims intake, carried end to end. Twelve artifacts."
 
 **Open `05-architecture.md`, scroll to the cloud table:**
 
 > "Four cloud advisors were asked the *same* question, so this is like-for-like:
-> GCP, AWS, Azure, on-prem. One winner — and the reasons the other three lost are
+> GCP, AWS, Azure, on-prem. One winner, and the reasons the other three lost are
 > on the record. Below it, the PII controls matrix: every data class, its control,
 > and who verified it."
 
 **Open `08-evals.md`:**
 
 > "Seven metric bars, each derived from the business need *before* anything was
-> measured. Hallucination rate is a pass/fail safety gate — it never gets averaged
+> measured. Hallucination rate is a pass/fail safety gate; it never gets averaged
 > away against accuracy."
 
 **Open `metrics.json` briefly:**
 
-> "And it's all machine-readable — stage timings, gate approvers, eval scores. This
+> "And it's all machine-readable, stage timings, gate approvers, eval scores. This
 > is what a governance review actually asks for."
 
 ---
@@ -133,7 +133,7 @@ toggle between six systems. Can AI help?
 ```bash
 make demo
 ```
-> "Full pipeline — classify, extract, validate, confidence-gate, route, audit. Note
+> "Full pipeline, classify, extract, validate, confidence-gate, route, audit. Note
 > the low-confidence case falling back to the stronger model, and the prompt
 > injection getting quarantined instead of executed."
 
@@ -141,13 +141,13 @@ make demo
 ```bash
 make eval
 ```
-> "Seven bars. All green. Forty-eight cases — golden, adversarial, regression.
+> "Seven bars. All green. Forty-eight cases, golden, adversarial, regression.
 >
 > And notice they're **not** a hundred percent. Ninety-seven point nine on
 > classification, ninety-two on extraction F1. The fixtures have deliberate defects
 > in them, because a demo that scores perfectly is a demo that's lying.
 >
-> Zero credentials. This just ran on your laptop with no API key — that's why it can
+> Zero credentials. This just ran on your laptop with no API key; that's why it can
 > run in CI on every pull request. Red bar, no merge."
 
 ---
@@ -162,7 +162,7 @@ make eval
 > One design decision I'd call out: there's no agent framework underneath this. The
 > agents are versioned Markdown specs, so the whole org chart is reviewable in a
 > pull request by someone who doesn't write code, and it runs on whatever agentic
-> runtime the IDE already has — Claude Code, Cursor, Copilot, Antigravity.
+> runtime the IDE already has. Claude Code, Cursor, Copilot, Antigravity.
 >
 > The framework decision belongs to the *solution*, not the tooling. That's why the
 > cloud advisor recommends ADK on Google, Strands on AWS, Agent Framework on Azure.
@@ -182,7 +182,7 @@ make eval
   explaining why buys more credibility than any feature.
 - **If something stalls:** keep talking, cut to the exemplar, come back. Never
   narrate dead air.
-- **Record 1080p minimum**, mic close, one take per scene — assemble after. Scene 5
+- **Record 1080p minimum**, mic close, one take per scene, assemble after. Scene 5
   is worth re-taking until the terminal output is clean.
 - Have a 60-second cut ready: Scene 2 questions → Scene 3 gate → Scene 5 evals.
   That's the whole story if someone only watches a minute.
@@ -192,23 +192,23 @@ make eval
 ## Optional Scene 4B · The Google Cloud depth shot (insert after Scene 4, +75s)
 
 **Use this cut when the audience is Google.** It's the moment that proves the
-artifact isn't generic — it touched the whole platform.
+artifact isn't generic, it touched the whole platform.
 
 **Screen:** `05-architecture.md`, scroll to the GCP service inventory table.
 
 > "Here's what I mean by decision-grade. This isn't 'use Gemini.' The advisor walked
 > every architecture layer and named the service, why it won, and what it rejected."
 
-**Point at the rows as you say them — pick 5, don't read all of them:**
+**Point at the rows as you say them; pick 5, don't read all of them:**
 
 > "Document AI does the OCR *before* the model, because asking an LLM to read a
 > scanned police report is expensive and worse. Retrieval sits in **BigQuery's
-> native vector search** — the policy data is already there, so no separate vector
+> native vector search**, the policy data is already there, so no separate vector
 > database and the governance is inherited. The agent runs on **ADK deployed to
 > Agent Engine**, not hand-rolled on GKE. Internal APIs are reached through
 > **managed MCP servers fronted by Apigee**.
 >
-> And the security layer — this is what an insurer's security review actually reads:
+> And the security layer, this is what an insurer's security review actually reads:
 > **Model Armor** screening prompts *and* responses for injection and sensitive-data
 > leakage, **Sensitive Data Protection** for classification and de-identification,
 > **VPC Service Controls** as the exfiltration perimeter, CMEK for keys."
@@ -216,7 +216,7 @@ artifact isn't generic — it touched the whole platform.
 **Scroll to the cost line:**
 
 > "Then the unit economics: Flash handles the volume, Pro is the fallback only on
-> low confidence — that cascade is the single biggest cost lever, and it's why this
+> low confidence, that cascade is the single biggest cost lever, and it's why this
 > lands at four point eight cents a packet against a nine-cent bar. Billing export
 > to BigQuery attributes it per feature."
 
@@ -226,7 +226,7 @@ artifact isn't generic — it touched the whole platform.
 > That's the difference between an AI demo and something a cloud architect can
 > actually take into a design review."
 
-*Prep note:* have `knowledge/gcp/SERVICE_MAP.md` open in a background tab — if
+*Prep note:* have `knowledge/gcp/SERVICE_MAP.md` open in a background tab; if
 anyone asks "where does it get this from," show the layer-organised knowledge base
 and the sources at the bottom, and mention the advisor re-verifies with a live web
 search because Google renames things (Vertex AI → Gemini Enterprise Agent Platform).

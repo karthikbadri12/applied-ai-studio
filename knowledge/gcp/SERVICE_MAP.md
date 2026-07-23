@@ -1,4 +1,4 @@
-# Google Cloud — full-stack service map for AI delivery
+# Google Cloud: full-stack service map for AI delivery
 
 The knowledge base behind the `cloud-gcp` advisor. Organized by **architecture
 layer**, so an architecture artifact names a concrete service at *every* layer —
@@ -13,13 +13,13 @@ not just "use Gemini." Each entry: what it is · when to choose it · what to wa
 
 ## 0. The platform umbrella
 
-**Gemini Enterprise Agent Platform** — announced at Cloud Next 2026 as the evolution
+**Gemini Enterprise Agent Platform**: announced at Cloud Next 2026 as the evolution
 of **Vertex AI**, consolidated with **Agentspace** into one product. Say
 *"Gemini Enterprise Agent Platform (formerly Vertex AI)"* on first mention; "Vertex
 AI" alone is the pre-2026 name and dates you instantly.
 
 Bundles: ADK (code-first) · Agent Studio (low-code) · Agent Engine (managed runtime)
-· Model Garden (200+ models) · persistent memory · enterprise governance — pay-as-you-go.
+· Model Garden (200+ models) · persistent memory · enterprise governance, pay-as-you-go.
 
 ---
 
@@ -31,26 +31,26 @@ Bundles: ADK (code-first) · Agent Studio (low-code) · Agent Engine (managed ru
 | **Pub/Sub** | Event-driven ingestion, decoupling producers from the AI pipeline | At-least-once delivery — the pipeline must be idempotent |
 | **Dataflow** | Streaming/batch transformation at scale (Apache Beam) | Heavier than needed for simple ETL; consider BigQuery-native first |
 | **Datastream** | CDC from operational databases into BigQuery | Schema-drift handling must be explicit |
-| **Cloud Composer** | Managed Airflow — orchestration for teams already on Airflow | If the estate has Airflow, this is the low-friction path (`stack-review` will find it) |
+| **Cloud Composer** | Managed Airflow, for teams already running it | If the estate has Airflow, this is the low-friction path (`stack-review` will find it) |
 | **Storage Transfer Service / BigQuery Data Transfer** | Bulk migration, scheduled SaaS ingests | Check source connector coverage before committing |
 
 ## 2. Data platform & storage
 
 | Service | Use it for | Watch for |
 |---|---|---|
-| **BigQuery** | The analytical core — and increasingly the *AI* core (see §5) | Slot/on-demand cost model drives most FinOps surprises |
+| **BigQuery** | The analytical core, and increasingly the *AI* core too (see §5) | Slot/on-demand cost model drives most FinOps surprises |
 | **BigQuery ML** | Train/serve classical ML **in SQL**, no data movement | Often beats a bespoke pipeline for tabular problems — always evaluate it before proposing Vertex training |
 | **AlloyDB / Cloud SQL (PostgreSQL)** | Operational store; `pgvector` for embeddings alongside transactional data | Good when retrieval must be transactionally consistent with app state |
 | **Spanner** | Global, strongly-consistent operational data | Usually overkill unless already in the estate |
 | **Firestore** | App/session state, agent memory backing store | Model access patterns first |
-| **Bigtable** | High-throughput, low-latency feature serving | Specialised — justify it |
+| **Bigtable** | High-throughput, low-latency feature serving | Specialised. Justify it |
 
 ## 3. Document & multimodal processing
 
 | Service | Use it for | Watch for |
 |---|---|---|
 | **Document AI** | OCR, layout parsing, form/entity extraction, splitting mixed packets; **native BigQuery integration** | The right *pre-processor* before an LLM — cheaper and more reliable than asking a model to OCR |
-| **Document AI Custom Extractor** | Domain-specific document types with training data | Needs labelled data — check the ground-truth inventory |
+| **Document AI Custom Extractor** | Domain-specific document types with training data | Needs labelled data, so check the ground-truth inventory |
 | **Speech-to-Text / Text-to-Speech** | Call recordings, IVR, voice agents | Diarisation and domain vocabulary matter more than headline WER |
 | **Cloud Vision / Video Intelligence** | Image and video understanding outside the LLM path | Compare against Gemini multimodal — sometimes one model replaces both |
 | **Translation** | Multilingual pipelines | Evaluate whether Gemini handles it natively first |
@@ -72,7 +72,7 @@ Bundles: ADK (code-first) · Agent Studio (low-code) · Agent Engine (managed ru
 |---|---|---|
 | **Vertex AI Search** (in Agent Builder) | Managed end-to-end RAG: ingests documents, BigQuery, websites, SharePoint, Salesforce; handles chunking, embedding, indexing; grounded answers **with citations** | Fastest path to a defensible RAG baseline — start here before building custom |
 | **Vector Search** (2.0) | Custom, high-scale retrieval; **hybrid** vector + full-text + semantic re-ranking in one parallel query | Choose when you need control over chunking/ranking that the managed path won't give |
-| **BigQuery vector search** | Semantic search **directly in the warehouse** — native vector support, embedding generation, vector index management | Excellent when the corpus already lives in BigQuery: no separate vector DB, no copy, governance inherited |
+| **BigQuery vector search** | Semantic search **directly in the warehouse**: native vector support, embedding generation, vector index management | Excellent when the corpus already lives in BigQuery: no separate vector DB, no copy, governance inherited |
 | **AlloyDB / pgvector** | Retrieval co-located with operational data | Transactional consistency with app state |
 | **Ranking / re-ranking APIs** | Precision on top-k | Retrieval quality usually beats model upgrades for grounded accuracy |
 
@@ -103,12 +103,12 @@ warehouse-native (BigQuery), purpose-built (Vector Search), or operational
 
 > The LLM↔deterministic-systems bridge lives here. When a solution must write back
 > to SAP or Salesforce, name Apigee/Application Integration **and** the human
-> approval step — never an unattended agent write to a system of record.
+> approval step, never an unattended agent write to a system of record.
 
 ## 8. Classical ML & training
 
 **Vertex AI Training** (custom jobs, distributed) · **Pipelines** (KFP-based MLOps) ·
-**Feature Store** · **Model Registry** (versioning + lineage — the model-inventory
+**Feature Store** · **Model Registry** (versioning + lineage, the model-inventory
 evidence in `GOVERNANCE.md`) · **Experiments** · **AutoML** · **TPUs/GPUs**.
 
 Reminder from `assess`: if the problem is tabular, **BigQuery ML is often the right
@@ -124,16 +124,16 @@ a credibility move, not a weakness.
 | **Model Registry + lineage** | Which version produced which result — MRM evidence |
 | **BigQuery as eval store** | Keep eval runs queryable and joinable to production outcomes |
 
-Per `EVALS.md`: managed eval tooling supports the harness — it does not replace
+Per `EVALS.md`: managed eval tooling supports the harness; it does not replace
 golden/adversarial/regression sets or the CI gate.
 
 ## 10. Security, privacy & governance
 
-**This is the layer that wins enterprise deals — never leave it thin.**
+**This is the layer that wins enterprise deals, never leave it thin.**
 
 | Service | What it does |
 |---|---|
-| **Model Armor** | Content safety + security controls on **LLM prompts and responses** — sensitive-data leakage, **prompt injection**, offensive content; integrated with Sensitive Data Protection; monitoring dashboard *(Preview)* |
+| **Model Armor** | Content safety + security controls on **LLM prompts and responses**: sensitive-data leakage, **prompt injection**, offensive content; integrated with Sensitive Data Protection; monitoring dashboard *(Preview)* |
 | **Sensitive Data Protection (DLP)** | 150+ AI-driven classifiers; discovery, de-identification, masking, tokenisation; powers DSPM |
 | **VPC Service Controls** | Trusted perimeter around managed services to stop exfiltration; **Agent Identity as a first-class principal** in ingress/egress rules *(Preview)*; violation analyser |
 | **CMEK / Cloud KMS** | Customer-managed keys for datasets, models, GKE |
@@ -145,7 +145,7 @@ golden/adversarial/regression sets or the CI gate.
 
 Map each to the controls matrix in `05-architecture.md` (data class × control ×
 verified-by). **Model Armor + Sensitive Data Protection + VPC-SC** is the standard
-trio for a regulated GenAI deployment — name all three.
+trio for a regulated GenAI deployment, name all three.
 
 ## 11. Observability & operations
 
@@ -171,22 +171,22 @@ Tie every number back to the unit economics in `04-business-case.md`.
 
 Do **not** dump this list. Produce, per `05-architecture.md`:
 
-1. A **service inventory table** — layer · chosen service · why · alternative
+1. A **service inventory table**: layer · chosen service · why · alternative
    rejected · cost driver. Every layer from §1–§12 that the solution touches gets a
    row; layers deliberately not used get one line saying why not.
 2. A **mermaid component diagram** with the real service names as nodes.
 3. A **sequence diagram** for the primary flow (request → retrieval → model →
    validation → HITL → write-back → audit).
 4. The **controls matrix** drawing from §10.
-5. The **decision trail** — what was rejected and why (BigQuery ML instead of custom
+5. The **decision trail**: what was rejected and why (BigQuery ML instead of custom
    training; Vertex AI Search instead of custom RAG; Agent Engine instead of GKE).
 
 ## Sources (verified 2026-07)
 
-- [Gemini Enterprise Agent Platform — product](https://cloud.google.com/products/gemini-enterprise-agent-platform) · [launch blog](https://cloud.google.com/blog/products/ai-machine-learning/introducing-gemini-enterprise-agent-platform) · [docs](https://docs.cloud.google.com/gemini-enterprise-agent-platform) · [release notes](https://docs.cloud.google.com/gemini-enterprise-agent-platform/release-notes)
+- [Gemini Enterprise Agent Platform, product](https://cloud.google.com/products/gemini-enterprise-agent-platform) · [launch blog](https://cloud.google.com/blog/products/ai-machine-learning/introducing-gemini-enterprise-agent-platform) · [docs](https://docs.cloud.google.com/gemini-enterprise-agent-platform) · [release notes](https://docs.cloud.google.com/gemini-enterprise-agent-platform/release-notes)
 - [Agent Development Kit (ADK)](https://docs.cloud.google.com/gemini-enterprise-agent-platform/build/adk)
 - [Vector Search](https://docs.cloud.google.com/vertex-ai/docs/vector-search/overview) · [BigQuery generative AI](https://docs.cloud.google.com/bigquery/docs/generative-ai-overview) · [Document AI + BigQuery](https://docs.cloud.google.com/document-ai/docs/big-query-integration)
 - [Model Armor](https://cloud.google.com/security/products/model-armor) · [release notes](https://docs.cloud.google.com/model-armor/release-notes) · [Security Command Center](https://cloud.google.com/security/products/security-command-center) · [secure AI on Google Cloud](https://cloud.google.com/blog/products/identity-security/mastering-secure-ai-on-google-cloud-a-practical-guide-for-enterprises/)
 
-*Same pattern applies to `knowledge/aws/` and `knowledge/azure/` — build them when a
+*Same pattern applies to `knowledge/aws/` and `knowledge/azure/`; build them when a
 deal needs that depth.*

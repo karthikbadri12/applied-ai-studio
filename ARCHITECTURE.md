@@ -1,4 +1,4 @@
-# Applied AI Enterprise — Architecture
+# Applied AI Enterprise. Architecture
 
 A domain-agnostic, IDE-native **agent system** that takes an executive problem
 statement and drives it through the full **AI Development Life Cycle (ADLC)** —
@@ -14,20 +14,20 @@ constitution and a single orchestrator.
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────┐
-│  LAYER 1 — SETTINGS / REGISTRY   (registry/agents.json, registry/stages.json)│
+│  LAYER 1. SETTINGS / REGISTRY   (registry/agents.json, registry/stages.json)│
 │  The catalog: which agents exist, their type, their stage, their artifact.   │
 │  This is what an IDE reads to "install" the agents.                          │
 └──────────────────────────────────────────────────────────────────────────┘
                                    │
 ┌──────────────────────────────────────────────────────────────────────────┐
-│  LAYER 2 — GOVERNANCE & ORCHESTRATION                                        │
+│  LAYER 2. GOVERNANCE & ORCHESTRATION                                        │
 │  CONSTITUTION.md   →  rules every agent obeys (safety, HITL, evidence)       │
 │  orchestrator      →  routes the problem, sequences stages, enforces gates   │
 │  advisors ─────────→  advise the ADMINISTRATOR (orchestrator + human owner)  │
 └──────────────────────────────────────────────────────────────────────────┘
                                    │
 ┌──────────────────────────────────────────────────────────────────────────┐
-│  LAYER 3 — EXECUTION                                                          │
+│  LAYER 3. EXECUTION                                                          │
 │  Each agent knows one job: its inputs, its output artifact, its HITL gate.   │
 │  Pipeline agents run in sequence; advisory agents are consulted on demand.   │
 └──────────────────────────────────────────────────────────────────────────┘
@@ -36,14 +36,14 @@ constitution and a single orchestrator.
 **Administrator model.** The *administrator* is the pairing of the orchestrator
 agent and the human owner (the FDE / delivery lead). Advisory agents never act on
 the world; they produce recommendations **to the administrator**. The
-administrator decides. Some decisions are reserved for the human — those are the
+administrator decides. Some decisions are reserved for the human, those are the
 **human-in-the-loop (HITL) gates** (see `CONSTITUTION.md`).
 
 ---
 
 ## The agents
 
-### Pipeline agents — the ADLC spine (run in order)
+### Pipeline agents, the ADLC spine (run in order)
 
 | # | Agent | Consumes | Produces (artifact) | HITL gate |
 |---|-------|----------|---------------------|-----------|
@@ -60,7 +60,7 @@ administrator decides. Some decisions are reserved for the human — those are t
 | 11 | `observability` | SLOs + controls | Golden signals, dashboards, alerts, cost attribution | — |
 | 12 | `brief` | Everything above | End-to-end delivery brief (capstone) | Owner approves brief |
 
-### Advisory agents — consulted by the orchestrator, advise the administrator
+### Advisory agents, consulted by the orchestrator, advise the administrator
 
 | Agent | Advises on |
 |-------|-----------|
@@ -72,7 +72,7 @@ administrator decides. Some decisions are reserved for the human — those are t
 | `connector-advisor` | How to connect Snowflake, Databricks, BigQuery, Bedrock, etc. |
 | `domain-advisor` | Industry regulations, data sources, sensitivities (15 domains) |
 
-### Downstream dev pipeline — a separate, packaged pipeline (see `pipelines/dev-pipeline.md`)
+### Downstream dev pipeline; a separate, packaged pipeline (see `pipelines/dev-pipeline.md`)
 
 | Agent | Job |
 |-------|-----|
@@ -89,7 +89,7 @@ ever touching code, then hand the spec to the coding agents when funded.
 ## How a request flows
 
 ```
-VP: "Our claims team is drowning — 40k FNOL calls/month, 6-min handle time."
+VP: "Our claims team is drowning, 40k FNOL calls/month, 6-min handle time."
         │
         ▼
   orchestrator  ── loads CONSTITUTION, picks domain-advisor(insurance)

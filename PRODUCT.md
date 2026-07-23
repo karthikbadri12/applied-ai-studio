@@ -1,6 +1,6 @@
-# PRODUCT.md — vision, roadmap, and how decisions get made
+# PRODUCT.md: vision, roadmap, and how decisions get made
 
-**Vision:** make disciplined AI delivery the path of least resistance — so that
+**Vision:** make disciplined AI delivery the path of least resistance, so that
 doing it properly is faster than cutting corners.
 
 This file is the product layer: who it's for, what we're optimising, what ships
@@ -21,18 +21,18 @@ claims carry numbers, and priorities carry their scoring.
 
 ## What we optimise for
 
-1. **Time-to-first-artifact** — a useful PRD within one working session of a
+1. **Time-to-first-artifact**: a useful PRD within one working session of a
    problem statement.
-2. **Artifact defensibility** — an artifact survives hostile questions in a C-suite
+2. **Artifact defensibility**: an artifact survives hostile questions in a C-suite
    or governance review without a follow-up meeting.
-3. **Proof over assertion** — the exemplar runs green, keyless, on any laptop.
-4. **Zero lock-in** — Markdown specs and MCP; no framework dependency to install,
+3. **Proof over assertion**: the exemplar runs green, keyless, on any laptop.
+4. **Zero lock-in**: Markdown specs and MCP; no framework dependency to install,
    version, or secure.
 
 Explicitly **not** optimising for: agent count, model benchmark scores, or
 low-code UI surface. Those are vanity.
 
-## OKRs — next two quarters
+## OKRs: next two quarters
 
 **O1 · Practitioners can adopt it without a conversation**
 - KR1.1 Install → first artifact in under 10 minutes, verified on all 5 IDEs
@@ -42,12 +42,12 @@ low-code UI surface. Those are vanity.
 **O2 · Artifacts hold up in front of a governance function**
 - KR2.1 Every stage has a documented quality floor in `QUALITY_BAR.md` (12/12)
 - KR2.2 Governance crosswalk published for EU AI Act + NIST AI RMF + MRM (done)
-- KR2.3 A second worked exemplar in a different domain and solution class (telecom, agentic) — *open*
+- KR2.3 A second worked exemplar in a different domain and solution class (telecom, agentic). *open*
 
 **O3 · The proof stays true**
 - KR3.1 Exemplar tests + evals green in CI on every PR (34 tests, 7 bars)
 - KR3.2 Cloud/platform facts re-verified at least quarterly (last: 2026-07)
-- KR3.3 Zero secrets in repo history — enforced by review
+- KR3.3 Zero secrets in repo history, enforced by review
 
 ## Roadmap (RICE-scored)
 
@@ -64,7 +64,7 @@ low-code UI surface. Those are vanity.
 | 7 | **Windsurf-native flavour** (beyond the AGENTS.md path) | 3 | 1 | 0.7 | 4 | **0.53** | Backlog |
 
 Sequencing note: #2 ships before #1 because it removes a manual, credential-handling
-step from every future release — small effort, compounding return.
+step from every future release; small effort, compounding return.
 
 ## Release policy
 
@@ -81,11 +81,11 @@ step from every future release — small effort, compounding return.
 |---|---|---|
 | Installs | PyPI download stats | Reach; the only usage number we have |
 | Issues by layer | GitHub labels (agent / CLI / docs / IDE) | Where the friction is |
-| "It didn't ask questions" reports | Issues | The canary — means the Constitution didn't load in that IDE |
+| "It didn't ask questions" reports | Issues | The canary. Means the Constitution didn't load in that IDE |
 | Exemplar CI status | GitHub Actions | The proof, continuously |
 | Community exemplars | PRs | The strongest adoption signal there is |
 
-**Privacy-first:** the CLI collects **no telemetry** — no phone-home, no analytics,
+**Privacy-first:** the CLI collects **no telemetry**. No phone-home, no analytics,
 no install beacon. It scaffolds files and exits. Feedback comes from GitHub, which
 means we see less, and that's the correct trade for a tool that runs inside
 enterprise repos.
