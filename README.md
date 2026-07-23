@@ -39,7 +39,7 @@ encodes the discipline that prevents all three — as agents you can run.
 decides; some decisions are reserved for the human (the HITL gates). Full picture in
 [ARCHITECTURE.md](ARCHITECTURE.md).
 
-## The agents (23)
+## The agents (25)
 
 | Group | Agents |
 |-------|--------|
@@ -99,19 +99,33 @@ Then: *"Act as the orchestrator. Here's my problem statement: …"*
 
 Everything lands as files in `artifacts/`, so the demo *shows its work*.
 
+## 📄 Full documentation site
+
+**[docs/index.html](docs/index.html)** — the professional overview: capabilities, the
+complete end-to-end walkthrough, the agent roster, the 2026 cloud/framework matrix,
+governance, and the proof. Open it in a browser (or serve `docs/` via GitHub Pages).
+
 ## Repo map
 
 ```
 CONSTITUTION.md          the rules every agent obeys
+HARNESS.md               runtime enforcement: guardrails, gates, audit ledger
+QUALITY_BAR.md           per-artifact definition of done + the build contract
+GOVERNANCE.md            EU AI Act tiers · NIST AI RMF · model risk management
+EVALS.md                 evaluation doctrine: sets, bars, judges, CI gate
+DISASTER_COMMAND.md      incident command for production AI
+PRODUCT.md               vision, personas, OKRs, RICE roadmap
 ARCHITECTURE.md          the three-layer design + request flow
 AGENTS.md                cross-IDE entry (Cursor / Antigravity / VS Code)
-registry/                agents.json + stages.json  (the settings/catalog layer)
-.claude/agents/          all 23 agent definitions (canonical source)
-.cursor/rules/           Cursor glue
+registry/                agents · stages · phases · skills · frameworks (JSON)
+.claude/agents/          all 25 agent definitions (canonical source)
+.claude/skills/          14 skills + the /appliedai entry point
 artifacts/templates/     the artifact each stage produces
+exemplar/claims-idp/     gold-standard worked example + working eval-gated codebase
 connectors/              catalog + MCP config + per-connector guides
 domains/                 15-industry registry + deep packs (domain-agnostic core)
-pipelines/               the decoupled dev pipeline
+demo/RECORDING_SCRIPT.md scene-by-scene demo script
+docs/                    index.html · architecture.html · INSTALL.md · diagrams.md
 ```
 
 ## What is AIDLC itself built with?

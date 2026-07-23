@@ -1,0 +1,20 @@
+# Default owner for everything in the repo
+*                       @karthikbadri12
+
+# The governance core — changes here affect every agent's behaviour
+/CONSTITUTION.md        @karthikbadri12
+/HARNESS.md             @karthikbadri12
+/QUALITY_BAR.md         @karthikbadri12
+/GOVERNANCE.md          @karthikbadri12
+
+# Agent specs and the registries that wire them together
+/.claude/agents/        @karthikbadri12
+/.claude/skills/        @karthikbadri12
+/registry/              @karthikbadri12
+
+# The CLI and packaging (publishes to PyPI)
+/src/                   @karthikbadri12
+/pyproject.toml         @karthikbadri12
+
+# The proof — must stay green
+/exemplar/              @karthikbadri12

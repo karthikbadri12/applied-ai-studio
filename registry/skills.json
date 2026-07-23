@@ -208,6 +208,15 @@
         "evaluating-options",
         "planning-before-coding"
       ]
+    },
+    "incident-commander": {
+      "bmadPersona": "SRE / Incident Commander",
+      "speckitPhase": "Implement (ops)",
+      "skills": [
+        "observability-first",
+        "immutable-audit-trail",
+        "safe-rollout"
+      ]
     }
   }
 }

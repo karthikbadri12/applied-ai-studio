@@ -106,5 +106,14 @@
         "audit.jsonl + metrics.json reconciliation"
       ]
     }
-  ]
+  ],
+  "postLaunch": {
+    "description": "Runs after launch, outside the ADLC pipeline. See DISASTER_COMMAND.md.",
+    "agents": [
+      "incident-commander"
+    ],
+    "artifacts": [
+      "artifacts/incidents/<date>-<slug>.md"
+    ]
+  }
 }

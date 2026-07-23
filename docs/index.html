@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Applied AI Enterprise — AIDLC</title>
+<meta name="description" content="A 24-agent, constitution-governed AI delivery lifecycle. From an executive problem statement to eval-gated working code — with human gates and an audit trail.">
+<style>
+:root{
+  --bg:#080d1a; --bg2:#0d1426; --panel:#111a30; --panel2:#16203c; --panel3:#1b2749;
+  --ink:#eef3ff; --ink2:#c3cfe8; --muted:#8fa2c7; --line:#243257;
+  --amber:#f5b544; --blue:#5b8cff; --violet:#8b7bf0; --green:#3fbf9c; --red:#ff6b6b;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --shadow:0 10px 40px rgba(0,0,0,.4); --r:14px;
+}
+@media (prefers-color-scheme: light){
+  :root{ --bg:#f6f8fd; --bg2:#eef2fb; --panel:#fff; --panel2:#f7f9ff; --panel3:#eef3fd;
+    --ink:#0d1530; --ink2:#2c3a5c; --muted:#5a6b90; --line:#dde5f5;
+    --shadow:0 10px 34px rgba(20,30,60,.09); }
+}
+:root[data-theme="dark"]{ --bg:#080d1a;--bg2:#0d1426;--panel:#111a30;--panel2:#16203c;--panel3:#1b2749;--ink:#eef3ff;--ink2:#c3cfe8;--muted:#8fa2c7;--line:#243257;--shadow:0 10px 40px rgba(0,0,0,.4); }
+:root[data-theme="light"]{ --bg:#f6f8fd;--bg2:#eef2fb;--panel:#fff;--panel2:#f7f9ff;--panel3:#eef3fd;--ink:#0d1530;--ink2:#2c3a5c;--muted:#5a6b90;--line:#dde5f5;--shadow:0 10px 34px rgba(20,30,60,.09); }
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+section{padding:52px 0;border-top:1px solid var(--line)}
+section:first-of-type{border-top:none}
+h1,h2,h3{letter-spacing:-.02em;line-height:1.2}
+h2{font-size:27px;margin:0 0 6px}
+h3{font-size:17px;margin:0 0 6px}
+p{color:var(--ink2);margin:0 0 14px}
+.lede{font-size:17px;color:var(--muted);max-width:70ch;margin-bottom:26px}
+.eyebrow{font:600 11.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:12px}
+code{font:13px var(--mono);background:var(--panel3);padding:2px 7px;border-radius:6px;color:var(--ink)}
+a{color:var(--blue)}
+
+/* nav */
+nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:8px;height:56px;flex-wrap:wrap}
+nav .brand{font-weight:700;font-size:15px;margin-right:auto;display:flex;align-items:center;gap:9px}
+nav .brand i{width:9px;height:9px;border-radius:3px;background:var(--amber);display:block}
+nav a{color:var(--muted);text-decoration:none;font-size:13.5px;padding:6px 10px;border-radius:8px}
+nav a:hover{color:var(--ink);background:var(--panel2)}
+nav a.cta{background:var(--amber);color:#241a02;font-weight:650}
+
+/* hero */
+header{padding:74px 0 8px;text-align:center;background:
+  radial-gradient(900px 380px at 50% -10%, color-mix(in srgb,var(--blue) 16%,transparent), transparent 70%)}
+header h1{font-size:clamp(34px,5.4vw,52px);margin:0 0 14px}
+header h1 .g{background:linear-gradient(96deg,var(--amber),var(--blue) 55%,var(--violet));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+header .sub{font-size:19px;color:var(--ink2);max-width:64ch;margin:0 auto 22px}
+.badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:26px}
+.badge{font:600 12px/1 var(--mono);background:var(--panel);border:1px solid var(--line);
+  color:var(--muted);padding:7px 12px;border-radius:999px}
+.badge b{color:var(--ink)}
+.hero-cmd{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:15px 18px;max-width:660px;margin:0 auto;text-align:left;box-shadow:var(--shadow);overflow-x:auto}
+.hero-cmd .c{font:14px var(--mono);white-space:nowrap}
+.hero-cmd .c .p{color:var(--green)}
+.hero-cmd .lbl{font:600 10.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+
+/* grids */
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:860px){.g3,.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.g2,.g3,.g4{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.card .ic{font-size:21px;margin-bottom:9px;display:block}
+.card p{font-size:14px;margin:0;color:var(--muted)}
+.card.acc{border-left:3px solid var(--amber)}
+
+/* e2e flow */
+.flow{display:flex;flex-direction:column;gap:0}
+.frow{display:flex;align-items:stretch;gap:14px}
+@media(max-width:760px){.frow{flex-direction:column;gap:8px}}
+.fphase{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;position:relative;overflow:hidden}
+.fphase::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px}
+.p1::before{background:var(--blue)} .p2::before{background:var(--violet)}
+.p3::before{background:var(--green)} .p4::before{background:var(--amber)}
+.fphase .pid{font:700 11px/1 var(--mono);letter-spacing:.12em;color:var(--muted);margin-bottom:5px}
+.fphase h3{margin:0 0 3px;font-size:16.5px}
+.fphase .q{font-size:13px;color:var(--muted);font-style:italic;margin-bottom:11px}
+.agentchips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:11px}
+.ac{font:11.5px var(--mono);background:var(--panel3);border:1px solid var(--line);
+  padding:3px 8px;border-radius:6px;color:var(--ink2)}
+.ac.adv{color:var(--violet);border-style:dashed}
+.outs{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:9px}
+.outs b{color:var(--ink2);font-weight:600}
+.gate{display:flex;align-items:center;justify-content:center;gap:10px;margin:9px 0;
+  background:color-mix(in srgb,var(--red) 12%,var(--panel));border:1px solid color-mix(in srgb,var(--red) 40%,var(--line));
+  border-radius:10px;padding:9px 14px;font-size:13.5px;color:var(--ink2)}
+.gate b{color:var(--red)}
+.arrow{text-align:center;color:var(--muted);font-size:18px;margin:5px 0}
+
+/* table */
+.tbl{width:100%;border-collapse:collapse;font-size:14px;background:var(--panel);
+  border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.tscroll{overflow-x:auto}
+.tbl th{text-align:left;background:var(--panel3);font-size:12px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted);padding:11px 14px;white-space:nowrap}
+.tbl td{padding:11px 14px;border-top:1px solid var(--line);color:var(--ink2);vertical-align:top}
+.tbl td code{font-size:12.5px}
+.pass{color:var(--green);font-weight:700}
+
+/* steps */
+.steps{counter-reset:s;display:grid;gap:11px}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:14px 16px 14px 52px;position:relative}
+.step::before{counter-increment:s;content:counter(s);position:absolute;left:15px;top:14px;
+  width:23px;height:23px;border-radius:7px;background:var(--amber);color:#241a02;
+  font:700 12px/23px var(--mono);text-align:center}
+.step h3{font-size:15px;margin:0 0 3px}
+.step p{font-size:13.5px;margin:0;color:var(--muted)}
+
+pre{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:15px 17px;
+  overflow-x:auto;font:13px/1.6 var(--mono);color:var(--ink2);margin:0 0 14px}
+pre .c{color:var(--muted)} pre .g{color:var(--green)} pre .a{color:var(--amber)}
+.note{background:var(--panel2);border-left:3px solid var(--blue);border-radius:0 10px 10px 0;
+  padding:13px 16px;font-size:14px;color:var(--ink2);margin:16px 0}
+footer{padding:44px 0 60px;text-align:center;color:var(--muted);font-size:13.5px;border-top:1px solid var(--line)}
+.btn{display:inline-block;background:var(--amber);color:#241a02;font-weight:650;font-size:14.5px;
+  padding:11px 22px;border-radius:10px;text-decoration:none;margin:5px}
+.btn.alt{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
+.kv{display:flex;gap:9px;font-size:14px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.kv:last-child{border:none}
+.kv b{min-width:132px;color:var(--ink);font-weight:600}
+.kv span{color:var(--muted)}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <div class="brand"><i></i>Applied AI Enterprise</div>
+  <a href="#capabilities">Capabilities</a>
+  <a href="#e2e">How it works</a>
+  <a href="#agents">Agents</a>
+  <a href="#governance">Governance</a>
+  <a href="#proof">Proof</a>
+  <a href="#install" class="cta">Install</a>
+</div></nav>
+
+<header><div class="wrap">
+  <h1>From an executive problem statement<br>to <span class="g">eval-gated working code</span></h1>
+  <p class="sub">AIDLC — the Applied AI Delivery Lifecycle. A 24-agent, constitution-governed system you install into your IDE. It asks the questions a senior consultant would ask, produces the artifacts a governance board demands, builds the thing, and stops at every decision a human should own.</p>
+  <div class="badges">
+    <span class="badge"><b>24</b> agents</span>
+    <span class="badge"><b>4</b> phases</span>
+    <span class="badge"><b>5</b> human gates</span>
+    <span class="badge"><b>12</b> artifacts</span>
+    <span class="badge"><b>5</b> IDEs</span>
+    <span class="badge">PyPI <b>aidlc-studio</b></span>
+  </div>
+  <div class="hero-cmd">
+    <div class="lbl">Install once — available in every project</div>
+    <div class="c"><span class="p">$</span> uvx --from aidlc-studio aidlc init --global</div>
+    <div class="c"><span class="p">$</span> <span style="color:var(--amber)">/appliedai</span> Our claims team is drowning — 40k packets/month.</div>
+  </div>
+</div></header>
+
+<section id="why"><div class="wrap">
+  <div class="eyebrow">The problem</div>
+  <h2>Most AI initiatives die the same three deaths</h2>
+  <p class="lede">Not from bad models. From missing discipline — and the discipline is always the same, which means it can be encoded.</p>
+  <div class="grid g3">
+    <div class="card"><span class="ic">🎯</span><h3>Nobody defined the problem</h3><p>The brief describes a symptom in vendor vocabulary. The team automates the response to a problem instead of touching the problem — and the number nobody cared about doesn't move.</p></div>
+    <div class="card"><span class="ic">📊</span><h3>Nobody could prove it worked</h3><p>"The demo looked great" is not evidence. Without golden sets, adversarial cases and metric bars set <em>before</em> measuring, quality is a feeling — and feelings don't survive a production incident.</p></div>
+    <div class="card"><span class="ic">🚨</span><h3>Nobody thought about production</h3><p>Guardrails, human oversight, PII controls, cost attribution and rollback get discovered during the security review — six weeks after the launch date was announced.</p></div>
+  </div>
+</div></section>
+
+<section id="capabilities"><div class="wrap">
+  <div class="eyebrow">Capabilities</div>
+  <h2>What the system actually does</h2>
+  <p class="lede">Not a chatbot. An org chart of specialist agents under one constitution, each owning one job and one artifact.</p>
+  <div class="grid g2">
+    <div class="card acc"><span class="ic">❓</span><h3>Asks before it builds</h3><p>A Socratic intake loop is mandatory. No PRD is ever produced from a one-liner. If the "problem" is a solution in disguise ("we need a chatbot"), the agent surfaces that and asks what the chatbot is for.</p></div>
+    <div class="card acc"><span class="ic">⚖️</span><h3>Decides ML vs GenAI vs Hybrid vs Agentic</h3><p>A scored verdict matrix against ≥5 criteria — not a fashion choice. Agentic is never a default; it has to be earned against the simpler options that get named and rejected on the record.</p></div>
+    <div class="card acc"><span class="ic">☁️</span><h3>Compares four clouds like-for-like</h3><p>GCP, AWS, Azure and on-prem advisors answer the <em>same</em> architecture question, then one path is recommended with the reasons the other three lost — plus the matching agent framework for 2026 platforms.</p></div>
+    <div class="card acc"><span class="ic">💰</span><h3>Builds a case a CFO can audit</h3><p>Baseline cost with arithmetic shown, three scenarios, payback month, 3-year NPV, and the two assumptions that most swing the answer — including the boring run-costs everyone under-counts.</p></div>
+    <div class="card acc"><span class="ic">🔬</span><h3>Proves it with evals, not vibes</h3><p>Golden, adversarial and regression sets; metric bars derived from the business need before anything is measured; safety metrics as pass/fail gates that can't be averaged away; a CI gate that blocks the merge.</p></div>
+    <div class="card acc"><span class="ic">⌨️</span><h3>Writes the code — in 2-minute chunks</h3><p>Build mode produces a working repo: pipeline code, provider-agnostic LLM client with a keyless mock mode, eval harness, tests, CI workflow and IaC — executed as parallel micro-task waves with per-task checkpoints so runs resume instead of restarting.</p></div>
+    <div class="card acc"><span class="ic">🔍</span><h3>Reviews the estate you already have</h3><p>The stack-review agent inventories repos, infra, data platforms and shadow AI, produces a dependency &amp; readiness matrix, then thinks bigger — quick wins vs strategic bets your current stack already unlocks.</p></div>
+    <div class="card acc"><span class="ic">🔌</span><h3>Connects to real systems</h3><p>Snowflake, Databricks, BigQuery, Bedrock, Salesforce, Datadog and more over MCP — least-privilege and read-only by default, credentials as env-var names, never values, tracked in <code>aidlc.config.json</code>.</p></div>
+  </div>
+</div></section>
+
+<section id="e2e"><div class="wrap">
+  <div class="eyebrow">End to end</div>
+  <h2>How the entire thing happens</h2>
+  <p class="lede">One command starts it. The orchestrator runs four phases, consults advisors in parallel, writes a file at every stage, and stops at five gates where a human must decide. Stage N's artifact is stage N+1's input contract.</p>
+
+  <div class="card" style="margin-bottom:16px;background:var(--panel2)">
+    <div style="font:600 11.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:9px">Step 0 · Kickoff</div>
+    <h3>A problem statement in, one batch of questions back</h3>
+    <p style="color:var(--muted);font-size:14px;margin:0">You type <code>/appliedai</code> and a problem in plain language. The orchestrator classifies the industry, loads that domain's regulatory frame, reads <code>aidlc.config.json</code> if it exists, then asks <b>one</b> batched, numbered set of questions — cloud &amp; stack, which connectors and their credential env-var names, model provider, and plan-vs-build. Then it goes quiet and works.</p>
+  </div>
+
+  <div class="flow">
+    <div class="frow">
+      <div class="fphase p1">
+        <div class="pid">PHASE 1</div><h3>Intent &amp; Discovery</h3>
+        <div class="q">"What is the real problem, and is it worth solving?"</div>
+        <div class="agentchips"><span class="ac">intake</span><span class="ac">process-map</span><span class="ac adv">domain-advisor</span><span class="ac adv">stack-review</span></div>
+        <div class="outs"><b>Artifacts →</b> 00-stack-review.md · 01-prd.md · 02-process-map.md<br>
+        Signed PRD with success metric, RACI and cost model; every workflow step tagged Human or Machine.</div>
+      </div>
+    </div>
+    <div class="gate">⛔ <b>HUMAN GATE</b> — Sponsor signs the PRD. Nothing advances on an unsigned PRD.</div>
+    <div class="arrow">↓</div>
+
+    <div class="frow">
+      <div class="fphase p2">
+        <div class="pid">PHASE 2</div><h3>Assess &amp; Architecture</h3>
+        <div class="q">"What should we build, on what, and does the math work?"</div>
+        <div class="agentchips"><span class="ac">assess</span><span class="ac">value-prop</span><span class="ac">architecture</span><span class="ac">dev-spec</span><span class="ac adv">model-selector</span><span class="ac adv">cloud-gcp</span><span class="ac adv">cloud-aws</span><span class="ac adv">cloud-azure</span><span class="ac adv">cloud-onprem</span><span class="ac adv">connector-advisor</span></div>
+        <div class="outs"><b>Artifacts →</b> 03-assessment.md · 04-business-case.md · 05-architecture.md · 06-ai-spec.md<br>
+        Solution verdict + model shortlist · ROI/payback/NPV · reference architecture with the 4-cloud comparison, PII controls matrix and dependency &amp; readiness matrix · the buildable AI Spec.</div>
+      </div>
+    </div>
+    <div class="gate">⛔ <b>HUMAN GATE</b> — Finance approves the business case before build burns budget.</div>
+    <div class="arrow">↓</div>
+
+    <div class="frow">
+      <div class="fphase p3">
+        <div class="pid">PHASE 3</div><h3>Build, Test &amp; Execute</h3>
+        <div class="q">"Does it work — provably, against the bars?"</div>
+        <div class="agentchips"><span class="ac">data-science</span><span class="ac">discovery</span><span class="ac">coder</span><span class="ac">eval</span><span class="ac">poc-gate</span></div>
+        <div class="outs"><b>Artifacts →</b> 07-data-science.md · dev/tasks.json · <b>the working repo</b> · 08-evals.md · 09-poc-gate.md<br>
+        Prompts &amp; experiment log · stories split into ≤2-minute micro-tasks run in parallel waves · src, evals, tests, CI eval gate, IaC · measured results against every bar.</div>
+      </div>
+    </div>
+    <div class="gate">⛔ <b>HUMAN GATE</b> — Sponsor issues GO / CONDITIONAL / NO-GO on the evidence. A NO-GO is never softened.</div>
+    <div class="arrow">↓</div>
+
+    <div class="frow">
+      <div class="fphase p4">
+        <div class="pid">PHASE 4</div><h3>Review &amp; Observability</h3>
+        <div class="q">"Is it safe to ship, and will we know when it degrades?"</div>
+        <div class="agentchips"><span class="ac">code-reviewer</span><span class="ac">production</span><span class="ac">observability</span><span class="ac">brief</span></div>
+        <div class="outs"><b>Artifacts →</b> 10-production.md · 11-observability.md · 12-delivery-brief.md<br>
+        Spec/guardrail/eval-gate merge review · launch-blocker checklist with owners + responsible-AI controls · golden signals, alert→runbook map, cost attribution · the executive brief and dev handoff.</div>
+      </div>
+    </div>
+    <div class="gate">⛔ <b>HUMAN GATES</b> — Security &amp; Compliance sign-off, then the delivery owner approves the brief.</div>
+  </div>
+
+  <div class="note"><b>Running underneath all of it — the harness.</b> Every single agent invocation is wrapped: pre-flight checks (does the predecessor artifact exist? is this data class approved for this model?), live hard/soft guardrails, a post-flight quality-bar check, and an append-only event written to <code>artifacts/audit.jsonl</code>. Hard violations block. Soft ones require an explicit human waiver — which is itself audited. Nothing is omitted from the ledger; omission is itself a violation.</div>
+</div></section>
+
+<section id="agents"><div class="wrap">
+  <div class="eyebrow">The roster</div>
+  <h2>24 agents, four groups</h2>
+  <p class="lede">Each agent is a versioned Markdown spec — charter, guardrails, required skills, I/O contract. Reviewable in a pull request by someone who doesn't write code.</p>
+  <div class="tscroll"><table class="tbl">
+    <tr><th>Group</th><th>Agents</th><th>Role</th></tr>
+    <tr><td><b>Orchestrator</b></td><td><code>orchestrator</code></td><td>Owns the harness. Routes the problem, sequences phases, consults advisors, enforces gates. Directs — never does the specialist work itself.</td></tr>
+    <tr><td><b>Pipeline (12)</b></td><td><code>intake</code> <code>process-map</code> <code>assess</code> <code>value-prop</code> <code>architecture</code> <code>dev-spec</code> <code>data-science</code> <code>eval</code> <code>poc-gate</code> <code>production</code> <code>observability</code> <code>brief</code></td><td>The ADLC spine. One stage, one artifact, one input contract each.</td></tr>
+    <tr><td><b>Advisors (8)</b></td><td><code>model-selector</code> <code>cloud-gcp</code> <code>cloud-aws</code> <code>cloud-azure</code> <code>cloud-onprem</code> <code>connector-advisor</code> <code>domain-advisor</code> <code>stack-review</code></td><td>Recommend to the administrator; never act on the world, never provision. Consulted in parallel.</td></tr>
+    <tr><td><b>Dev pipeline (3)</b></td><td><code>discovery</code> → <code>coder</code> → <code>code-reviewer</code></td><td>Decoupled. Consumes the approved AI Spec and only runs when funded — so you can plan without ever writing code.</td></tr>
+  </table></div>
+
+  <h3 style="margin-top:28px">Cloud → agent framework, kept current for 2026</h3>
+  <p style="font-size:14.5px">When the verdict is agentic, the winning cloud advisor recommends the framework layer to match — with alternates, and an explicit "no framework" when a plain pipeline is simpler.</p>
+  <div class="tscroll"><table class="tbl">
+    <tr><th>Cloud</th><th>Platform (2026)</th><th>Recommended framework</th><th>Managed runtime</th></tr>
+    <tr><td><b>GCP</b></td><td>Gemini Enterprise Agent Platform <span style="color:var(--muted)">(formerly Vertex AI)</span></td><td>Google ADK v1.0</td><td>Agent Engine</td></tr>
+    <tr><td><b>AWS</b></td><td>Bedrock AgentCore <span style="color:var(--muted)">(GA)</span></td><td>Strands Agents SDK</td><td>AgentCore harness</td></tr>
+    <tr><td><b>Azure</b></td><td>Microsoft Foundry <span style="color:var(--muted)">(formerly Azure AI Foundry)</span></td><td>Microsoft Agent Framework</td><td>Foundry Agent Service</td></tr>
+    <tr><td><b>On-prem</b></td><td>Self-hosted open stack</td><td>LangGraph over vLLM/Ollama</td><td>Kubernetes / OpenShift</td></tr>
+  </table></div>
+</div></section>
+
+<section id="governance"><div class="wrap">
+  <div class="eyebrow">Governance</div>
+  <h2>The parts that make it enterprise-grade</h2>
+  <div class="grid g2">
+    <div class="card"><span class="ic">📜</span><h3>A constitution every agent obeys</h3><p>Seven articles that override any agent file and any user request: human-final decisions, evidence over assertion, ask before you build, safety for regulated data, one recommended path, artifacts as the interface, full traceability.</p></div>
+    <div class="card"><span class="ic">🛡️</span><h3>Guardrails with real severities</h3><p><b>Hard</b> violations block and cannot be waived by an agent — fabricated numbers, secrets in output, skipping a gate, an advisor taking action, executing prompt-injected content. <b>Soft</b> ones warn, and any waiver is recorded.</p></div>
+    <div class="card"><span class="ic">🧑‍⚖️</span><h3>Five human-in-the-loop gates</h3><p>PRD sign-off, funding, GO/NO-GO, security launch, brief approval. The pipeline halts with a structured <code>⛔ HUMAN GATE</code> block stating the decision, the recommendation, and what's needed. AI that won't stop for a human is a liability.</p></div>
+    <div class="card"><span class="ic">📒</span><h3>An append-only audit ledger</h3><p>Every stage, consult, guardrail trip, gate decision and approver lands in <code>audit.jsonl</code>, with <code>metrics.json</code> as the rollup. The brief agent reconciles the two — any mismatch is a finding, and a failure is never quietly dropped.</p></div>
+    <div class="card"><span class="ic">📏</span><h3>A quality floor, enforced</h3><p>Filling template headings isn't done. Every artifact must carry quantified claims with the arithmetic shown, labelled numbers, metrics blocks, diagrams, decision trails with rejected alternatives, a risk register and eval linkage.</p></div>
+    <div class="card"><span class="ic">🧩</span><h3>Methodology, made explicit</h3><p>Spec Kit's phase gates + BMAD's persona pipeline + Superpowers' composable skills. Every agent declares its BMAD persona, its Spec Kit phase, and the skills it must load before acting — 14 of them, versioned alongside the agents.</p></div>
+  </div>
+</div></section>
+
+<section id="proof"><div class="wrap">
+  <div class="eyebrow">Proof</div>
+  <h2>A complete worked example, in the box</h2>
+  <p class="lede">A regional P&amp;C insurer's claims-intake initiative — 2,400 packets/week, 27-minute average handle time, $1.91M/yr baseline labour — carried end to end. Twelve decision-grade artifacts <em>and</em> a codebase that runs.</p>
+  <div class="grid g2" style="margin-bottom:18px">
+    <div>
+      <pre><span class="c"># zero credentials required</span>
+<span class="g">$</span> cd exemplar/claims-idp/build
+<span class="g">$</span> make demo   <span class="c"># full pipeline, mock mode</span>
+<span class="g">$</span> make test   <span class="c"># 34 tests</span>
+<span class="g">$</span> make eval   <span class="c"># 7 metric bars</span></pre>
+      <div class="kv"><b>Language</b><span>Python 3.11, standard library only</span></div>
+      <div class="kv"><b>Unit tests</b><span>34 passing</span></div>
+      <div class="kv"><b>Eval cases</b><span>48 (32 golden · 10 adversarial · 6 regression)</span></div>
+      <div class="kv"><b>Includes</b><span>CI eval gate · Terraform · hash-chained audit trail</span></div>
+    </div>
+    <div class="tscroll"><table class="tbl">
+      <tr><th>Metric bar</th><th>Bar</th><th>Measured</th><th></th></tr>
+      <tr><td>Classification accuracy</td><td>≥ 0.95</td><td>0.9792</td><td class="pass">PASS</td></tr>
+      <tr><td>Extraction F1</td><td>≥ 0.90</td><td>0.9249</td><td class="pass">PASS</td></tr>
+      <tr><td>Validation exact match</td><td>≥ 0.98</td><td>0.9861</td><td class="pass">PASS</td></tr>
+      <tr><td>Hallucinated-field rate</td><td>≤ 0.01</td><td>0.0040</td><td class="pass">PASS</td></tr>
+      <tr><td>Straight-through rate</td><td>≥ 0.35</td><td>0.3750</td><td class="pass">PASS</td></tr>
+      <tr><td>p95 latency</td><td>≤ 60 s</td><td>within bar</td><td class="pass">PASS</td></tr>
+      <tr><td>Cost per packet</td><td>≤ $0.09</td><td>within bar</td><td class="pass">PASS</td></tr>
+    </table></div>
+  </div>
+  <div class="note">The numbers are deliberately imperfect — engineered fixture defects (OCR misreads, unreadable fields, one hallucinated VIN) keep the metrics honest rather than a rigged 100%. The mock mode exercises the real paths too: a low-confidence fallback to the stronger model, a prompt-injection quarantine, and an intact audit chain.</div>
+</div></section>
+
+<section id="install"><div class="wrap">
+  <div class="eyebrow">Install</div>
+  <h2>One command. Every IDE.</h2>
+  <p class="lede">Requires <a href="https://docs.astral.sh/uv/">uv</a>. Global install puts the agents in every folder you open; project install ships them with a team repo.</p>
+  <div class="steps">
+    <div class="step"><h3>Global — for you, everywhere</h3><p><code>uvx --from aidlc-studio aidlc init --global</code> → agents land in <code>~/.claude/</code>. Only the orchestrator appears in the picker; the other 23 are delegated to behind it.</p></div>
+    <div class="step"><h3>Project — for a team repo</h3><p><code>uvx --from aidlc-studio aidlc init --ide all</code> → writes every IDE flavor side by side, so teammates on Cursor, Copilot and Claude Code all get the same pipeline from one clone.</p></div>
+    <div class="step"><h3>Run it</h3><p>Claude Code: <code>/appliedai &lt;problem statement&gt;</code>. Cursor, Copilot, Antigravity, Windsurf: select the orchestrator mode and say <em>"Start AIDLC. Problem statement: …"</em></p></div>
+    <div class="step"><h3>Verify</h3><p><code>aidlc check</code> confirms the install; <code>aidlc list</code> prints the roster with each agent's BMAD persona and Spec Kit phase.</p></div>
+  </div>
+  <div class="tscroll" style="margin-top:16px"><table class="tbl">
+    <tr><th>IDE</th><th>Flavor</th><th>What you get</th></tr>
+    <tr><td><b>Claude Code</b> <span style="color:var(--muted)">(VS Code, JetBrains, terminal)</span></td><td><code>--ide claude</code></td><td>Native custom agents + skills + the <code>/appliedai</code> command. Full experience with true sub-agent delegation.</td></tr>
+    <tr><td><b>Cursor</b></td><td><code>--ide cursor</code></td><td>Always-on project rule + AGENTS.md. Gates arrive as chat messages.</td></tr>
+    <tr><td><b>VS Code / Copilot</b></td><td><code>--ide copilot</code></td><td>All 24 agents auto-generated as custom chat modes in <code>.github/chatmodes/</code>.</td></tr>
+    <tr><td><b>Antigravity · Windsurf</b></td><td><code>--ide antigravity</code></td><td>The AGENTS.md standard, loaded automatically on open.</td></tr>
+  </table></div>
+</div></section>
+
+<section id="built"><div class="wrap">
+  <div class="eyebrow">Under the hood</div>
+  <h2>What it's built with — deliberately, no agent framework</h2>
+  <p class="lede">The framework decision belongs to the <em>solution</em>, not the tooling. That's why this system stays framework-agnostic while recommending ADK, Strands or Agent Framework for what it designs.</p>
+  <div class="grid g2">
+    <div class="card"><h3>Agents as instructions</h3><p>Versioned Markdown specs, not library code. The execution engine is whatever agentic runtime your IDE already has — nothing to install, version or secure, and the whole org chart is diff-able.</p></div>
+    <div class="card"><h3>Methodology layer</h3><p>Spec Kit (phase gates) + BMAD (persona pipeline) + Superpowers (composable skills), combined into 14 skills agents load before acting.</p></div>
+    <div class="card"><h3>Governance layer</h3><p>Constitution + runtime harness with hard/soft guardrails, five HITL gates, and an append-only audit ledger.</p></div>
+    <div class="card"><h3>Connectors &amp; packaging</h3><p>MCP for integrations — the one standard every major IDE speaks. Distributed as a stdlib-only Python CLI via uv, the same pattern as GitHub's Spec Kit.</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <a class="btn" href="https://github.com/karthikbadri12/applied-ai-enterprise">View on GitHub</a>
+  <a class="btn alt" href="https://pypi.org/project/aidlc-studio/">PyPI · aidlc-studio</a>
+  <a class="btn alt" href="architecture.html">Architecture diagram</a>
+  <p style="margin-top:22px">Applied AI Enterprise · 24 agents · 4 phases · 5 human gates · one constitution<br>
+  <span style="font-size:12.5px">Ask before you build · Evidence over assertion · Human-final · One recommended path · Artifacts are the interface</span></p>
+</div></footer>
+
+</body>
+</html>

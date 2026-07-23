@@ -193,6 +193,14 @@
       "layer": "execution",
       "file": ".claude/agents/code-reviewer.md",
       "artifact": "Spec + guardrail + eval-gate conformance review"
+    },
+    {
+      "id": "incident-commander",
+      "type": "ops",
+      "layer": "governance",
+      "file": ".claude/agents/incident-commander.md",
+      "advises": "administrator",
+      "on": "Production incident command: severity classification, runbooks, containment recommendations, exec comms, post-incident review"
     }
   ],
   "connectors": "connectors/catalog.json",

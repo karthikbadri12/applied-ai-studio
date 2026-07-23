@@ -6,7 +6,7 @@ Usage:
   uvx aidlc init [PATH] --ide cursor       # Cursor rules + AGENTS.md
   uvx aidlc init [PATH] --ide copilot      # VS Code Copilot chatmodes + AGENTS.md
   uvx aidlc init [PATH] --ide antigravity  # AGENTS.md (Antigravity/Windsurf standard)
-  aidlc list                               # show the 23-agent roster
+  aidlc list                               # show the 25-agent roster
   aidlc check [PATH]                       # verify an install
 """
 
@@ -29,6 +29,10 @@ CORE = [
     "SKILLS.md",
     "QUALITY_BAR.md",
     "HARNESS.md",
+    "GOVERNANCE.md",
+    "EVALS.md",
+    "DISASTER_COMMAND.md",
+    "PRODUCT.md",
     "aidlc.config.example.json",
     "exemplar",
     "registry",
