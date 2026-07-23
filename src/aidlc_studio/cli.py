@@ -123,21 +123,41 @@ Write stage artifacts into the current project's `artifacts/` directory.
 """
 
 
-def cmd_global(pack: Path, force: bool) -> None:
-    """Install user-globally: agents+skills into ~/.claude, support pack into ~/.claude/aidlc."""
+def cmd_global(pack: Path, force: bool, roster: str = "solo") -> None:
+    """Install user-globally: agents+skills into ~/.claude, support pack into ~/.claude/aidlc.
+
+    roster="solo" (default): only the orchestrator appears in the IDE's agent picker;
+    the other 22 install as a hidden roster in ~/.claude/aidlc/agents/ that the
+    orchestrator delegates to. roster="full": all 23 in the picker.
+    """
     home = Path.home() / ".claude"
     total = 0
 
-    # Agents — copied with a note pointing at the global support pack.
     agents_out = home / "agents"
     agents_out.mkdir(parents=True, exist_ok=True)
-    for agent_file in sorted((pack / ".claude" / "agents").glob("*.md")):
-        out = agents_out / agent_file.name
-        if out.exists() and not force:
-            continue
-        out.write_text(agent_file.read_text(encoding="utf-8").rstrip() + "\n" + GLOBAL_NOTE,
-                       encoding="utf-8")
-        total += 1
+    roster_out = home / "aidlc" / "agents"
+    roster_out.mkdir(parents=True, exist_ok=True)
+
+    source_agents = sorted((pack / ".claude" / "agents").glob("*.md"))
+    for agent_file in source_agents:
+        visible = roster == "full" or agent_file.stem == "orchestrator"
+        # The full roster always lands in ~/.claude/aidlc/agents/ (the delegation source).
+        hidden = roster_out / agent_file.name
+        if force or not hidden.exists():
+            hidden.write_text(agent_file.read_text(encoding="utf-8").rstrip() + "\n" + GLOBAL_NOTE,
+                              encoding="utf-8")
+            total += 1
+        picker = agents_out / agent_file.name
+        if visible:
+            if force or not picker.exists():
+                picker.write_text(agent_file.read_text(encoding="utf-8").rstrip() + "\n" + GLOBAL_NOTE,
+                                  encoding="utf-8")
+                total += 1
+        elif picker.exists() and picker.read_text(encoding="utf-8").rstrip().endswith(
+                GLOBAL_NOTE.rstrip()):
+            # Solo mode cleanup: remove OUR previously installed picker entry (never a
+            # user's own agent — identified by the global-install note we appended).
+            picker.unlink()
 
     # Skills — verbatim.
     total += copy_item(pack / ".claude" / "skills", home / "skills", force)
@@ -150,18 +170,21 @@ def cmd_global(pack: Path, force: bool) -> None:
             total += copy_item(src, support / item, force)
 
     print(f"✔ Applied AI Studio installed GLOBALLY (files written: {total})")
-    print(f"  • agents  → {agents_out}  (23 custom agents, every project)")
-    print(f"  • skills  → {home / 'skills'}  (14 skills)")
+    if roster == "solo":
+        print(f"  • picker  → {agents_out}  (orchestrator ONLY — clean agent picker)")
+        print(f"  • roster  → {roster_out}  (22 worker agents, delegated to by the orchestrator)")
+    else:
+        print(f"  • agents  → {agents_out}  (all 23 in the picker)")
+    print(f"  • skills  → {home / 'skills'}  (14 skills, incl. /aidlc)")
     print(f"  • support → {support}  (constitution · registries · templates · domains)")
-    print("\nOpen ANY folder in VS Code / your IDE, run `claude`, then `/agents` — the roster is there.")
-    print("Say: “Use the orchestrator agent. Problem statement: …”  Artifacts land in ./artifacts/.")
-    print("Update later: re-run this command with --force. Uninstall: remove the files above.")
+    print("\nOpen ANY folder → type /aidlc <problem statement>. Artifacts land in ./artifacts/.")
+    print("Update: re-run with --force. Full picker instead: --roster full. Uninstall: delete the paths above.")
 
 
 def cmd_init(args: argparse.Namespace) -> None:
     pack = pack_root()
     if getattr(args, "global_install", False):
-        cmd_global(pack, args.force)
+        cmd_global(pack, args.force, getattr(args, "roster", "solo"))
         return
     target = Path(args.path).resolve()
     target.mkdir(parents=True, exist_ok=True)
@@ -259,6 +282,8 @@ def main() -> None:
     p_init.add_argument("--ide", choices=IDES, default="all", help="which IDE flavor to install (default: all)")
     p_init.add_argument("--global", dest="global_install", action="store_true",
                         help="install user-globally (~/.claude) so the agents exist in EVERY project")
+    p_init.add_argument("--roster", choices=("solo", "full"), default="solo",
+                        help="global install only: 'solo' shows just the orchestrator in the IDE agent picker (default); 'full' shows all 23")
     p_init.add_argument("--force", action="store_true", help="overwrite existing files")
     p_init.set_defaults(fn=cmd_init)
 
