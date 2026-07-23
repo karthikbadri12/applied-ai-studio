@@ -1,6 +1,6 @@
 ---
 name: appliedai
-description: Start AIDLC — the one-command entry point. Takes a problem statement and runs the FULL Applied AI Enterprise pipeline in autopilot via the orchestrator, through planning AND build, pausing only for HITL gate decisions, the cloud/stack choice, and connector credentials. Use whenever the user says "start AIDLC", "/appliedai" (or the legacy "/appliedai"), or drops a problem statement they want taken end-to-end.
+description: Start AIDLC — the one-command entry point. Takes a problem statement and runs the FULL Applied AI Enterprise pipeline in autopilot via the orchestrator, through planning AND build, pausing only for HITL gate decisions, the cloud/stack choice, and connector credentials. Use whenever the user says "start AIDLC", "/appliedai" (or the legacy "/aidlc"), or drops a problem statement they want taken end-to-end.
 ---
 
 # /appliedai — Start AIDLC (autopilot)
