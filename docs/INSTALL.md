@@ -35,6 +35,25 @@ aidlc check    # verify an install (core files + at least one IDE flavor)
 `init` is non-destructive (skips existing files; `--force` overwrites). After
 publishing to PyPI, this shortens to `uvx aidlc-studio aidlc init`.
 
+### 🌍 Global install — the agents in EVERY folder you open (no per-project setup)
+
+```bash
+uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --global
+```
+
+This installs user-level, once, for your whole machine:
+- 23 agents → `~/.claude/agents/` (Claude Code personal agents — available in every project)
+- 14 skills → `~/.claude/skills/`
+- support pack (constitution · registries · templates · domains · connectors) → `~/.claude/aidlc/`
+
+Each globally-installed agent knows to find its support files in `~/.claude/aidlc/`,
+to prefer a project-local copy when one exists, and to write artifacts into the
+current project's `artifacts/`. Open any folder → `claude` → `/agents` → the roster
+is there. Update with `--force`; uninstall by deleting those three locations.
+
+*(Project-scoped `aidlc init` remains the right choice for a team repo — it ships the
+agents WITH the codebase so every teammate gets them on clone.)*
+
 The sections below are the manual (no-uv) paths per IDE — and what `init` sets up.
 
 ---

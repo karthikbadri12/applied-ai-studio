@@ -110,8 +110,59 @@ def generate_chatmodes(pack: Path, target: Path, force: bool) -> int:
     return written
 
 
+GLOBAL_NOTE = """
+## Global install note
+This agent is installed user-globally. Its support files live in `~/.claude/aidlc/`:
+- Constitution: `~/.claude/aidlc/CONSTITUTION.md` (read it FIRST, always)
+- Registries: `~/.claude/aidlc/registry/` (stages.json · agents.json · skills.json)
+- Artifact templates: `~/.claude/aidlc/artifacts/templates/`
+- Skills: `~/.claude/skills/<name>/SKILL.md`
+- Domains / connectors / pipelines: `~/.claude/aidlc/`
+If the current project has its own copies (a project-scoped install), prefer those.
+Write stage artifacts into the current project's `artifacts/` directory.
+"""
+
+
+def cmd_global(pack: Path, force: bool) -> None:
+    """Install user-globally: agents+skills into ~/.claude, support pack into ~/.claude/aidlc."""
+    home = Path.home() / ".claude"
+    total = 0
+
+    # Agents — copied with a note pointing at the global support pack.
+    agents_out = home / "agents"
+    agents_out.mkdir(parents=True, exist_ok=True)
+    for agent_file in sorted((pack / ".claude" / "agents").glob("*.md")):
+        out = agents_out / agent_file.name
+        if out.exists() and not force:
+            continue
+        out.write_text(agent_file.read_text(encoding="utf-8").rstrip() + "\n" + GLOBAL_NOTE,
+                       encoding="utf-8")
+        total += 1
+
+    # Skills — verbatim.
+    total += copy_item(pack / ".claude" / "skills", home / "skills", force)
+
+    # Support pack — constitution, registries, templates, domains, connectors, pipelines, docs.
+    support = home / "aidlc"
+    for item in CORE:
+        src = pack / item
+        if src.exists():
+            total += copy_item(src, support / item, force)
+
+    print(f"✔ Applied AI Studio installed GLOBALLY (files written: {total})")
+    print(f"  • agents  → {agents_out}  (23 custom agents, every project)")
+    print(f"  • skills  → {home / 'skills'}  (14 skills)")
+    print(f"  • support → {support}  (constitution · registries · templates · domains)")
+    print("\nOpen ANY folder in VS Code / your IDE, run `claude`, then `/agents` — the roster is there.")
+    print("Say: “Use the orchestrator agent. Problem statement: …”  Artifacts land in ./artifacts/.")
+    print("Update later: re-run this command with --force. Uninstall: remove the files above.")
+
+
 def cmd_init(args: argparse.Namespace) -> None:
     pack = pack_root()
+    if getattr(args, "global_install", False):
+        cmd_global(pack, args.force)
+        return
     target = Path(args.path).resolve()
     target.mkdir(parents=True, exist_ok=True)
 
@@ -206,6 +257,8 @@ def main() -> None:
     p_init = sub.add_parser("init", help="scaffold the agent pack into a project")
     p_init.add_argument("path", nargs="?", default=".", help="target project directory (default: .)")
     p_init.add_argument("--ide", choices=IDES, default="all", help="which IDE flavor to install (default: all)")
+    p_init.add_argument("--global", dest="global_install", action="store_true",
+                        help="install user-globally (~/.claude) so the agents exist in EVERY project")
     p_init.add_argument("--force", action="store_true", help="overwrite existing files")
     p_init.set_defaults(fn=cmd_init)
 
