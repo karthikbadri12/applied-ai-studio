@@ -46,3 +46,18 @@ in the shared shape so the administrator can compare like-for-like.
 - **Spec Kit phase:** Plan (advisory)
 - **Required skills — load before acting:** [`evaluating-options`](../skills/evaluating-options/SKILL.md) · [`planning-before-coding`](../skills/planning-before-coding/SKILL.md)
 - Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.
+
+## Agent framework recommendation (when the verdict is Agentic/Hybrid)
+When this cloud wins the comparison AND the solution type involves agents, recommend
+the agent framework layer from `registry/frameworks.json` (Constitution Art. 5 —
+one pick, alternates with reasons):
+- **Recommended: Strands Agents SDK + Amazon Bedrock AgentCore** — Strands is AWS's open-source, model-driven agent SDK (used internally by AWS teams); AgentCore provides the managed runtime, memory, identity, and observability on Bedrock.
+  Deploy: Bedrock AgentCore (managed) or ECS/EKS/Lambda (self-managed)
+- Alternates:
+  - **Bedrock Agents (fully managed)** — when: configuration-over-code preference, tight Bedrock coupling acceptable
+  - **LangGraph on ECS/EKS** — when: portable graph orchestration or existing LangChain estate
+  - **CrewAI** — when: simple role-based multi-agent with minimal infra
+- Cross-cloud constants: connectors via **MCP**; cross-framework agent interop via **A2A**.
+- If the solution is a single deterministic pipeline, say so: no framework beats an
+  unneeded one. Record the framework decision in the architecture decision trail;
+  `dev-spec` carries it into the AI Spec so the build scaffolds against it.

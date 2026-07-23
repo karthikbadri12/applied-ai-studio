@@ -114,6 +114,31 @@ domains/                 15-industry registry + deep packs (domain-agnostic core
 pipelines/               the decoupled dev pipeline
 ```
 
+## What is AIDLC itself built with?
+
+Deliberately, **no agent framework**. AIDLC is a *framework-agnostic agent system*:
+
+- **Agents-as-instructions:** every agent is a versioned Markdown spec (charter,
+  guardrails, skills, I/O contract) in `.claude/agents/`. The *execution engine* is
+  whatever agentic runtime your IDE already has — Claude Code custom agents natively,
+  or any `AGENTS.md`-standard assistant (Cursor, Copilot, Antigravity, Windsurf).
+  No LangChain/LangGraph/ADK dependency to install, version, or secure.
+- **Methodology layer:** Spec Kit (phase gates) + BMAD (persona pipeline) +
+  Superpowers (composable skills) — see [SKILLS.md](SKILLS.md).
+- **Governance layer:** a Constitution + runtime harness ([HARNESS.md](HARNESS.md))
+  with hard/soft guardrails, five HITL gates, and an append-only audit ledger.
+- **Connectors:** MCP (Model Context Protocol) — the one integration standard every
+  major IDE speaks.
+- **Packaging:** a small stdlib-only Python CLI (`aidlc`), built with hatchling,
+  installed via **uv/uvx** — the same distribution pattern as GitHub's Spec Kit.
+
+The solutions AIDLC *designs* do get a framework recommendation — chosen by the
+winning cloud advisor from [registry/frameworks.json](registry/frameworks.json):
+**GCP → Google ADK** (deploy: Vertex AI Agent Engine) · **AWS → Strands Agents +
+Bedrock AgentCore** · **Azure → Microsoft Agent Framework + AI Foundry Agent
+Service** · **on-prem → self-hosted LangGraph over vLLM/Ollama** — each with named
+alternates, and "no framework" stated when a plain pipeline is the simpler answer.
+
 ## Design principles
 
 1. **Ask before you build** — no PRD from a one-liner; the intake question loop is mandatory.

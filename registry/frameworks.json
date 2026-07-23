@@ -1,0 +1,59 @@
+{
+  "version": "1.0.0",
+  "description": "Agent-framework selection matrix, keyed by the cloud decision. The architecture stage picks the cloud; the winning cloud advisor then recommends the agent framework from this matrix (one recommendation + alternates with reasons, per Constitution Art. 5). dev-spec records the choice; build mode scaffolds against it.",
+  "crossCloud": {
+    "tools_and_connectors": "MCP (Model Context Protocol) — the connector layer regardless of cloud",
+    "agent_interop": "A2A (Agent2Agent protocol) — when agents from different frameworks/vendors must talk",
+    "note": "Framework choice is an ARCHITECTURE decision, not a default. A single-agent pipeline with deterministic steps may need no framework at all — plain SDK calls beat a framework it doesn't need (simplest-thing-that-meets-the-metric rule)."
+  },
+  "byCloud": {
+    "gcp": {
+      "recommended": {
+        "name": "Google ADK (Agent Development Kit)",
+        "why": "First-party Google framework — Gemini-native, code-first Python/Java, built-in tool ecosystem, evaluation support, and a managed deploy path to Vertex AI Agent Engine; A2A for multi-agent interop.",
+        "deploy": "Vertex AI Agent Engine (managed) or Cloud Run / GKE (self-managed)"
+      },
+      "alternates": [
+        { "name": "LangGraph on GKE/Cloud Run", "when": "team already standardized on LangGraph, or needs portable graph semantics off-GCP" },
+        { "name": "Vertex AI Agent Builder / conversational agents", "when": "low-code path or contact-center style assistants" },
+        { "name": "CrewAI", "when": "lightweight role-based crews without deep GCP coupling" }
+      ]
+    },
+    "aws": {
+      "recommended": {
+        "name": "Strands Agents SDK + Amazon Bedrock AgentCore",
+        "why": "Strands is AWS's open-source, model-driven agent SDK (used internally by AWS teams); AgentCore provides the managed runtime, memory, identity, and observability on Bedrock.",
+        "deploy": "Bedrock AgentCore (managed) or ECS/EKS/Lambda (self-managed)"
+      },
+      "alternates": [
+        { "name": "Bedrock Agents (fully managed)", "when": "configuration-over-code preference, tight Bedrock coupling acceptable" },
+        { "name": "LangGraph on ECS/EKS", "when": "portable graph orchestration or existing LangChain estate" },
+        { "name": "CrewAI", "when": "simple role-based multi-agent with minimal infra" }
+      ]
+    },
+    "azure": {
+      "recommended": {
+        "name": "Microsoft Agent Framework + Azure AI Foundry Agent Service",
+        "why": "Microsoft's converged successor to Semantic Kernel + AutoGen — open-source SDK with graph-based workflows, plus a managed agent runtime (threads, tools, observability, entra ID) in Azure AI Foundry.",
+        "deploy": "Azure AI Foundry Agent Service (managed) or AKS/Container Apps (self-managed)"
+      },
+      "alternates": [
+        { "name": "Semantic Kernel", "when": "existing SK estate; enterprise .NET shops" },
+        { "name": "AutoGen", "when": "research-grade multi-agent conversation patterns" },
+        { "name": "LangGraph on AKS", "when": "portability across clouds is a hard requirement" }
+      ]
+    },
+    "onprem": {
+      "recommended": {
+        "name": "LangGraph (self-hosted) over vLLM/Ollama-served open models",
+        "why": "Mature, self-hostable graph orchestration with no vendor runtime dependency; pairs with vLLM/Ollama serving, Milvus/pgvector retrieval, Airflow scheduling — fully inside the boundary.",
+        "deploy": "Kubernetes/OpenShift; models via vLLM or Ollama; no external control plane"
+      },
+      "alternates": [
+        { "name": "CrewAI (self-hosted)", "when": "lighter role-based crews, smaller ops footprint" },
+        { "name": "AutoGen (self-hosted)", "when": "conversation-pattern multi-agent research workloads" },
+        { "name": "Plain function-calling loop (no framework)", "when": "single agent + deterministic tools — the simplest thing that meets the metric" }
+      ]
+    }
+  }
+}

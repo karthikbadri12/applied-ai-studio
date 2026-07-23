@@ -47,3 +47,18 @@ shared shape for a like-for-like comparison.
 - **Spec Kit phase:** Plan (advisory)
 - **Required skills — load before acting:** [`evaluating-options`](../skills/evaluating-options/SKILL.md) · [`planning-before-coding`](../skills/planning-before-coding/SKILL.md)
 - Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.
+
+## Agent framework recommendation (when the verdict is Agentic/Hybrid)
+When this cloud wins the comparison AND the solution type involves agents, recommend
+the agent framework layer from `registry/frameworks.json` (Constitution Art. 5 —
+one pick, alternates with reasons):
+- **Recommended: Microsoft Agent Framework + Azure AI Foundry Agent Service** — Microsoft's converged successor to Semantic Kernel + AutoGen — open-source SDK with graph-based workflows, plus a managed agent runtime (threads, tools, observability, entra ID) in Azure AI Foundry.
+  Deploy: Azure AI Foundry Agent Service (managed) or AKS/Container Apps (self-managed)
+- Alternates:
+  - **Semantic Kernel** — when: existing SK estate; enterprise .NET shops
+  - **AutoGen** — when: research-grade multi-agent conversation patterns
+  - **LangGraph on AKS** — when: portability across clouds is a hard requirement
+- Cross-cloud constants: connectors via **MCP**; cross-framework agent interop via **A2A**.
+- If the solution is a single deterministic pipeline, say so: no framework beats an
+  unneeded one. Record the framework decision in the architecture decision trail;
+  `dev-spec` carries it into the AI Spec so the build scaffolds against it.

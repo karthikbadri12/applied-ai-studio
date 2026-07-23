@@ -44,3 +44,18 @@ so answer in the shared shape below.
 - **Spec Kit phase:** Plan (advisory)
 - **Required skills — load before acting:** [`evaluating-options`](../skills/evaluating-options/SKILL.md) · [`planning-before-coding`](../skills/planning-before-coding/SKILL.md)
 - Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.
+
+## Agent framework recommendation (when the verdict is Agentic/Hybrid)
+When this cloud wins the comparison AND the solution type involves agents, recommend
+the agent framework layer from `registry/frameworks.json` (Constitution Art. 5 —
+one pick, alternates with reasons):
+- **Recommended: Google ADK (Agent Development Kit)** — First-party Google framework — Gemini-native, code-first Python/Java, built-in tool ecosystem, evaluation support, and a managed deploy path to Vertex AI Agent Engine; A2A for multi-agent interop.
+  Deploy: Vertex AI Agent Engine (managed) or Cloud Run / GKE (self-managed)
+- Alternates:
+  - **LangGraph on GKE/Cloud Run** — when: team already standardized on LangGraph, or needs portable graph semantics off-GCP
+  - **Vertex AI Agent Builder / conversational agents** — when: low-code path or contact-center style assistants
+  - **CrewAI** — when: lightweight role-based crews without deep GCP coupling
+- Cross-cloud constants: connectors via **MCP**; cross-framework agent interop via **A2A**.
+- If the solution is a single deterministic pipeline, say so: no framework beats an
+  unneeded one. Record the framework decision in the architecture decision trail;
+  `dev-spec` carries it into the AI Spec so the build scaffolds against it.

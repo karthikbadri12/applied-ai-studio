@@ -51,3 +51,18 @@ advisors; answer in the shared shape so the administrator can compare.
 - **Spec Kit phase:** Plan (advisory)
 - **Required skills — load before acting:** [`evaluating-options`](../skills/evaluating-options/SKILL.md) · [`planning-before-coding`](../skills/planning-before-coding/SKILL.md)
 - Mapping source: `registry/skills.json`. The orchestrator injects these on delegation; if running standalone, read each skill file first and obey it alongside the Constitution.
+
+## Agent framework recommendation (when the verdict is Agentic/Hybrid)
+When this cloud wins the comparison AND the solution type involves agents, recommend
+the agent framework layer from `registry/frameworks.json` (Constitution Art. 5 —
+one pick, alternates with reasons):
+- **Recommended: LangGraph (self-hosted) over vLLM/Ollama-served open models** — Mature, self-hostable graph orchestration with no vendor runtime dependency; pairs with vLLM/Ollama serving, Milvus/pgvector retrieval, Airflow scheduling — fully inside the boundary.
+  Deploy: Kubernetes/OpenShift; models via vLLM or Ollama; no external control plane
+- Alternates:
+  - **CrewAI (self-hosted)** — when: lighter role-based crews, smaller ops footprint
+  - **AutoGen (self-hosted)** — when: conversation-pattern multi-agent research workloads
+  - **Plain function-calling loop (no framework)** — when: single agent + deterministic tools — the simplest thing that meets the metric
+- Cross-cloud constants: connectors via **MCP**; cross-framework agent interop via **A2A**.
+- If the solution is a single deterministic pipeline, say so: no framework beats an
+  unneeded one. Record the framework decision in the architecture decision trail;
+  `dev-spec` carries it into the AI Spec so the build scaffolds against it.
