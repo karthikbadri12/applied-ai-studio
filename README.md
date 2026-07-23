@@ -1,111 +1,304 @@
-# Applied AI Enterprise
+<div align="center">
 
-**A domain-agnostic Applied-AI agent system you install into your IDE.** Drop in an
-executive problem statement — *"our claims team is drowning in 40k calls a month"* —
-and a roster of specialist agents drives it through the full **AI Development Life
-Cycle**: clarifying questions, a signed PRD, a solution verdict, a model + cloud
-strategy, a business case, evals, a go/no-go gate, a production plan, and a buildable
-spec — with a human in the loop at every decision that matters.
+# 🏛️ Applied AI Enterprise
 
-It runs natively in **Claude Code**, and via the `AGENTS.md` standard in **Cursor,
-VS Code, and Antigravity**. Connectors (Snowflake, Databricks, BigQuery, Bedrock…)
-plug in over **MCP**.
+### From an executive problem statement → to eval-gated working code
 
-> Not a chatbot. An org chart of specialist agents governed by a shared constitution
-> and a single orchestrator — the way a Forward Deployed team actually delivers.
+**AIDLC — the Applied AI Delivery Lifecycle.** A 25-agent, constitution-governed
+system you install into your IDE. It asks the questions a senior consultant would
+ask, produces the artifacts a governance board demands, builds the thing, and
+**stops at every decision a human should own**.
+
+[![PyPI](https://img.shields.io/pypi/v/aidlc-studio?logo=pypi&logoColor=white&label=aidlc-studio&color=f5b544)](https://pypi.org/project/aidlc-studio/)
+[![Python](https://img.shields.io/pypi/pyversions/aidlc-studio?logo=python&logoColor=white&color=5b8cff)](https://pypi.org/project/aidlc-studio/)
+[![License](https://img.shields.io/badge/license-MIT-3fbf9c)](LICENSE)
+[![Agents](https://img.shields.io/badge/agents-25-8b7bf0)](registry/agents.json)
+[![Phases](https://img.shields.io/badge/phases-4-8b7bf0)](registry/phases.json)
+[![Human gates](https://img.shields.io/badge/human%20gates-5-ff6b6b)](CONSTITUTION.md)
+[![IDEs](https://img.shields.io/badge/IDEs-Claude%20Code%20·%20Cursor%20·%20Copilot%20·%20Antigravity%20·%20Windsurf-1e2b57)](docs/INSTALL.md)
+
+```bash
+uvx --from aidlc-studio aidlc init --global      # install once, every project
+/appliedai Our claims team is drowning — 40k packets a month.
+```
+
+📄 **[Full documentation site](docs/index.html)** · 🧭 **[Architecture](ARCHITECTURE.md)** · 🚀 **[Install guide](docs/INSTALL.md)** · 🎬 **[Demo script](demo/RECORDING_SCRIPT.md)**
+
+</div>
+
+> Not a chatbot. An **org chart of specialist agents** governed by a shared
+> constitution and a single orchestrator — the way a Forward Deployed team
+> actually delivers.
+
+---
+
+## Contents
+
+[Why this exists](#why-this-exists) · [End to end](#-how-the-entire-thing-happens-end-to-end) · [Architecture](#-the-architecture) · [The agents](#-the-agents-25) · [Cloud & frameworks](#-four-clouds-one-question) · [Governance](#-governance-that-actually-runs) · [Proof](#-proof-in-the-box) · [Install](#-install) · [Built with](#-what-aidlc-itself-is-built-with)
 
 ---
 
 ## Why this exists
 
-Most "AI initiatives" die the same three deaths: no one defined the problem, no one
-could prove it worked, or no one thought about production until it broke. This pack
-encodes the discipline that prevents all three — as agents you can run.
+Most AI initiatives die the same three deaths. Not from bad models — from missing
+discipline. And the discipline is always the same, which means it can be encoded.
+
+| 🎯 Nobody defined the problem | 📊 Nobody could prove it worked | 🚨 Nobody thought about production |
+|---|---|---|
+| The brief describes a symptom in vendor vocabulary. You automate the *response* to a problem instead of touching the problem. | "The demo looked great" is not evidence. Without golden sets and bars set *before* measuring, quality is a feeling. | Guardrails, PII controls and rollback get discovered in the security review — six weeks after the launch date was announced. |
 
 - **Executives** get a decision-grade brief, not a science project.
-- **PMs / BAs** get the clarifying-question rigor and artifacts at every stage.
+- **PMs / BAs** get clarifying-question rigor and an artifact at every stage.
 - **Engineers** get an unambiguous, testable AI Spec to build against.
-- **Everyone** gets the human-in-the-loop gates and the audit trail regulators want.
+- **Risk & compliance** get human gates and a contemporaneous audit trail.
 
-## The architecture (three layers)
+---
 
+## 🔄 How the entire thing happens (end to end)
+
+One command starts it. The orchestrator runs four phases, consults advisors in
+parallel, writes a file at every stage, and halts at five gates.
+
+```mermaid
+flowchart TD
+    VP(["🗣️ VP problem statement"]) --> ORCH["🧠 orchestrator<br/><i>classifies domain · loads config · applies the harness</i>"]
+    ORCH --> Q["❓ ONE batched question set<br/>cloud &amp; stack · connectors + env-var names · model provider · plan|build"]
+
+    Q --> P1["<b>P1 · INTENT &amp; DISCOVERY</b><br/>intake → process-map<br/><i>+ domain-advisor, stack-review</i>"]
+    P1 --> A1[/"📄 00-stack-review · 01-prd · 02-process-map"/]
+    A1 --> G1{{"⛔ Sponsor signs the PRD"}}
+
+    G1 --> P2["<b>P2 · ASSESS &amp; ARCHITECTURE</b><br/>assess → value-prop → architecture → dev-spec<br/><i>+ model-selector, 4 cloud advisors, connector-advisor</i>"]
+    P2 --> A2[/"📄 03-assessment · 04-business-case · 05-architecture · 06-ai-spec"/]
+    A2 --> G2{{"⛔ Finance approves the case"}}
+
+    G2 --> P3["<b>P3 · BUILD, TEST &amp; EXECUTE</b><br/>data-science → discovery → coder → eval → poc-gate"]
+    P3 --> A3[/"📄 07-data-science · 08-evals · 09-poc-gate<br/>💻 the working repo"/]
+    A3 --> G3{{"⛔ Sponsor: GO / CONDITIONAL / NO-GO"}}
+
+    G3 --> P4["<b>P4 · REVIEW &amp; OBSERVABILITY</b><br/>code-reviewer → production → observability → brief"]
+    P4 --> A4[/"📄 10-production · 11-observability · 12-delivery-brief"/]
+    A4 --> G4{{"⛔ Security sign-off → Owner approves brief"}}
+    G4 --> OUT(["✅ Delivery brief + working, eval-gated repo"])
+
+    ORCH -.every event.-> LEDGER[("📒 artifacts/audit.jsonl<br/>append-only ledger")]
+    P1 & P2 & P3 & P4 -.-> LEDGER
+
+    style G1 fill:#ff6b6b,color:#fff
+    style G2 fill:#ff6b6b,color:#fff
+    style G3 fill:#ff6b6b,color:#fff
+    style G4 fill:#ff6b6b,color:#fff
+    style OUT fill:#3fbf9c,color:#062
+    style LEDGER fill:#1e2b57,color:#fff
 ```
- SETTINGS   registry/agents.json · registry/stages.json   ← the catalog an IDE installs
- GOVERNANCE CONSTITUTION.md · orchestrator · advisors      ← rules + routing + advice
- EXECUTION  12 pipeline agents + dev pipeline              ← each knows one job + artifact
+
+**Stage N's artifact is stage N+1's input contract.** Nothing is re-derived; nothing
+advances past an open gate.
+
+---
+
+## 🏗️ The architecture
+
+Three layers. The **administrator** = orchestrator + human: advisors recommend, the
+administrator decides, and reserved decisions stop for a person.
+
+```mermaid
+flowchart TB
+    subgraph L1["🗂️ LAYER 1 · SETTINGS &amp; REGISTRY"]
+        R1["registry/agents.json"] --- R2["registry/stages.json"] --- R3["registry/phases.json"]
+        R4["registry/skills.json"] --- R5["registry/frameworks.json"]
+    end
+    subgraph L2["⚖️ LAYER 2 · GOVERNANCE &amp; ORCHESTRATION"]
+        C["📜 CONSTITUTION.md"] --- H["🛡️ HARNESS.md"] --- QB["📏 QUALITY_BAR.md"]
+        O["🧠 orchestrator"]
+        ADV["🎓 8 advisors<br/>model-selector · cloud-gcp/aws/azure/onprem<br/>connector-advisor · domain-advisor · stack-review"]
+    end
+    subgraph L3["⚙️ LAYER 3 · EXECUTION"]
+        PIPE["12 pipeline agents<br/>intake … brief"]
+        DEV["dev pipeline<br/>discovery → coder → code-reviewer"]
+        OPS["incident-commander<br/><i>post-launch</i>"]
+    end
+    HUMAN(["🧑‍⚖️ Human owner"])
+    L1 --> L2 --> L3
+    ADV -.recommend.-> O
+    O <-->|"⛔ 5 gates"| HUMAN
+    O -.delegates + harness.-> PIPE & DEV
+    style L1 fill:#f5b54422,stroke:#f5b544
+    style L2 fill:#8b7bf022,stroke:#8b7bf0
+    style L3 fill:#5b8cff22,stroke:#5b8cff
 ```
 
-**The administrator = orchestrator + human.** Advisors advise; the administrator
-decides; some decisions are reserved for the human (the HITL gates). Full picture in
-[ARCHITECTURE.md](ARCHITECTURE.md).
+### The harness — wraps every single agent invocation
 
-## The agents (25)
+```mermaid
+flowchart LR
+    PRE["① PRE-FLIGHT<br/>predecessor artifact?<br/>gate approved?<br/>data class allowed?"] --> EXEC["② EXECUTE<br/>hard + soft<br/>guardrails live"]
+    EXEC --> POST["③ POST-FLIGHT<br/>QUALITY_BAR check<br/>evidence · no secrets"]
+    POST --> AUD[("④ AUDIT<br/>audit.jsonl")]
+    AUD --> G{"gate?"}
+    G -->|yes| STOP["⛔ human decides"]
+    G -->|no| NEXT["→ next stage"]
+    EXEC -->|hard violation| BLOCK["🚫 BLOCK<br/>surface to administrator"] --> AUD
+    style BLOCK fill:#ff6b6b,color:#fff
+    style STOP fill:#ff6b6b,color:#fff
+```
 
-| Group | Agents |
-|-------|--------|
-| **Orchestrator** | `orchestrator` — routes the problem, sequences stages, enforces gates |
-| **ADLC pipeline (12)** | `intake` → `process-map` → `assess` → `value-prop` → `architecture` → `dev-spec` → `data-science` → `eval` → `poc-gate` → `production` → `observability` → `brief` |
-| **Advisors (7)** | `model-selector` · `cloud-gcp` · `cloud-aws` · `cloud-azure` · `cloud-onprem` · `connector-advisor` · `domain-advisor` |
-| **Dev pipeline (3)** | `discovery` → `coder` → `code-reviewer` (decoupled; consumes the AI Spec) |
+### Build mode — ≤2-minute micro-tasks, checkpointed
 
-Each stage produces a real artifact ([templates](artifacts/templates/)): Intake → a
-**signed PRD**, Assess → a **solution verdict + model shortlist**, POC gate → a
-**GO / NO-GO**, Brief → an **end-to-end delivery brief**. The artifact of stage N is
-the input contract of stage N+1.
+```mermaid
+flowchart LR
+    S["story"] --> SP["split into atomic tasks<br/>≤ 2 min each"]
+    SP --> W1["wave 1<br/>(parallel)"] --> CK1[("✓ tasks.json")]
+    CK1 --> W2["wave 2"] --> CK2[("✓")] --> WN["… wave N"]
+    WN --> V["make test · make eval<br/>green before review"]
+    CK1 -.crash? resume here.-> W2
+    style V fill:#3fbf9c,color:#062
+```
 
-## The four cloud/technical agents (asked the same question)
+---
 
-`cloud-gcp`, `cloud-aws`, `cloud-azure`, and `cloud-onprem` each answer the *same*
-architecture question so you compare **Vertex vs Bedrock vs Azure AI vs open-source
-on-prem** like-for-like — then get one recommended path with the reason the other
-three lost. On-prem covers the open-weight stack (vLLM, Llama/Mistral/Qwen, Airflow,
-Milvus) for "must stay on-prem" mandates.
+## 🤖 The agents (25)
 
-## Install
+| Group | Agents | Role |
+|---|---|---|
+| 🧠 **Orchestrator** | `orchestrator` | Owns the harness. Routes, sequences, enforces gates. Directs — never does the specialist work. |
+| ⚙️ **Pipeline (12)** | `intake` → `process-map` → `assess` → `value-prop` → `architecture` → `dev-spec` → `data-science` → `eval` → `poc-gate` → `production` → `observability` → `brief` | The ADLC spine. One stage, one artifact, one input contract each. |
+| 🎓 **Advisors (8)** | `model-selector` · `cloud-gcp` · `cloud-aws` · `cloud-azure` · `cloud-onprem` · `connector-advisor` · `domain-advisor` · `stack-review` | Recommend to the administrator. Never act, never provision. Consulted in parallel. |
+| 💻 **Dev pipeline (3)** | `discovery` → `coder` → `code-reviewer` | Decoupled — consumes the approved AI Spec, runs only when funded. |
+| 🚨 **Ops (1)** | `incident-commander` | Post-launch. Severity classification, runbooks, containment recommendations, blameless PIR. |
 
-**With uv (recommended — works for every IDE):**
+Each stage produces a real artifact ([templates](artifacts/templates/)) that must
+clear the floor in [QUALITY_BAR.md](QUALITY_BAR.md): quantified claims with the
+arithmetic shown, metrics blocks, diagrams, decision trails with rejected
+alternatives, risk registers, eval linkage.
+
+---
+
+## ☁️ Four clouds, one question
+
+`cloud-gcp`, `cloud-aws`, `cloud-azure` and `cloud-onprem` answer the **same**
+architecture question, so the comparison is like-for-like — then one path wins and
+the other three's losing reasons go on the record.
+
+```mermaid
+flowchart LR
+    Q["🏛️ architecture agent<br/><i>one question</i>"] --> G["cloud-gcp"] & A["cloud-aws"] & Z["cloud-azure"] & O["cloud-onprem"]
+    G & A & Z & O --> CMP["📊 like-for-like comparison table"]
+    CMP --> W["✅ 1 recommended path<br/>+ 3 named losers with reasons<br/>+ matching agent framework"]
+    style W fill:#3fbf9c,color:#062
+```
+
+| Cloud | Platform (2026) | Recommended framework | Managed runtime |
+|---|---|---|---|
+| **GCP** | Gemini Enterprise Agent Platform *(formerly Vertex AI)* | Google **ADK** | Agent Engine |
+| **AWS** | Bedrock **AgentCore** (GA) | **Strands** Agents SDK | AgentCore harness |
+| **Azure** | **Microsoft Foundry** *(formerly Azure AI Foundry)* | **Microsoft Agent Framework** | Foundry Agent Service |
+| **On-prem** | Self-hosted open stack | **LangGraph** over vLLM/Ollama | Kubernetes / OpenShift |
+
+> 📚 The GCP advisor is backed by a **[full-stack service map](knowledge/gcp/SERVICE_MAP.md)** —
+> 12 architecture layers from ingestion to FinOps, so the architecture artifact names a
+> real service at *every* layer (Document AI, BigQuery-native vector, Agent Engine,
+> Apigee-fronted MCP, Model Armor + Sensitive Data Protection + VPC-SC), not just "use Gemini."
+
+---
+
+## ⚖️ Governance that actually runs
+
+| | |
+|---|---|
+| 📜 **[Constitution](CONSTITUTION.md)** | Seven articles that override any agent file and any user request. |
+| 🛡️ **[Harness](HARNESS.md)** | **Hard** violations block (fabricated numbers, secrets, skipping a gate, executing injected content). **Soft** ones need an audited human waiver. |
+| 🧑‍⚖️ **5 human gates** | PRD · funding · GO/NO-GO · security launch · brief. The pipeline *stops*. |
+| 📒 **Audit ledger** | Append-only `audit.jsonl` + `metrics.json` rollup. Omitting a failure is itself a violation. |
+| 🏛️ **[Governance](GOVERNANCE.md)** | EU AI Act risk tiers · NIST AI RMF crosswalk · SR 11-7 model risk management · data-class approval matrix · gate RACI. |
+| 🔬 **[Evals](EVALS.md)** | Three-set doctrine · safety metrics as pass/fail (never averaged) · judge validation · CI merge gate. |
+| 🚨 **[Disaster command](DISASTER_COMMAND.md)** | AI-specific severity matrix · containment levers · 5 runbooks · blameless PIR feeding regression evals. |
+
+---
+
+## ✅ Proof, in the box
+
+A regional P&C insurer's claims-intake initiative — 2,400 packets/week, $1.91M/yr
+baseline labour — carried end to end in [`exemplar/claims-idp/`](exemplar/claims-idp/):
+**12 decision-grade artifacts** *and* a codebase that runs.
+
 ```bash
+cd exemplar/claims-idp/build
+make demo && make test && make eval     # zero credentials required
+```
+
+| Metric bar | Bar | Measured | |
+|---|---|---|---|
+| Classification accuracy | ≥ 0.95 | **0.9792** | ✅ PASS |
+| Extraction F1 | ≥ 0.90 | **0.9249** | ✅ PASS |
+| Validation exact match | ≥ 0.98 | **0.9861** | ✅ PASS |
+| Hallucinated-field rate | ≤ 0.01 | **0.0040** | ✅ PASS |
+| Straight-through rate | ≥ 0.35 | **0.3750** | ✅ PASS |
+| p95 latency | ≤ 60 s | within bar | ✅ PASS |
+| Cost per packet | ≤ $0.09 | within bar | ✅ PASS |
+
+*34 unit tests · 48 eval cases (32 golden · 10 adversarial · 6 regression) · CI eval
+gate · Terraform · hash-chained audit trail.* The scores are **deliberately not
+100%** — engineered fixture defects keep them honest. Mock mode still exercises the
+real paths: low-confidence fallback to the stronger model, prompt-injection
+quarantine, intact audit chain.
+
+---
+
+## 🚀 Install
+
+**Requires [uv](https://docs.astral.sh/uv/).** Full per-IDE guide with verify +
+troubleshoot steps: **[docs/INSTALL.md](docs/INSTALL.md)**.
+
+```bash
+# Global — the agents in every folder you open (recommended for individuals)
+uvx --from aidlc-studio aidlc init --global
+
+# Project — ship the agents WITH a team repo, every IDE flavor at once
 uvx --from aidlc-studio aidlc init --ide all
-# per-IDE: --ide claude | cursor | copilot | antigravity
-# then:    aidlc list · aidlc check
+
+aidlc list     # the roster with BMAD persona + Spec Kit phase
+aidlc check    # verify an install
 ```
-Full per-IDE guide: [docs/INSTALL.md](docs/INSTALL.md).
 
-**Claude Code** (VS Code, JetBrains, terminal)
-```bash
-git clone <this-repo> && cd applied-ai-studio
-claude   # the agents in .claude/agents/ are picked up automatically
-```
-Then: *"Act as the orchestrator. Here's my problem statement: …"*
+| IDE | Flavor | What you get |
+|---|---|---|
+| **Claude Code** <sub>VS Code · JetBrains · terminal</sub> | `--ide claude` | Native custom agents + skills + the `/appliedai` command. Full experience with real sub-agent delegation. |
+| **Cursor** | `--ide cursor` | Always-on project rule + `AGENTS.md`. |
+| **VS Code / Copilot** | `--ide copilot` | All 25 agents auto-generated as chat modes in `.github/chatmodes/`. |
+| **Antigravity · Windsurf** | `--ide antigravity` | The `AGENTS.md` standard, loaded on open. |
 
-**Cursor / Antigravity / VS Code agents**
-- They read [AGENTS.md](AGENTS.md) and [.cursor/rules/](.cursor/rules/) automatically.
-- Point the assistant at the repo and give it a problem statement; it adopts the
-  orchestrator role and walks the pipeline.
+> In Claude Code the gates can appear as interactive prompts; in the others the
+> `⛔ HUMAN GATE` **chat message is** the gate — reply `approved` to continue.
 
-**Connectors (optional, any IDE)**
-- Copy the servers you need from [connectors/mcp.example.json](connectors/mcp.example.json)
-  into your IDE's MCP config. Secrets go in a secret manager / gitignored `.env`.
+**Connectors:** copy what you need from
+[connectors/mcp.example.json](connectors/mcp.example.json) into your IDE's MCP
+config. Credentials are **env-var names only**, tracked in `aidlc.config.json`.
 
-## A 3-minute demo
+---
 
-1. Give the `orchestrator` a one-line problem statement.
-2. Watch `intake` run the clarifying-question loop and produce `artifacts/01-prd.md`,
-   then stop at the **sponsor sign-off** gate.
-3. Approve it. Watch `assess` (consulting `model-selector` + the four cloud agents +
-   `domain-advisor`) produce a solution verdict and a model + cloud comparison.
-4. Continue to the **POC gate** — a GO / CONDITIONAL / NO-GO backed by evals — and the
-   final **delivery brief** with the AI Spec handoff.
+## 🧩 What AIDLC itself is built with
 
-Everything lands as files in `artifacts/`, so the demo *shows its work*.
+Deliberately, **no agent framework** — it's a *framework-agnostic* agent system.
 
-## 📄 Full documentation site
+- **Agents-as-instructions** — every agent is a versioned Markdown spec in
+  `.claude/agents/`. The execution engine is whatever agentic runtime your IDE
+  already has. Nothing to install, version or secure, and the whole org chart is
+  reviewable in a pull request by someone who doesn't write code.
+- **Methodology layer** — Spec Kit (phase gates) + BMAD (persona pipeline) +
+  Superpowers (composable skills) → 14 skills, see [SKILLS.md](SKILLS.md).
+- **Governance layer** — constitution + runtime harness + append-only audit ledger.
+- **Connectors** — MCP, the one standard every major IDE speaks.
+- **Packaging** — a stdlib-only Python CLI via uv, the same pattern as GitHub's Spec Kit.
 
-**[docs/index.html](docs/index.html)** — the professional overview: capabilities, the
-complete end-to-end walkthrough, the agent roster, the 2026 cloud/framework matrix,
-governance, and the proof. Open it in a browser (or serve `docs/` via GitHub Pages).
+The framework decision belongs to the **solution**, not the tooling — which is why
+the winning cloud advisor recommends ADK, Strands, Agent Framework or LangGraph
+from [registry/frameworks.json](registry/frameworks.json), and says *"no framework"*
+when a plain pipeline is simpler.
 
-## Repo map
+---
+
+## 📁 Repo map
 
 ```
 CONSTITUTION.md          the rules every agent obeys
@@ -118,50 +311,33 @@ PRODUCT.md               vision, personas, OKRs, RICE roadmap
 ARCHITECTURE.md          the three-layer design + request flow
 AGENTS.md                cross-IDE entry (Cursor / Antigravity / VS Code)
 registry/                agents · stages · phases · skills · frameworks (JSON)
+knowledge/gcp/           full-stack GCP service map (12 layers, cited)
 .claude/agents/          all 25 agent definitions (canonical source)
 .claude/skills/          14 skills + the /appliedai entry point
 artifacts/templates/     the artifact each stage produces
-exemplar/claims-idp/     gold-standard worked example + working eval-gated codebase
+exemplar/claims-idp/     worked example + working eval-gated codebase
 connectors/              catalog + MCP config + per-connector guides
-domains/                 15-industry registry + deep packs (domain-agnostic core)
+domains/                 15-industry registry + deep packs
 demo/RECORDING_SCRIPT.md scene-by-scene demo script
 docs/                    index.html · architecture.html · INSTALL.md · diagrams.md
 ```
 
-## What is AIDLC itself built with?
+---
 
-Deliberately, **no agent framework**. AIDLC is a *framework-agnostic agent system*:
+## 🎯 Design principles
 
-- **Agents-as-instructions:** every agent is a versioned Markdown spec (charter,
-  guardrails, skills, I/O contract) in `.claude/agents/`. The *execution engine* is
-  whatever agentic runtime your IDE already has — Claude Code custom agents natively,
-  or any `AGENTS.md`-standard assistant (Cursor, Copilot, Antigravity, Windsurf).
-  No LangChain/LangGraph/ADK dependency to install, version, or secure.
-- **Methodology layer:** Spec Kit (phase gates) + BMAD (persona pipeline) +
-  Superpowers (composable skills) — see [SKILLS.md](SKILLS.md).
-- **Governance layer:** a Constitution + runtime harness ([HARNESS.md](HARNESS.md))
-  with hard/soft guardrails, five HITL gates, and an append-only audit ledger.
-- **Connectors:** MCP (Model Context Protocol) — the one integration standard every
-  major IDE speaks.
-- **Packaging:** a small stdlib-only Python CLI (`aidlc`), built with hatchling,
-  installed via **uv/uvx** — the same distribution pattern as GitHub's Spec Kit.
-
-The solutions AIDLC *designs* do get a framework recommendation — chosen by the
-winning cloud advisor from [registry/frameworks.json](registry/frameworks.json):
-**GCP → Google ADK** (deploy: Vertex AI Agent Engine) · **AWS → Strands Agents +
-Bedrock AgentCore** · **Azure → Microsoft Agent Framework + AI Foundry Agent
-Service** · **on-prem → self-hosted LangGraph over vLLM/Ollama** — each with named
-alternates, and "no framework" stated when a plain pipeline is the simpler answer.
-
-## Design principles
-
-1. **Ask before you build** — no PRD from a one-liner; the intake question loop is mandatory.
-2. **Evidence over assertion** — every number is labelled; nothing is fabricated.
-3. **Human-final** — the reserved decisions stop the pipeline until a person approves.
-4. **One recommended path** — with the alternatives and why they lost. No paralysis.
+1. **Ask before you build** — no PRD from a one-liner; the intake loop is mandatory.
+2. **Evidence over assertion** — every number labelled; nothing fabricated.
+3. **Human-final** — reserved decisions stop the pipeline until a person approves.
+4. **One recommended path** — with the alternatives and why they lost.
 5. **Artifacts are the interface** — the whole initiative is legible from the files.
+
+<div align="center">
 
 ---
 
-*Built as a portable agent pack — one source of truth, four IDEs. Fork it, point it at
-your problem, and let the org chart run.*
+**[📄 Docs](docs/index.html)** · **[🚀 Install](docs/INSTALL.md)** · **[🧭 Architecture](ARCHITECTURE.md)** · **[🤝 Contributing](.github/CONTRIBUTING.md)** · **[📦 PyPI](https://pypi.org/project/aidlc-studio/)**
+
+*25 agents · 4 phases · 5 human gates · 12 artifacts · one constitution*
+
+</div>
