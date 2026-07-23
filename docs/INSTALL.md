@@ -1,142 +1,192 @@
 # Install — load Applied AI Studio as custom agents in your IDE
 
 One source of truth (`.claude/agents/` + `AGENTS.md` + `registry/`), installable in
-every major AI IDE.
+every major AI IDE. Every path below is: **① install prerequisites → ② scaffold the
+pack → ③ open the project → ④ verify → ⑤ run → ⑥ fix if broken.**
+
+## How a run works in EVERY IDE (read this once)
+
+Whatever the IDE, you start the pipeline the same way — give the orchestrator a
+problem statement:
+
+> **"Start AIDLC. Problem statement: our claims team processes 2,400 packets a week
+> at 22 minutes each — can AI help?"**
+
+What happens next, in order:
+1. It asks you **one batched set of numbered questions** (cloud/stack, connectors +
+   credential env-var names, model token, plan-vs-build). Answer in chat.
+2. It runs the stages and writes files into `artifacts/` in your project.
+3. At each decision reserved for humans it prints a **`⛔ HUMAN GATE`** message and
+   **stops**. You reply `approved` (or your decision) in chat to continue.
+   - In **Claude Code** gates can also appear as interactive prompts.
+   - In **Cursor / Copilot / Antigravity / Windsurf** there are **no popups** —
+     the ⛔ chat message *is* the gate. This is expected, not a bug.
 
 ---
 
-## ⚡ The fast path — install with uv (recommended, Spec Kit-style)
+## 0. Prerequisite for all paths: uv (one-time, 30 seconds)
 
-Prereq (one-time): install [uv](https://docs.astral.sh/uv/):
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
+Close and reopen your terminal, then check: `uvx --version`.
 
-Scaffold the agent pack into **any project**, for **any IDE**, straight from GitHub:
-```bash
-# everything (all IDE flavors)
-uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init
+---
 
-# or per-IDE
-uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide claude
-uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide cursor
-uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide copilot      # generates .github/chatmodes/
-uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide antigravity  # AGENTS.md standard
-```
+## 1. Claude Code (VS Code, JetBrains, terminal, desktop) — the full experience
 
-Or install the CLI once and reuse it everywhere:
-```bash
-uv tool install git+https://github.com/karthikbadri12/applied-ai-studio.git
-aidlc init ~/code/my-project --ide all
-aidlc list     # show the 23-agent roster with BMAD persona + Spec Kit phase
-aidlc check    # verify an install (core files + at least one IDE flavor)
-```
-
-`init` is non-destructive (skips existing files; `--force` overwrites). After
-publishing to PyPI, this shortens to `uvx aidlc-studio aidlc init`.
-
-### 🌍 Global install — the agents in EVERY folder you open (no per-project setup)
-
+**Global — agents in every folder you ever open (recommended for individuals):**
 ```bash
 uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --global
 ```
+This installs a **clean picker**: only `orchestrator` appears as a custom agent;
+the other 22 workers live in `~/.claude/aidlc/agents/` and are delegated to
+automatically. The `/aidlc` slash command is installed too.
 
-This installs user-level, once, for your whole machine:
-- 23 agents → `~/.claude/agents/` (Claude Code personal agents — available in every project)
-- 14 skills → `~/.claude/skills/`
-- support pack (constitution · registries · templates · domains · connectors) → `~/.claude/aidlc/`
+1. Open **any** folder in VS Code → open Claude Code (or run `claude` in a terminal).
+2. Restart/reload once after installing (the picker caches).
+3. Verify: type `/agents` → you should see `orchestrator`. Type `/aidlc` → the
+   skill should be recognized.
+4. Run: `/aidlc <your problem statement>`.
+5. Update later: re-run the install command with `--force`.
+   Prefer all 23 in the picker? Add `--roster full`.
 
-Each globally-installed agent knows to find its support files in `~/.claude/aidlc/`,
-to prefer a project-local copy when one exists, and to write artifacts into the
-current project's `artifacts/`. Open any folder → `claude` → `/agents` → the roster
-is there. Update with `--force`; uninstall by deleting those three locations.
-
-*(Project-scoped `aidlc init` remains the right choice for a team repo — it ships the
-agents WITH the codebase so every teammate gets them on clone.)*
-
-The sections below are the manual (no-uv) paths per IDE — and what `init` sets up.
-
----
-
-## 1. Claude Code (VS Code, JetBrains, terminal, desktop) — native
-
-**Option A — project-scoped (recommended for the demo):**
+**Project-scoped — ship the agents WITH a team repo:**
 ```bash
-git clone <your-repo-url> applied-ai-studio
-cd applied-ai-studio
+cd ~/code/your-project
+uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide claude
 claude
 ```
-That's it. Claude Code auto-discovers every agent in `.claude/agents/` as a **custom
-subagent** and every skill in `.claude/skills/`. Verify with the `/agents` command —
-you'll see all 23 (orchestrator, intake, assess, cloud-gcp, …).
+Verify with `/agents` (all 23 appear — project installs don't hide the roster).
+Commit the files; every teammate gets them on clone.
 
-**Option B — global (available in EVERY project you open):**
+**Connectors:** copy the servers you need from `connectors/mcp.example.json` into
+the project's `.mcp.json` (or `claude mcp add`). Secrets go in env vars, never files.
+
+**If it misbehaves:** agents missing from `/agents` → reload the window; still
+missing → `uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc check`
+in the project (or check `~/.claude/agents/` exists for global).
+
+---
+
+## 2. Cursor — step by step
+
+1. **Scaffold** (in Cursor's built-in terminal, at your project root):
+   ```bash
+   uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide cursor
+   ```
+   This writes: `AGENTS.md` (the roster + rules), `.cursor/rules/applied-ai-studio.mdc`
+   (an always-on rule that tells Cursor to act as the orchestrator and honor the
+   gates), plus the constitution, registries, and templates.
+2. **Open the folder in Cursor** (File → Open Folder). If it was already open:
+   Cmd+Shift+P → *"Reload Window"*.
+3. **Verify it loaded:** Cursor Settings (Cmd+Shift+J) → **Rules** → under
+   *Project Rules* you should see `applied-ai-studio` with **Always** apply.
+   If the list is empty, the folder you opened is not the folder you scaffolded —
+   check that `.cursor/rules/applied-ai-studio.mdc` exists at the workspace root.
+4. **Run:** open chat (Cmd+L), select **Agent** mode (dropdown at the bottom of the
+   chat panel), and type:
+   > Start AIDLC. Problem statement: …
+5. **Gates:** arrive as `⛔ HUMAN GATE` chat messages. Reply `approved` to continue.
+   Artifacts appear in `artifacts/` in your file tree as each stage completes.
+6. **Optional — a dedicated mode:** Settings → Chat → Custom Modes → *New mode* →
+   name it `AIDLC` → instructions: *"Follow .claude/agents/orchestrator.md and
+   CONSTITUTION.md exactly; run the AIDLC pipeline per AGENTS.md."* Then pick
+   `AIDLC` from the mode dropdown instead of typing the kickoff phrase.
+7. **Connectors (optional):** create `.cursor/mcp.json` and paste the server blocks
+   you need from `connectors/mcp.example.json`. Cursor Settings → MCP shows the
+   connected servers; secrets stay in env vars.
+
+**If it misbehaves:** Cursor answers generically → the rule didn't load (step 3);
+it writes a PRD instantly without questions → say *"You skipped the intake question
+loop — re-read AGENTS.md and CONSTITUTION.md and start again"*.
+
+---
+
+## 3. VS Code with GitHub Copilot — step by step
+
+Requires: VS Code **1.101+**, GitHub Copilot + Copilot Chat extensions signed in.
+
+1. **Scaffold** (VS Code terminal, project root):
+   ```bash
+   uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide copilot
+   ```
+   This writes `AGENTS.md` **and generates `.github/chatmodes/` — all 23 agents as
+   ready-made custom chat modes** (orchestrator.chatmode.md, intake.chatmode.md, …).
+   Nothing to copy by hand.
+2. **Reload:** Cmd+Shift+P → *"Reload Window"* (chat modes are discovered on load).
+3. **Enable AGENTS.md support:** Settings (Cmd+,) → search `agents md` → check
+   **Chat: Use Agents Md File** (`chat.useAgentsMdFile: true`).
+4. **Verify:** open Copilot Chat (Ctrl+Cmd+I) → click the **mode dropdown** at the
+   top of the chat input (where Ask / Edit / Agent live) → you should see
+   **orchestrator** and the other custom modes listed.
+   Not there? → Settings → search `chat.modeFilesLocations` → ensure it includes
+   `.github/chatmodes` → reload again.
+5. **Run:** select the **orchestrator** mode, then type:
+   > Start AIDLC. Problem statement: …
+6. **Gates:** Copilot has **no popup mechanism for custom agents** — the
+   `⛔ HUMAN GATE` message in chat *is* the gate; reply `approved` in chat.
+   Copilot's own confirmation dialogs (run this command? apply this edit?) still
+   appear for terminal/file actions — approve those as normal.
+7. **Know the limits:** no `/aidlc` slash command, no true sub-agent spawning —
+   the selected mode role-plays the pipeline from the same files. Quality tracks
+   the model you pick in Copilot's model selector.
+
+---
+
+## 4. Google Antigravity — step by step
+
+1. **Scaffold** (terminal, project root):
+   ```bash
+   uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide antigravity
+   ```
+2. **Open the folder as a workspace** in Antigravity. It reads `AGENTS.md` from the
+   repo root automatically as workspace guidance.
+3. **Run (chat):** in the sidebar chat, type the kickoff phrase from the top of
+   this doc.
+   **Run (Agent Manager, better for long runs):** open the Agent Manager surface →
+   new task → paste:
+   > Act as the orchestrator per AGENTS.md. Run the full AIDLC pipeline. Problem
+   > statement: … Stop at every ⛔ HUMAN GATE and wait for my decision.
+   Antigravity executes it as a long-running agent task; artifacts land in
+   `artifacts/` exactly as in Claude Code, and its own Artifacts panel shows the
+   task plan/walkthrough.
+4. **Gates:** ⛔ chat/task messages — reply with your decision to resume.
+5. **Connectors:** Antigravity supports MCP — Settings → MCP servers → paste the
+   blocks you need from `connectors/mcp.example.json`.
+
+---
+
+## 5. Windsurf / Codex CLI / Amp / other AGENTS.md-aware tools
+
+1. Scaffold with the generic flavor:
+   ```bash
+   uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide windsurf
+   ```
+2. Open the folder. Any tool honoring the `AGENTS.md` standard loads the roster and
+   rules automatically.
+3. Type the kickoff phrase. Gates arrive as ⛔ chat messages; artifacts land in
+   `artifacts/`.
+4. (Windsurf) Connectors: Settings → MCP → paste blocks from
+   `connectors/mcp.example.json`.
+
+---
+
+## One project, every IDE at once
+
 ```bash
-cp -R applied-ai-studio/.claude/agents/* ~/.claude/agents/
-cp -R applied-ai-studio/.claude/skills/* ~/.claude/skills/
+uvx --from git+https://github.com/karthikbadri12/applied-ai-studio.git aidlc init --ide all
 ```
-Note: global agents reference repo files (CONSTITUTION.md, registry/, templates). For a
-full pipeline run, work inside the repo — or copy those folders alongside.
+Writes every flavor side by side — your teammate on Cursor, another on Copilot, and
+you on Claude Code all get the same pipeline from the same repo.
 
-**Run it:**
-> "Use the **orchestrator** agent. Problem statement: our care team handles 2M
-> contacts/quarter at 11-min AHT across 6 systems — can AI help?"
-
-Claude Code will delegate to `intake`, ask the clarifying questions, write
-`artifacts/01-prd.md`, and stop at the sponsor gate.
-
-**Connectors:** copy the blocks you need from `connectors/mcp.example.json` into the
-project's `.mcp.json` (or add via `claude mcp add`). Secrets in env/secret manager.
-
----
-
-## 2. Cursor
-
-Cursor reads two things automatically when you open the repo:
-- **`AGENTS.md`** (the cross-tool standard) — the roster, the flow, the rules.
-- **`.cursor/rules/applied-ai-studio.mdc`** (`alwaysApply: true`) — tells Cursor to act
-  as the orchestrator, adopt each agent's file as its role prompt, obey the
-  Constitution, and stop at human gates.
-
-**Run it:** open the repo, then in chat/Composer:
-> "Act as the orchestrator per AGENTS.md. Here's my problem statement: …"
-
-**Custom modes (optional):** Cursor supports custom modes — create one named
-"AIDLC Orchestrator" whose instructions are: *"Follow .claude/agents/orchestrator.md
-and CONSTITUTION.md exactly."*
-
-**Connectors:** put the MCP blocks in `.cursor/mcp.json`.
-
----
-
-## 3. VS Code (GitHub Copilot agent mode)
-
-- Copilot reads **`AGENTS.md`** at the repo root automatically (agent instructions
-  standard).
-- For per-agent chat modes, copy any agent file into `.github/chatmodes/<name>.chatmode.md`
-  (frontmatter `description:` + the body as instructions) — e.g. an "intake" mode and an
-  "orchestrator" mode.
-- **Run it:** open agent mode → "Follow AGENTS.md; act as the orchestrator; here's my
-  problem statement…"
-
----
-
-## 4. Google Antigravity
-
-- Antigravity's agents read **`AGENTS.md`** from the repo root — the roster and flow load
-  as workspace guidance automatically.
-- Its agent manager can run long tasks: give it the orchestrator role and a problem
-  statement; artifacts land in `artifacts/` exactly as in Claude Code.
-- **Connectors:** Antigravity supports MCP — paste the blocks from
-  `connectors/mcp.example.json` into its MCP settings.
-
----
-
-## 5. Windsurf / other AGENTS.md-aware tools
-
-Any tool that honors the `AGENTS.md` standard (Windsurf, Codex CLI, Amp, …) picks the
-pack up the same way: open the repo → the roster + rules load → say "act as the
-orchestrator" → artifacts appear in `artifacts/`.
+Useful CLI extras:
+```bash
+aidlc list    # the 23-agent roster with BMAD persona + Spec Kit phase
+aidlc check   # verify an install (core files + at least one IDE flavor, exit code)
+```
+`init` never overwrites existing files unless you pass `--force`. After the PyPI
+release, all commands shorten to `uvx aidlc-studio aidlc init …`.
 
 ---
 
@@ -144,21 +194,22 @@ orchestrator" → artifacts appear in `artifacts/`.
 
 | Capability | Where it comes from |
 |------------|---------------------|
-| 23 custom agents (pipeline · advisors · dev) | `.claude/agents/*.md` |
+| 23 custom agents (4 phases + advisors + dev pipeline) | `.claude/agents/*.md` (canonical) |
 | 14 composable skills (Spec Kit · BMAD · Superpowers) | `.claude/skills/` + `registry/skills.json` |
-| The rules of engagement | `CONSTITUTION.md` (injected everywhere) |
-| Stage order, artifacts, human gates | `registry/stages.json` |
-| Per-stage artifact templates | `artifacts/templates/` |
+| The rules of engagement + runtime harness | `CONSTITUTION.md` · `HARNESS.md` · `QUALITY_BAR.md` |
+| Stage order, phases, artifacts, human gates | `registry/stages.json` · `registry/phases.json` |
+| Cloud → agent-framework matrix (ADK/Strands/MAF/LangGraph) | `registry/frameworks.json` |
+| Per-stage artifact templates + gold exemplar | `artifacts/templates/` · `exemplar/claims-idp/` |
 | Live data connections | `connectors/mcp.example.json` (MCP) |
 | 15 industry frames | `domains/` |
 
 ## Smoke test (2 minutes, any IDE)
 
-1. Open the repo in your IDE's AI chat.
-2. Say: *"Act as the intake agent. Problem: invoice processing takes my AP team 4 days
-   per cycle. Ask me your clarifying questions."*
-3. ✅ Pass = it asks numbered questions across metric/scope/data/constraints **before**
-   writing anything, then produces `artifacts/01-prd.md` from the template and stops at
-   the `⛔ HUMAN GATE` for sponsor sign-off.
-4. ❌ Fail = it writes a PRD instantly with invented numbers → the Constitution isn't
-   loaded; re-check the install steps above.
+1. Open the scaffolded project in your IDE's AI chat (orchestrator mode where applicable).
+2. Say: *"Start AIDLC. Problem statement: invoice processing takes my AP team 4 days
+   per cycle."*
+3. ✅ **Pass** = it asks numbered questions (metric/scope/data/cloud/connectors)
+   **before** writing anything, then produces `artifacts/01-prd.md` and stops at
+   `⛔ HUMAN GATE — Sponsor signs PRD`.
+4. ❌ **Fail** = it writes a PRD instantly with invented numbers → the pack isn't
+   loaded; go to your IDE's *verify* step above.
