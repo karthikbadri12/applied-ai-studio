@@ -35,6 +35,7 @@ CORE = [
     "PRODUCT.md",
     "aidlc.config.example.json",
     "exemplar",
+    "knowledge",
     "registry",
     "artifacts",
     "connectors",

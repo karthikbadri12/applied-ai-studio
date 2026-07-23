@@ -186,3 +186,47 @@ make eval
   is worth re-taking until the terminal output is clean.
 - Have a 60-second cut ready: Scene 2 questions → Scene 3 gate → Scene 5 evals.
   That's the whole story if someone only watches a minute.
+
+---
+
+## Optional Scene 4B · The Google Cloud depth shot (insert after Scene 4, +75s)
+
+**Use this cut when the audience is Google.** It's the moment that proves the
+artifact isn't generic — it touched the whole platform.
+
+**Screen:** `05-architecture.md`, scroll to the GCP service inventory table.
+
+> "Here's what I mean by decision-grade. This isn't 'use Gemini.' The advisor walked
+> every architecture layer and named the service, why it won, and what it rejected."
+
+**Point at the rows as you say them — pick 5, don't read all of them:**
+
+> "Document AI does the OCR *before* the model, because asking an LLM to read a
+> scanned police report is expensive and worse. Retrieval sits in **BigQuery's
+> native vector search** — the policy data is already there, so no separate vector
+> database and the governance is inherited. The agent runs on **ADK deployed to
+> Agent Engine**, not hand-rolled on GKE. Internal APIs are reached through
+> **managed MCP servers fronted by Apigee**.
+>
+> And the security layer — this is what an insurer's security review actually reads:
+> **Model Armor** screening prompts *and* responses for injection and sensitive-data
+> leakage, **Sensitive Data Protection** for classification and de-identification,
+> **VPC Service Controls** as the exfiltration perimeter, CMEK for keys."
+
+**Scroll to the cost line:**
+
+> "Then the unit economics: Flash handles the volume, Pro is the fallback only on
+> low confidence — that cascade is the single biggest cost lever, and it's why this
+> lands at four point eight cents a packet against a nine-cent bar. Billing export
+> to BigQuery attributes it per feature."
+
+**Close the beat:**
+
+> "Every one of those is a real decision with a rejected alternative on the record.
+> That's the difference between an AI demo and something a cloud architect can
+> actually take into a design review."
+
+*Prep note:* have `knowledge/gcp/SERVICE_MAP.md` open in a background tab — if
+anyone asks "where does it get this from," show the layer-organised knowledge base
+and the sources at the bottom, and mention the advisor re-verifies with a live web
+search because Google renames things (Vertex AI → Gemini Enterprise Agent Platform).
