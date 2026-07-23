@@ -27,6 +27,8 @@ CORE = [
     "CONSTITUTION.md",
     "ARCHITECTURE.md",
     "SKILLS.md",
+    "QUALITY_BAR.md",
+    "exemplar",
     "registry",
     "artifacts",
     "connectors",

@@ -69,6 +69,11 @@ The orchestrator loads this file first and injects it into every delegated agent
    its predecessor's artifact; it does not re-derive it from scratch.
 3. Artifacts are self-contained: a reader who joins at stage 8 can understand the
    decision trail from the files alone.
+4. Every artifact must clear the quality floor in `QUALITY_BAR.md` — quantified
+   claims with arithmetic, metrics blocks, diagrams for topology, decision trails,
+   risk registers, eval linkage. Template-filled but below the bar = incomplete.
+   In build mode, "done" means the working repository defined by the build
+   contract in `QUALITY_BAR.md`, gated by the code-reviewer.
 
 ## Article 7 — Traceability
 

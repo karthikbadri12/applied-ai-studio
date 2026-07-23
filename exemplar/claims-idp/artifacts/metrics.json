@@ -1,0 +1,221 @@
+{
+  "initiative": "FNOL Claims Intake IDP — Meridian Mutual (exemplar)",
+  "solution_type": "HYBRID",
+  "cloud": "GCP",
+  "generated": "2026-07-22",
+  "measurement_caveat": "All eval_results are [measured — mock harness, synthetic golden set]; harness at exemplar/claims-idp/build/. Real-packet re-baseline is launch blocker LB-1.",
+  "baseline": {
+    "packets_per_week": 2400,
+    "packets_per_year": 124800,
+    "avg_handle_minutes": 27,
+    "handle_minutes_label": "stated",
+    "ftes": 28,
+    "loaded_rate_per_hour_usd": 34,
+    "loaded_rate_label": "estimated",
+    "annual_labor_usd": 1909440,
+    "annual_labor_arithmetic": "2400/wk x 27min x $34/hr / 60 x 52",
+    "misroute_rate_baseline": 0.09
+  },
+  "eval_results": {
+    "run_id": "eval-2026-07-20-v6",
+    "sets": {
+      "golden": { "size": 250, "stratification": { "clean": 0.60, "messy": 0.25, "edge": 0.15 } },
+      "adversarial": { "size": 60 },
+      "regression": { "size": 40 }
+    },
+    "metrics": {
+      "doc_classification_accuracy": { "bar": ">=0.95", "measured": 0.964, "type": "gate", "pass": true },
+      "field_extraction_f1": { "bar": ">=0.90", "measured": 0.921, "type": "gate", "pass": true },
+      "policy_validation_exact_match": { "bar": ">=0.98", "measured": 0.988, "type": "gate", "pass": true },
+      "hallucinated_field_rate": { "bar": "<0.01", "measured": 0.004, "type": "safety_pass_fail", "pass": true },
+      "stp_eligible_share": { "bar": ">=0.35", "measured": 0.38, "type": "gate", "pass": true },
+      "latency_p95_seconds": { "bar": "<=60", "measured": 41, "type": "gate", "pass": true },
+      "cost_per_packet_usd": { "bar": "<=0.09", "measured": 0.048, "type": "gate", "pass": true },
+      "judge_human_agreement": { "bar": ">=0.90", "measured": 0.94, "kappa": 0.87, "n": 100, "type": "admissibility", "pass": true },
+      "regression_pass_rate": { "bar": "1.00", "measured": 1.00, "cases": 40, "type": "gate", "pass": true },
+      "audit_coverage": { "bar": "1.00", "measured": 1.00, "type": "gate", "pass": true }
+    },
+    "prd_linkage": {
+      "misroute_rate": { "baseline": 0.09, "target": "<=0.04", "measured": 0.036 },
+      "stp_eligible": { "baseline": 0.0, "target": ">=0.35", "measured": 0.38 },
+      "audit_coverage": { "baseline": "partial", "target": 1.0, "measured": 1.0 }
+    },
+    "failure_taxonomy_field_errors": {
+      "total": 428,
+      "handwriting_ocr_misses": 149,
+      "multi_vehicle_field_confusion": 87,
+      "stapled_mixed_doc_splits": 64,
+      "low_res_photos": 52,
+      "date_format_ambiguity": 34,
+      "checksum_transpositions": 23,
+      "other": 19,
+      "share_caught_by_hitl": 0.867
+    }
+  },
+  "stages": [
+    {
+      "stage": 1,
+      "artifact": "01-prd.md",
+      "gate": { "required": true, "approver": "VP Claims (sponsor)", "outcome": "approved (exemplar)" },
+      "key_metrics": { "misroute_target": "<=0.04", "stp_target": ">=0.35", "audit_target": 1.0, "baseline_labor_usd_yr": 1909440 },
+      "decisions": ["Success metrics fixed: misroute 9%->? <=4%, STP >=35%, audit 100%", "Out of scope: coverage decisions, subrogation, fraud scoring"],
+      "assumptions_count": null
+    },
+    {
+      "stage": 2,
+      "artifact": "02-process-map.md",
+      "gate": { "required": false, "approver": "Claims Ops Director", "outcome": "approved (exemplar)" },
+      "key_metrics": { "as_is_handle_min": 27, "steps_tagged_human_machine": true },
+      "decisions": ["Intake steps split Human vs Machine; validation and routing marked automatable"],
+      "assumptions_count": null
+    },
+    {
+      "stage": 3,
+      "artifact": "03-assessment.md",
+      "gate": { "required": false, "approver": "Claims Ops Director", "outcome": "approved (exemplar)" },
+      "key_metrics": { "verdict": "HYBRID", "data_classes": ["PII", "HIPAA-adjacent medical bills"] },
+      "decisions": ["HYBRID chosen over pure-GenAI and classical-ML-only", "Gemini 2.5 Flash primary + Pro fallback shortlisted"],
+      "assumptions_count": null
+    },
+    {
+      "stage": 4,
+      "artifact": "04-business-case.md",
+      "gate": { "required": true, "approver": "CFO", "outcome": "approved (exemplar)" },
+      "key_metrics": { "gross_saving_usd_yr_est": 1214968, "build_usd_est": 410000, "run_usd_yr_est": 100390, "payback_months_est": 4.4 },
+      "decisions": ["Conservative scenario floors STP at 35%", "Sensitivity: assisted handle time and STP share flagged as the two swing assumptions"],
+      "assumptions_count": null
+    },
+    {
+      "stage": 5,
+      "artifact": "05-architecture.md",
+      "gate": { "required": false, "approver": "Architecture board", "outcome": "approved (exemplar)" },
+      "key_metrics": { "cloud": "GCP", "region": "us-central1", "controls": ["CMEK", "DLP", "7yr retention", "medical-bill segregation"] },
+      "decisions": ["GCP over AWS/Azure/on-prem (DocAI + Vertex adjacency)", "Snowflake stays system of record for policy data"],
+      "assumptions_count": null
+    },
+    {
+      "stage": 6,
+      "artifact": "06-ai-spec.md",
+      "gate": { "required": true, "approver": "Claims Ops Director + ML lead", "outcome": "approved (exemplar)" },
+      "key_metrics": { "fields": 22, "metric_bars": 7, "ci_gate": "evals/bars.yaml + eval-gate.yml" },
+      "decisions": ["22-field FNOL schema frozen", "Seven bars set BEFORE measurement (test-first)"],
+      "assumptions_count": null
+    },
+    {
+      "stage": 7,
+      "artifact": "07-data-science.md",
+      "gate": { "required": false, "approver": "data-science agent (promotion HITL: Claims Ops Director + ML lead)", "outcome": "approved (exemplar)" },
+      "key_metrics": {
+        "candidate": "v6 (hash ds-v6-2026-07)",
+        "dev_field_f1": 0.921,
+        "dev_halluc_rate": 0.004,
+        "cost_per_packet_usd": 0.048,
+        "pro_fallback_share": 0.092,
+        "experiment_runs": 8,
+        "kills": 2
+      },
+      "decisions": [
+        "Constrained decoding kept (+3.6 F1)",
+        "Six few-shot exemplars kept (+3.3 F1)",
+        "CoT reasoning field killed (+0.4 F1 for +$0.011, +9s p95)",
+        "Confidence gating with Pro fallback at <0.85 kept (+2.8 F1)",
+        "Splitter pre-pass kept (doc-class 92.8%->96.4%)",
+        "All-Pro killed (2.3x cost for +0.6 F1)",
+        "Temperature 0.0 kept (run variance sigma 0.9->0.2)"
+      ],
+      "assumptions_count": 6
+    },
+    {
+      "stage": 8,
+      "artifact": "08-evals.md",
+      "gate": { "required": false, "approver": "eval agent (override requires eval owner + Claims Ops Director)", "outcome": "approved (exemplar)" },
+      "key_metrics": {
+        "bars_passed": "7/7",
+        "golden_size": 250,
+        "adversarial_size": 60,
+        "regression_size": 40,
+        "field_errors_total": 428,
+        "injections_effective": "0/15",
+        "judge_agreement": 0.94,
+        "judge_kappa": 0.87
+      },
+      "decisions": [
+        "LLM judge admitted for 4 free-text fields only (94% agreement >= 90% floor)",
+        "Regression failures block regardless of aggregate scores",
+        "Synthetic-set caveat recorded and escalated to stage 9"
+      ],
+      "assumptions_count": 5
+    },
+    {
+      "stage": 9,
+      "artifact": "09-poc-gate.md",
+      "gate": { "required": true, "approver": "VP Claims (sponsor)", "outcome": "approved (exemplar)" },
+      "key_metrics": { "verdict": "GO", "evidence_rows_passed": "11/11", "misroute_measured": 0.036, "stp_measured": 0.38, "audit_measured": 1.0 },
+      "decisions": [
+        "GO over CONDITIONAL: synthetic-data caveat transferred to stage 10 as LB-1 rather than duplicated as a gate condition",
+        "STP confidence floor held at 0.92 (rejected 0.90 for +2-3 pts STP)",
+        "Business-case delta favorable: cost/packet 47% under bar; STP +3 pts over floor"
+      ],
+      "assumptions_count": 4
+    },
+    {
+      "stage": 10,
+      "artifact": "10-production.md",
+      "gate": { "required": true, "approver": "Security/Compliance + Claims Ops Director", "outcome": "approved (exemplar)" },
+      "key_metrics": {
+        "launch_blockers_total": 10,
+        "launch_blockers_open": 3,
+        "open_ids": ["LB-1", "LB-5", "LB-8"],
+        "rollback_tested_minutes": 11,
+        "cat_surge_p95_seconds_at_3x": 47,
+        "hitl_reviews_per_week": 1488
+      },
+      "decisions": [
+        "Shadow -> 10% canary -> ramp (big-bang rejected)",
+        "Feature-flag rollback to manual queue (blue/green model swap rejected)",
+        "Bias/cohort review deferred to real-packet baseline (synthetic cohorts circular)",
+        "Responsible-AI checklist mapped to state DOI / NAIC AI bulletin / GLBA / HIPAA-adjacent"
+      ],
+      "assumptions_count": 5
+    },
+    {
+      "stage": 11,
+      "artifact": "11-observability.md",
+      "gate": { "required": false, "approver": "SRE lead + Claims Ops Director", "outcome": "approved (exemplar)" },
+      "key_metrics": {
+        "shadow_sample_rate": 0.05,
+        "shadow_packets_per_week": 120,
+        "alerts_mapped_to_runbooks": "8/8",
+        "runbooks_published": 7,
+        "override_alarm_band": "2%-25% (two-sided)",
+        "roi_alarm": "realized saving <70% of ramp plan for 2 months",
+        "closes_launch_blocker": "LB-5"
+      },
+      "decisions": [
+        "5% live shadow + nightly full harness (weekly-eval-only rejected)",
+        "Adjuster-accepted record as shadow ground truth + monthly independent 100-sample audit",
+        "Two-sided override band: near-zero override is an over-trust alarm, not a win",
+        "Looker on BigQuery for SQL-auditable compliance lineage"
+      ],
+      "assumptions_count": 5
+    },
+    {
+      "stage": 12,
+      "artifact": "12-delivery-brief.md",
+      "gate": { "required": true, "approver": "Delivery owner + VP Claims", "outcome": "approved (exemplar)" },
+      "key_metrics": {
+        "payback_months_est": 4.4,
+        "gross_saving_usd_yr_est": 1214968,
+        "run_cost_usd_yr_est": 100390,
+        "annual_inference_ocr_usd": 5990,
+        "open_items": ["LB-1", "LB-8", "real-packet stratification check", "per-field edit events", "CAT regression slice"]
+      },
+      "decisions": [
+        "GA ask contingent on LB-1 and LB-8 (target 2026-08-01)",
+        "First dev-pipeline slice: LB-1 harness run on real redacted packets",
+        "ROI verified by instrumented handle time, not survey"
+      ],
+      "assumptions_count": 5
+    }
+  ]
+}

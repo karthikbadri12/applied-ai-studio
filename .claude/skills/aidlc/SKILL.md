@@ -46,10 +46,18 @@ progress note per stage is enough. STOP only at:
 - The kickoff answers above if genuinely missing when first needed.
 
 In `build` mode, after the brief is approved: run `discovery → coder →
-code-reviewer` and actually produce the project — scaffold, working code wired to
-the chosen cloud/stack and connectors (via env-var credentials), the eval harness
-runnable (`make eval` or equivalent), tests, README. The code-reviewer verdict
-gates completion.
+code-reviewer` and actually produce the project. "Done" is the **build contract in
+`QUALITY_BAR.md`** — a working repo: `src/` pipeline code with a provider-agnostic
+LLM client (`LLM_MODE=mock` runs keyless), `evals/` (golden + adversarial JSONL,
+`run_evals.py` enforcing `bars.yaml`, nonzero exit on a miss), `tests/`,
+`.github/workflows/eval-gate.yml`, `infra/` IaC for the chosen cloud,
+`.env.example`, `Makefile`, README. `make eval` must pass green in mock mode before
+you present it. The code-reviewer verdict gates completion.
+
+**Quality floor:** every artifact must clear `QUALITY_BAR.md` (project copy, else
+`~/.claude/aidlc/QUALITY_BAR.md`) — match the depth of `exemplar/claims-idp/`.
+An artifact that just fills template headings is incomplete; redo it before
+advancing.
 
 ## Artifacts — HIGH VERBOSE, metrics everywhere
 
