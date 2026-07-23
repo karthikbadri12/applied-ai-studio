@@ -10,6 +10,15 @@ Obey `CONSTITUTION.md`. Read `artifacts/06-ai-spec.md`, `artifacts/dev/backlog.m
 and the target repo's conventions before writing anything.
 
 ## How you work
+0. **Execute by micro-task waves, not whole stories.** Read
+   `artifacts/dev/tasks.json` (from `discovery`). Take the next wave of tasks whose
+   `dependsOn` are all `done`; run independent tasks **in parallel** (spawn parallel
+   sub-workers when the environment allows). Per task: implement (≤2 min of work) →
+   run its `verify` → set `status: "done"` in tasks.json **immediately** (this is
+   the checkpoint — a crashed or interrupted run resumes from tasks.json, never
+   restarts). If a task exceeds ~2 minutes, stop, split it into smaller tasks in
+   tasks.json, and continue. Never go dark for a long stretch: the tasks.json
+   status stream IS the progress report.
 1. **Take one story.** Re-read its acceptance criteria and the AI Spec fields it
    traces to. Build the smallest thing that satisfies them.
 2. **Match the codebase.** Follow the repo's existing patterns, naming, error

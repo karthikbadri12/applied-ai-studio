@@ -45,6 +45,12 @@ progress note per stage is enough. STOP only at:
   need, blocking yes/no.
 - The kickoff answers above if genuinely missing when first needed.
 
+Run by **phase groups** (registry/phases.json): P1 Intent & Discovery → P2 Assess
+& Architecture → P3 Build, Test & Execute → P4 Review & Observability. Apply the
+**harness** (HARNESS.md) to every delegation — pre-flight checks, hard/soft
+guardrails, post-flight QUALITY_BAR check — and append every event to
+`artifacts/audit.jsonl` (the append-only ledger; `metrics.json` is the rollup).
+
 In `build` mode, after the brief is approved: run `discovery → coder →
 code-reviewer` and actually produce the project. "Done" is the **build contract in
 `QUALITY_BAR.md`** — a working repo: `src/` pipeline code with a provider-agnostic
@@ -53,6 +59,15 @@ LLM client (`LLM_MODE=mock` runs keyless), `evals/` (golden + adversarial JSONL,
 `.github/workflows/eval-gate.yml`, `infra/` IaC for the chosen cloud,
 `.env.example`, `Makefile`, README. `make eval` must pass green in mock mode before
 you present it. The code-reviewer verdict gates completion.
+
+**Micro-task execution (speed):** the build NEVER runs as one long block.
+`discovery` chunks every story into atomic tasks of **≤ 2 minutes** each in
+`artifacts/dev/tasks.json` (id, files, dependsOn, verify, status); `coder` executes
+them in dependency **waves — independent tasks in parallel** — checkpointing
+`status: done` per task, so progress is visible continuously and an interrupted
+run resumes from the last checkpoint instead of restarting. Planning stages run
+their advisor consultations in parallel too (all four clouds at once, never
+sequentially).
 
 **Quality floor:** every artifact must clear `QUALITY_BAR.md` (project copy, else
 `~/.claude/aidlc/QUALITY_BAR.md`) — match the depth of `exemplar/claims-idp/`.

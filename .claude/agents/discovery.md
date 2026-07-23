@@ -25,6 +25,13 @@ initiative is funded (the orchestrator confirms). Until then, the plan sits read
 4. **Produce the backlog** → `artifacts/dev/backlog.md`: a first slice of stories,
    each with acceptance criteria traced to an AI Spec field and an eval case. Rank by
    dependency and risk. Small, shippable, testable.
+5. **Chunk into micro-tasks** → `artifacts/dev/tasks.json`. Every story splits into
+   atomic tasks a coder can finish in **≤ 2 minutes each** — one file created, one
+   function implemented, one test written, one config wired. Schema per task:
+   `{id, story, description, files, dependsOn: [ids], est_min: <=2, status:
+   "pending"|"in_progress"|"done"|"blocked", verify: "<command or check>"}`.
+   Tasks with no mutual dependencies form a **wave** and run in parallel. A task
+   bigger than 2 minutes is a decomposition failure — split it again.
 
 ## Output
 - Codebase map (structure + relevant files).
