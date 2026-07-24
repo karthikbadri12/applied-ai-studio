@@ -18,7 +18,7 @@ ask, produces the artifacts a governance board demands, builds the thing, and
 [![IDEs](https://img.shields.io/badge/IDEs-Claude%20Code%20·%20Cursor%20·%20Copilot%20·%20Antigravity%20·%20Windsurf-1e2b57)](docs/INSTALL.md)
 
 ```bash
-uvx --from aidlc-studio aidlc init --global      # install once, every project
+uvx --from aidlc-studio aidlc init               # install once, works everywhere
 /appliedai Our claims team is drowning. 40k packets a month.
 ```
 
@@ -251,8 +251,7 @@ quarantine, intact audit chain.
 troubleshoot steps: **[docs/INSTALL.md](docs/INSTALL.md)**.
 
 ```bash
-# Global: the agents in every folder you open (recommended for individuals)
-uvx --from aidlc-studio aidlc init --global
+uvx --from aidlc-studio aidlc init               # install once, every project
 
 # Project: ship the agents WITH a team repo, every IDE flavor at once
 uvx --from aidlc-studio aidlc init --ide all

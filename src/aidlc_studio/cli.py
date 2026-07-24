@@ -1,11 +1,9 @@
 """aidlc — install the Applied AI Enterprise agent pack into any project, for any IDE.
 
 Usage:
-  uvx aidlc init [PATH] --ide all          # scaffold everything
-  uvx aidlc init [PATH] --ide claude       # Claude Code custom agents + skills
-  uvx aidlc init [PATH] --ide cursor       # Cursor rules + AGENTS.md
-  uvx aidlc init [PATH] --ide copilot      # VS Code Copilot chatmodes + AGENTS.md
-  uvx aidlc init [PATH] --ide antigravity  # AGENTS.md (Antigravity/Windsurf standard)
+  uvx aidlc init                           # GLOBAL install: every folder, no project files
+  uvx aidlc init --project [PATH]          # scaffold INTO a repo (ship with a team)
+  uvx aidlc init --project --ide cursor    # ...for one IDE only
   aidlc init [PATH] --full                 # ...plus exemplar, knowledge base, docs
   aidlc list                               # show the 25-agent roster
   aidlc uninstall [PATH] | --global        # remove an install
@@ -211,8 +209,11 @@ def cmd_global(pack: Path, force: bool, roster: str = "solo") -> None:
 
 
 def cmd_init(args: argparse.Namespace) -> None:
+    """Default is a GLOBAL install: agents live in ~/.claude and work in every folder
+    you open, with nothing written into your projects. `--project` opts into
+    scaffolding files into a specific repo (for shipping the pack with a team)."""
     pack = pack_root()
-    if getattr(args, "global_install", False):
+    if not getattr(args, "project", False):
         cmd_global(pack, args.force, getattr(args, "roster", "solo"))
         return
     target = Path(args.path).resolve()
@@ -355,10 +356,14 @@ def main() -> None:
     sub = parser.add_subparsers(dest="cmd", required=True)
 
     p_init = sub.add_parser("init", help="scaffold the agent pack into a project")
-    p_init.add_argument("path", nargs="?", default=".", help="target project directory (default: .)")
+    p_init.add_argument("path", nargs="?", default=".",
+                        help="target directory (only used with --project)")
     p_init.add_argument("--ide", choices=IDES, default="all", help="which IDE flavor to install (default: all)")
+    p_init.add_argument("--project", action="store_true",
+                        help="scaffold the pack INTO a project directory instead of installing "
+                             "globally (use when shipping the agents with a team repo)")
     p_init.add_argument("--global", dest="global_install", action="store_true",
-                        help="install user-globally (~/.claude) so the agents exist in EVERY project")
+                        help="(default behaviour; kept for explicitness) install user-globally to ~/.claude")
     p_init.add_argument("--roster", choices=("solo", "full"), default="solo",
                         help="global install only: 'solo' shows just the orchestrator in the IDE agent picker (default); 'full' shows all 23")
     p_init.add_argument("--full", action="store_true",
