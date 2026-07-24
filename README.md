@@ -251,21 +251,28 @@ quarantine, intact audit chain.
 troubleshoot steps: **[docs/INSTALL.md](docs/INSTALL.md)**.
 
 ```bash
-uvx --from aidlc-studio aidlc init               # install once, every project
+# Install once. Agents live in ~/.claude and work in EVERY folder you open.
+# Nothing is written into your projects.
+uvx --from aidlc-studio aidlc init
 
-# Project: ship the agents WITH a team repo, every IDE flavor at once
-uvx --from aidlc-studio aidlc init --ide all
+# Only if you want to ship the agents WITH a team repo (writes files into it):
+uvx --from aidlc-studio aidlc init --project --ide all
 
-aidlc list     # the roster with BMAD persona + Spec Kit phase
-aidlc check    # verify an install
+aidlc list        # the roster with BMAD persona + Spec Kit phase
+aidlc check       # verify an install
+aidlc uninstall   # remove it again (--global for the user-level install)
 ```
+
+Then open **any** folder and type `/appliedai <your problem statement>`.
+Reload your IDE window once after installing, since the agent and skill lists
+are cached at startup.
 
 | IDE | Flavor | What you get |
 |---|---|---|
-| **Claude Code** <sub>VS Code · JetBrains · terminal</sub> | `--ide claude` | Native custom agents + skills + the `/appliedai` command. Full experience with real sub-agent delegation. |
-| **Cursor** | `--ide cursor` | Always-on project rule + `AGENTS.md`. |
-| **VS Code / Copilot** | `--ide copilot` | All 25 agents auto-generated as chat modes in `.github/chatmodes/`. |
-| **Antigravity · Windsurf** | `--ide antigravity` | The `AGENTS.md` standard, loaded on open. |
+| **Claude Code** <sub>VS Code · JetBrains · terminal</sub> | global (default) | Native custom agents + skills + the `/appliedai` command. Full experience with real sub-agent delegation. |
+| **Cursor** | `--project --ide cursor` | Always-on project rule + `AGENTS.md`. |
+| **VS Code / Copilot** | `--project --ide copilot` | All 25 agents auto-generated as chat modes in `.github/chatmodes/`. |
+| **Antigravity · Windsurf** | `--project --ide antigravity` | The `AGENTS.md` standard, loaded on open. |
 
 > In Claude Code the gates can appear as interactive prompts; in the others the
 > `⛔ HUMAN GATE` **chat message is** the gate. Reply `approved` to continue.
