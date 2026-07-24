@@ -6,7 +6,9 @@ Usage:
   uvx aidlc init [PATH] --ide cursor       # Cursor rules + AGENTS.md
   uvx aidlc init [PATH] --ide copilot      # VS Code Copilot chatmodes + AGENTS.md
   uvx aidlc init [PATH] --ide antigravity  # AGENTS.md (Antigravity/Windsurf standard)
+  aidlc init [PATH] --full                 # ...plus exemplar, knowledge base, docs
   aidlc list                               # show the 25-agent roster
+  aidlc uninstall [PATH] | --global        # remove an install
   aidlc check [PATH]                       # verify an install
 """
 
@@ -22,27 +24,40 @@ IDES = ("all", "claude", "cursor", "copilot", "antigravity", "windsurf")
 
 # Core files every IDE flavor needs: the constitution, methodology, registry,
 # templates, connectors, domains, and the cross-tool AGENTS.md entry point.
-CORE = [
+# What a project actually needs to RUN the pipeline. This is the default for
+# `aidlc init` — deliberately small, so scaffolding into someone's repo does not
+# bury it in reference material.
+CORE_MINIMAL = [
     "AGENTS.md",
     "CONSTITUTION.md",
+    "HARNESS.md",
+    "QUALITY_BAR.md",
+    "aidlc.config.example.json",
+    "registry",
+    "artifacts/templates",
+    "connectors/catalog.json",
+    "connectors/mcp.example.json",
+]
+
+# Reference material: the frameworks, the worked example, the cloud knowledge base,
+# the docs site. Valuable, but not needed to run — added with `--full`, and always
+# present in a global install (~/.claude/aidlc/).
+CORE_REFERENCE = [
     "ARCHITECTURE.md",
     "SKILLS.md",
-    "QUALITY_BAR.md",
-    "HARNESS.md",
     "GOVERNANCE.md",
     "EVALS.md",
     "DISASTER_COMMAND.md",
     "PRODUCT.md",
-    "aidlc.config.example.json",
     "exemplar",
     "knowledge",
-    "registry",
-    "artifacts",
-    "connectors",
     "domains",
     "pipelines",
+    "connectors",
     "docs",
 ]
+
+CORE = CORE_MINIMAL + CORE_REFERENCE   # global install ships everything
 
 PER_IDE = {
     "claude": [".claude"],
@@ -204,8 +219,11 @@ def cmd_init(args: argparse.Namespace) -> None:
     target.mkdir(parents=True, exist_ok=True)
 
     ides = list(PER_IDE) if args.ide == "all" else [args.ide]
-    # windsurf/antigravity are AGENTS.md-only; both resolve to core files
-    items = list(CORE)
+    # Minimal by default; --full adds the reference material (exemplar, knowledge,
+    # governance docs, docs site).
+    items = list(CORE_MINIMAL)
+    if getattr(args, "full", False):
+        items += CORE_REFERENCE
     for ide in ides:
         items += PER_IDE.get(ide, [])
 
@@ -220,7 +238,8 @@ def cmd_init(args: argparse.Namespace) -> None:
         total += generate_chatmodes(pack, target, args.force)
 
     print(f"✔ Applied AI Enterprise installed into {target}")
-    print(f"  IDE flavor(s): {', '.join(ides)}  ·  files written: {total}"
+    mode = "full" if getattr(args, "full", False) else "minimal"
+    print(f"  Mode: {mode}  ·  IDE flavor(s): {', '.join(ides)}  ·  files written: {total}"
           + ("" if args.force else "  (existing files skipped; use --force to overwrite)"))
     print("\nNext steps:")
     if "claude" in ides:
@@ -286,6 +305,50 @@ def cmd_check(args: argparse.Namespace) -> None:
     sys.exit(0 if (ok and any_flavor) else 1)
 
 
+
+def cmd_uninstall(args: argparse.Namespace) -> None:
+    """Remove an AIDLC install (project or global). Only touches files we ship."""
+    if args.global_install:
+        home = Path.home() / ".claude"
+        targets = [home / "aidlc"]
+        removed = 0
+        # Picker agents + skills: only the ones we installed.
+        for f in (home / "agents").glob("*.md"):
+            if "Applied AI Enterprise" in f.read_text(encoding="utf-8", errors="ignore") \
+                    or "~/.claude/aidlc/" in f.read_text(encoding="utf-8", errors="ignore"):
+                f.unlink(); removed += 1
+        pack = pack_root()
+        for skill_dir in (pack / ".claude" / "skills").iterdir():
+            if skill_dir.is_dir() and (home / "skills" / skill_dir.name).is_dir():
+                shutil.rmtree(home / "skills" / skill_dir.name); removed += 1
+        for tgt in targets:
+            if tgt.exists():
+                shutil.rmtree(tgt); removed += 1
+        print(f"✔ Global install removed ({removed} items). Your own agents/skills were left alone.")
+        return
+
+    target = Path(args.path).resolve()
+    pack = pack_root()
+    removed = []
+    for item in CORE + [".claude/agents", ".claude/skills", ".cursor/rules", ".github/chatmodes"]:
+        tgt = target / item
+        if not tgt.exists():
+            continue
+        # Only remove if it matches something we ship.
+        if (pack / item).exists() or item.endswith("chatmodes"):
+            shutil.rmtree(tgt) if tgt.is_dir() else tgt.unlink()
+            removed.append(item)
+    # Tidy now-empty parents we created.
+    for d in (".claude", ".cursor", ".github"):
+        p2 = target / d
+        if p2.is_dir() and not any(p2.iterdir()):
+            p2.rmdir()
+    print(f"✔ Removed {len(removed)} item(s) from {target}")
+    for r in removed:
+        print(f"    - {r}")
+    print("  Note: artifacts/ from real runs and aidlc.config.json are left in place.")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(prog="aidlc", description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -298,11 +361,20 @@ def main() -> None:
                         help="install user-globally (~/.claude) so the agents exist in EVERY project")
     p_init.add_argument("--roster", choices=("solo", "full"), default="solo",
                         help="global install only: 'solo' shows just the orchestrator in the IDE agent picker (default); 'full' shows all 23")
+    p_init.add_argument("--full", action="store_true",
+                        help="project install only: also copy the reference material "
+                             "(exemplar, cloud knowledge base, governance docs, docs site)")
     p_init.add_argument("--force", action="store_true", help="overwrite existing files")
     p_init.set_defaults(fn=cmd_init)
 
     p_list = sub.add_parser("list", help="show the agent roster")
     p_list.set_defaults(fn=cmd_list)
+
+    p_un = sub.add_parser("uninstall", help="remove an AIDLC install (project or --global)")
+    p_un.add_argument("path", nargs="?", default=".", help="project directory")
+    p_un.add_argument("--global", dest="global_install", action="store_true",
+                      help="remove the user-global install from ~/.claude")
+    p_un.set_defaults(fn=cmd_uninstall)
 
     p_check = sub.add_parser("check", help="verify an installed pack")
     p_check.add_argument("path", nargs="?", default=".", help="project directory to check")
